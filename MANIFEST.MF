@@ -1,0 +1,9 @@
+Manifest-Version: 1.0 
+Class-Path: lib/commons-jci-fam-1.0.jar 
+  lib/commons-logging-1.1.1.jar 
+  lib/poi-3.6-20091214.jar 
+  lib/ValidationAPI.jar 
+  lib/jgoodies-common-1.1.1.jar 
+  lib/jgoodies-looks-2.4.0.jar 
+Main-Class: com.kitty.radar.Radar 
+

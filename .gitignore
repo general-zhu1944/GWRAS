@@ -1,0 +1,6 @@
+*.class
+.idea
+.metadata
+.settings
+*.iml
+out
