@@ -109,6 +109,7 @@ public interface CommonProps {
     public static final String AC_LIQUID_WATER = "Liquid Water";
 
     public static final String AC_VERTICAL_LIQUID_WATER = "Vertical Liquid Water";
+    public static final String AC_CAPPI_new="Cappi";
 
     public static final String AC_ECHO_TOPS = "Echo Tops";
 

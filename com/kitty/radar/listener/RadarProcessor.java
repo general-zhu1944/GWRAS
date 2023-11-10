@@ -146,10 +146,12 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		} else if (CommonProps.AC_T_MEASURE.equals(command)) {
 			JMainPanelLayerUi.active = 2;
 			t_measure(ae);
+		} else if (CommonProps.AC_T_VCS_MENU.equals(command)) {
+				VCS.createRhiDialog(Radar.radar);
 		} else if (CommonProps.AC_T_VCS.equals(command)) {
-			JMainPanelLayerUi.active = 1;
-			VCS.createRhiDialog(Radar.radar);
+			JMainPanelLayerUi.active = 1;//1 »­Ïß, 2 ²â¾à
 			t_drawline(ae);
+
 		//} else if (CommonProps.AC_T_WIND.equals(command)) {
 		//	t_wind(ae);
 		} else if (CommonProps.AC_T_GRID.equals(command)) {
@@ -392,13 +394,15 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		}
 	}
 	private void t_drawline(ActionEvent ae ) {
-		setActiveToolButton(ae);
-		GUIManager.currentToolCursor = CommonUtils.createCustomCursor(
-				"resource/measure_32.gif", new Point(3, 3), "measure");
-		GUIManager.getJpanels().forEach(panel -> {
-			panel.setCursor(GUIManager.currentToolCursor);
-		});
-	}
+			setActiveToolButton(ae);
+			GUIManager.currentToolCursor = CommonUtils.createCustomCursor(
+					"resource/measure_32.gif", new Point(3, 3), "measure");
+			GUIManager.getJpanels().forEach(panel -> {
+				panel.setCursor(GUIManager.currentToolCursor);
+			});
+
+		}
+
 /*
 	private void t_wind(ActionEvent ae ) {
 		setActiveToolButton(ae);

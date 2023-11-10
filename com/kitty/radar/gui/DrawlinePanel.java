@@ -19,9 +19,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.kitty.radar.Radar;
-import com.kitty.radar.RadarBase;
-import com.kitty.radar.RadarParams;
+import com.kitty.radar.*;
 import com.kitty.radar.data.RadarData;
 import com.kitty.radar.domain.ARCoord;
 import com.kitty.radar.domain.LLCoord;
@@ -46,7 +44,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 	private String startPoint_text="";
 
 
-	private static Map<DrawlinePanel, LinePosition> linePostions = new HashMap<DrawlinePanel, LinePosition>();
+	public static Map<DrawlinePanel, LinePosition> linePostions = new HashMap<DrawlinePanel, LinePosition>();
 	private static DrawlinePanel active = null;
 
 	public class LinePosition {
@@ -79,8 +77,11 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			this.latitudeEnd = latitudeEnd;
 		}
 	}
-
-	private LinePosition getLinePosition() {
+	public Point getstartPoint()
+	{
+		return pointStart;
+	}
+	public LinePosition getLinePosition() {
 		if(GUIManager.syncTool) {
 			return linePostions.get(active);
 		} else {
@@ -132,10 +133,11 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 		active = this;
 		if (e.getClickCount() == 1) {
 			if (e.getButton() == MouseEvent.BUTTON3) {
-				this.linePostions.put(this, null);
+				linePostions.put(this, new LinePosition());
 			}
 		}
 		if(e.getButton() == MouseEvent.BUTTON1) {
+
 			mousePressed = true;
 			pointStart = e.getPoint();
 			ARCoord arcStart = PositionUtils.toARCoord(pointStart.x, pointStart.y,radarBase);
@@ -151,29 +153,63 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		if(e.getButton() != MouseEvent.BUTTON1) {
+		if (e.getButton() != MouseEvent.BUTTON1) {
 			return;
 		}
 		mousePressed = false;
-		pointEnd = e.getPoint();
-		ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y,radarBase);
-		LLCoord llcEnd = PositionUtils.toLLCoord(arcEnd.azimuth, PositionUtils.toR(arcEnd.r, radarBase.l2
-				.getElevation(radarBase.cutNum)));
-		LinePosition p = linePostions.get(this);
-		p.longitudeEnd=llcEnd.longitude;
-		p.latitudeEnd=llcEnd.latitude;
+		Point pointEnd2 = e.getPoint();
+		if (GUIManager.isSyncTool()) {
+			for (MainPanel panel : GUIManager.getJpanels()) {
+				for (VCS vcs : VCS.vcss) {
+					if (vcs.getRadarBase().equals(panel.getRadarBase())) {
+						int pixel = radarBase.center_X - radarBase.xoffset;//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
+						int scanl = radarBase.center_Y - radarBase.yoffset;
+						if (VCS.vcs != null) { //JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+ CSV.pointStart.x+"   "+CSV.pointStart.y+"  "+CSV.pointEnd.x+"  "+CSV.pointEnd.y);
+							vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / vcs.getRadarBase().scale_X));
+							vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
+							vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / vcs.getRadarBase().scale_X));
+							vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
+							vcs.update();
+						}
+					}
+				}
+			}
+		} else {
+			for (VCS vcs : VCS.vcss) {
+				if (vcs.getRadarBase().equals(GUIManager.activeMainPanel.getRadarBase())) {
+					int pixel = radarBase.center_X - radarBase.xoffset;//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
+					int scanl = radarBase.center_Y - radarBase.yoffset;
+					if (VCS.vcs != null) { //JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+ CSV.pointStart.x+"   "+CSV.pointStart.y+"  "+CSV.pointEnd.x+"  "+CSV.pointEnd.y);
+						vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / radarBase.scale_X));
+						vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / radarBase.scale_Y));
+						vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / radarBase.scale_X));
+						vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / radarBase.scale_Y));
+						vcs.update();
+					}
+				}
+			}
+		}
 
 
-
-		int pixel = radarBase.center_X - radarBase.xoffset;
-		int scanl = radarBase.center_Y - radarBase.yoffset;
-		List<Float> list=new ArrayList<Float>();
-		list.add((float)((pointStart.x-pixel)*(1/radarBase.scale_X)));
-		list.add((float)(-(scanl-pointStart.y)*(1/radarBase.scale_Y)));
-		list.add((float)((pointEnd.x-pixel)*(1/radarBase.scale_X)));
-		list.add((float)(-(scanl-pointEnd.y)*(1/radarBase.scale_Y)));
-		List<String> list1=new ArrayList<String>();
-		list1.add(radarBase.l2.getSrcFileName());
+//
+//		ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y,radarBase);
+//		LLCoord llcEnd = PositionUtils.toLLCoord(arcEnd.azimuth, PositionUtils.toR(arcEnd.r, radarBase.l2
+//				.getElevation(radarBase.cutNum)));
+//		LinePosition p = linePostions.get(this);
+//		p.longitudeEnd=llcEnd.longitude;
+//		p.latitudeEnd=llcEnd.latitude;
+//
+//
+//
+//		int pixel = radarBase.center_X - radarBase.xoffset;//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
+//		int scanl = radarBase.center_Y - radarBase.yoffset;
+//		List<Float> list=new ArrayList<Float>();
+//		list.add((float)((pointStart.x-pixel)*(1/radarBase.scale_X)));
+//		list.add((float)(-(scanl-pointStart.y)*(1/radarBase.scale_Y)));
+//		list.add((float)((pointEnd.x-pixel)*(1/radarBase.scale_X)));
+//		list.add((float)(-(scanl-pointEnd.y)*(1/radarBase.scale_Y)));
+//		List<String> list1=new ArrayList<String>();
+//		list1.add(radarBase.l2.getSrcFileName());
 		//javax.swing.JOptionPane.showMessageDialog(this, RadarBase.l2.getSrcFileName(), "R", JOptionPane.ERROR_MESSAGE);
 		//String re=coal(list);
 
@@ -193,34 +229,38 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		pointEnd = e.getPoint();
-		ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y,radarBase);
-		LLCoord llcEnd = PositionUtils.toLLCoord(arcEnd.azimuth, PositionUtils.toR(arcEnd.r, radarBase.l2
-				.getElevation(radarBase.cutNum)));
-		LinePosition p = linePostions.get(this);
-		p.longitudeEnd=llcEnd.longitude;
-		p.latitudeEnd=llcEnd.latitude;
-		e.getComponent().repaint();
-		if(GUIManager.syncTool) {
-			repaintOthers();
+		if (!mousePressed) {
+			return;
 		}
-//         repaint();
-
-	}
-
-	public void mouseMoved(MouseEvent e) {
-		if(mousePressed) {
 			pointEnd = e.getPoint();
-			ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y,radarBase);
+			ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y, radarBase);
 			LLCoord llcEnd = PositionUtils.toLLCoord(arcEnd.azimuth, PositionUtils.toR(arcEnd.r, radarBase.l2
 					.getElevation(radarBase.cutNum)));
 			LinePosition p = linePostions.get(this);
-			p.longitudeEnd=llcEnd.longitude;
-			p.latitudeEnd=llcEnd.latitude;
+			p.longitudeEnd = llcEnd.longitude;
+			p.latitudeEnd = llcEnd.latitude;
+			e.getComponent().repaint();
+			if (GUIManager.syncTool) {
+				repaintOthers();
+			}
+//         repaint();
 		}
-		if(GUIManager.syncTool) {
-			repaintOthers();
-		}
+
+
+	public void mouseMoved(MouseEvent e) {
+			if (mousePressed) {
+				pointEnd = e.getPoint();
+				ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y, radarBase);
+				LLCoord llcEnd = PositionUtils.toLLCoord(arcEnd.azimuth, PositionUtils.toR(arcEnd.r, radarBase.l2
+						.getElevation(radarBase.cutNum)));
+				LinePosition p = linePostions.get(this);
+				p.longitudeEnd = llcEnd.longitude;
+				p.latitudeEnd = llcEnd.latitude;
+			}
+			if (GUIManager.syncTool) {
+				repaintOthers();
+			}
+
 	}
 
 	public static String coal(List<Float> list1)

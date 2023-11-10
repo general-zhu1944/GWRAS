@@ -13,6 +13,7 @@ import com.kitty.radar.MapOverlay;
 import com.kitty.radar.PPI;
 import com.kitty.radar.RadarBase;
 import com.kitty.radar.business.cr.CR;
+import com.kitty.radar.business.tops.TOPS;
 import com.kitty.radar.business.vil.VIL;
 import com.kitty.radar.color.RadarColor;
 import com.kitty.radar.util.CommonProps;
@@ -123,6 +124,10 @@ public class MainPanel extends JPanel implements Printable {
             g2.dispose();
         }
         if (mActive) {
+            if (GUIManager.activeToolButton != null) {
+                String command = GUIManager.activeToolButton.getActionCommand();
+                if (CommonProps.AC_T_CURSOR.equals(command)
+                ) {
             //绘制十字光标
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(Color.white);
@@ -130,6 +135,8 @@ public class MainPanel extends JPanel implements Printable {
             g2.drawLine(mX, mY + 10, mX, mY - 10);
             g2.drawLine(mX + 10, mY, mX - 10, mY);
             g2.dispose();
+                }
+            }
         }
 
         if (showStatusText) {
@@ -202,6 +209,9 @@ public class MainPanel extends JPanel implements Printable {
             g2.fillRect(0, 0, RadarBase.width, RadarBase.height);
             try {
                 int moment = RadarBase.currentMoment;
+                if (moment == CommonProps.MOMENT_ET) {
+                    TOPS.display(g2,this.radarBase);
+                }
 				if (moment == CommonProps.MOMENT_VIL) {
 					VIL.display(g2,this.radarBase);
 				} else {

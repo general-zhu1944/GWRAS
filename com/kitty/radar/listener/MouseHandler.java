@@ -253,39 +253,50 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			for (MainPanel panel : GUIManager.getJpanels()) {
 				showVarValue(panel, panel.getRadarBase(), x, y);
 				ARCoord arc = PositionUtils.toARCoord(x, y, radarBase);
-				if (RHI.rhi != null) {
-					if(RHI.postion==1)
+				for (RHI rhi :RHI.rhis) {
+					if (rhi.getRadarBase().equals(panel.getRadarBase()))
 					{
-						RHI.postion=0;
-					}
-					else
-					{
-						RHI.postion=1;
-					}
-					if(RHI.postion==1)
-					{
-						RHI.azimuth = arc.azimuth;
-						RHI.update();
+						if (rhi != null) {
+							if(rhi.postion==1)
+							{
+								rhi.postion=0;
+							}
+							else
+							{
+								rhi.postion=1;
+							}
+							if(rhi.postion==1)
+							{
+								rhi.azimuth = arc.azimuth;
+								rhi.update();
+							}
+						}
 					}
 				}
+
 			}
 
 		} else {
 			showVarValue(mainPanel, radarBase, x, y);
 			ARCoord arc = PositionUtils.toARCoord(x, y, radarBase);
-			if (RHI.rhi != null) {
-				if(RHI.postion==1)
+			for (RHI rhi :RHI.rhis) {
+				if (rhi.getRadarBase().equals(GUIManager.activeMainPanel.getRadarBase()))
 				{
-					RHI.postion=0;
-				}
-				else
-				{
-					RHI.postion=1;
-				}
-				if(RHI.postion==1)
-				{
-					RHI.azimuth = arc.azimuth;
-					RHI.update();
+					if (rhi != null) {
+						if(rhi.postion==1)
+						{
+							rhi.postion=0;
+						}
+						else
+						{
+							rhi.postion=1;
+						}
+						if(rhi.postion==1)
+						{
+							rhi.azimuth = arc.azimuth;
+							rhi.update();
+						}
+					}
 				}
 			}
 		}
@@ -299,6 +310,28 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		RadarBase radarBase = mainPanel.getRadarBase();
 		mainPanel.setmX(e.getX());
 		mainPanel.setmY(e.getY());
+
+		if(GUIManager.isSyncTool()) {
+			for (MainPanel panel : GUIManager.getJpanels()) {
+				if (GUIManager.activeToolButton != null) {
+					String command = GUIManager.activeToolButton.getActionCommand();
+					if (CommonProps.AC_T_VCS.equals(command)
+					) {
+						showVarValue(panel, panel.getRadarBase(), e.getX(), e.getY());
+						GUIManager.syncAllMainPanelMouseMoved(e.getX(), e.getY());
+					}
+				}
+			}
+		}else {
+			if (GUIManager.activeToolButton != null) {
+				String command = GUIManager.activeToolButton.getActionCommand();
+				if (CommonProps.AC_T_VCS.equals(command)
+				) {
+					showVarValue(mainPanel, mainPanel.getRadarBase(), e.getX(), e.getY());
+					mainPanel.repaint();
+				}
+			}
+		}
 		if (GUIManager.activeToolButton != null
 				&& CommonProps.AC_T_HAND.equals(GUIManager.activeToolButton
 				.getActionCommand())) {
@@ -330,7 +363,13 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	public void mouseReleased(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
 		RadarBase radarBase = mainPanel.getRadarBase();
-		mainPanel.setShowStatusText(false);
+		if(GUIManager.isSyncTool()) {
+			for (MainPanel panel : GUIManager.getJpanels()) {
+				panel.setShowStatusText(false);
+			}
+		}else {
+			mainPanel.setShowStatusText(false);
+		}
 		if (GUIManager.activeToolButton != null) {
 			String command = GUIManager.activeToolButton.getActionCommand();
 			if (CommonProps.AC_T_HAND.equals(command)) {
@@ -376,31 +415,50 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 		if(GUIManager.isSyncTool()) {
 			for (MainPanel panel : GUIManager.getJpanels()) {
+				if (GUIManager.activeToolButton != null) {
+					String command = GUIManager.activeToolButton.getActionCommand();
+					if (!CommonProps.AC_T_CURSOR.equals(command)
+					) {
+						return;
+					}
+				}
 				showVarValue(panel, panel.getRadarBase(), e.getX(), e.getY());
 				ARCoord arc = PositionUtils.toARCoord(e.getX(), e.getY(), panel.getRadarBase());
-				if (RHI.rhi != null) {
-					if(RHI.postion==0)
-					{
-						RHI.azimuth = arc.azimuth;
-						RHI.update();
+				for (RHI rhi :RHI.rhis) {
+					if (rhi.getRadarBase().equals(GUIManager.activeMainPanel.getRadarBase())) {
+						if (rhi != null) {
+							if (rhi.postion == 0) {
+								RHI.azimuth = arc.azimuth;
+								RHI.update();
+							}
+						}
 					}
 				}
 			}
 			GUIManager.syncAllMainPanelMouseMoved(e.getX(), e.getY());
 		} else {
+			if (GUIManager.activeToolButton != null) {
+				String command = GUIManager.activeToolButton.getActionCommand();
+				if (!CommonProps.AC_T_CURSOR.equals(command)
+				) {
+					return;
+				}
+			}
 			showVarValue(mainPanel, mainPanel.getRadarBase(), e.getX(), e.getY());
 			ARCoord arc = PositionUtils.toARCoord(e.getX(), e.getY(), mainPanel.getRadarBase());
-			if (RHI.rhi != null) {
-				if(RHI.postion==0)
-				{
-					RHI.azimuth = arc.azimuth;
-					RHI.update();
+			for (RHI rhi :RHI.rhis) {
+				if (rhi.getRadarBase().equals(GUIManager.activeMainPanel.getRadarBase())) {
+					if (rhi != null) {
+						if (rhi.postion == 0) {
+							RHI.azimuth = arc.azimuth;
+							RHI.update();
+						}
+					}
 				}
 			}
 			mainPanel.repaint();
 		}
 	}
-
 
 }
 

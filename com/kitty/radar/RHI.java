@@ -1,11 +1,6 @@
 package com.kitty.radar;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -37,7 +32,7 @@ public class RHI extends JPanel {
 	public static RHI rhi;
 
 	public static double azimuth = 0;
-	public static int postion = 0; // o，表示鼠标滑动获取方位绘制HRI，1表示定点获取方位绘制HRI
+	public int postion = 0; // o，表示鼠标滑动获取方位绘制HRI，1表示定点获取方位绘制HRI
 
 	public static Rectangle bounds = new Rectangle(0, 0, 480, 224);
 
@@ -228,25 +223,70 @@ public class RHI extends JPanel {
 	}
 
 	public static void createRhiDialog(JFrame owner) {
+
+		if (VCS.vcsDialogs.size() > 0) {
+			VCS.vcsDialogs.forEach(p -> {
+				p.removeAll();
+				p.dispose();
+			});
+		}
 		rhis.clear();
+
+		if (RHI.rhiDialogs.size() > 0) {
+			RHI.rhiDialogs.forEach(p -> {
+				p.removeAll();
+				p.dispose();
+			});
+		}
 		rhiDialogs.clear();
-		for (int i = 0; i < GUIManager.jlayers.size(); i++) {
-			RadarBase radarBase=GUIManager.jlayers.get(i).getView().getRadarBase();
-		    // rhi=rhis.get(i);
-		//	if (rhis.isEmpty()) {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if (!GUIManager.syncTool) {
+			RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
+			// rhi=rhis.get(i);
+			//	if (rhis.isEmpty()) {
+			JDialog rhiDialog = new JDialog(owner, "RHI距离高度显示");
+			rhiDialog.addWindowListener(new RhiWindowHandler(rhiDialog));
+			if (bounds != null) {
+				rhiDialog.setBounds(bounds);
+				rhiDialog.setLocation(0, (screenSize.height) / 4 );
+			} else {
+				rhiDialog.setSize(480, 220);
+				rhiDialog.setLocation(0, (screenSize.height) / 4 );
+			}
+
+			CommonUtils.addEscAction((JComponent) rhiDialog.getContentPane(),
+					new AbstractAction() {
+						public void actionPerformed(ActionEvent e) {
+							rhiDialog.dispose();
+							//	rhi=null;
+						}
+					});
+			rhi = new RHI(radarBase);
+			rhi.setDoubleBuffered(false);
+			rhiDialog.add(rhi);
+			rhiDialog.setVisible(true);
+			rhis.add(rhi);
+			rhiDialogs.add(rhiDialog);
+		} else {
+			for (int i = 0; i < GUIManager.jlayers.size(); i++) {
+				RadarBase radarBase = GUIManager.jlayers.get(i).getView().getRadarBase();
+				// rhi=rhis.get(i);
+				//	if (rhis.isEmpty()) {
 				JDialog rhiDialog = new JDialog(owner, "RHI距离高度显示");
 				rhiDialog.addWindowListener(new RhiWindowHandler(rhiDialog));
 				if (bounds != null) {
 					rhiDialog.setBounds(bounds);
+					rhiDialog.setLocation(0, (screenSize.height) / 4 + 220 * i);
 				} else {
 					rhiDialog.setSize(480, 220);
+					rhiDialog.setLocation(0, (screenSize.height) / 4 + 220 * i);
 				}
 
 				CommonUtils.addEscAction((JComponent) rhiDialog.getContentPane(),
 						new AbstractAction() {
 							public void actionPerformed(ActionEvent e) {
 								rhiDialog.dispose();
-							//	rhi=null;
+								//	rhi=null;
 							}
 						});
 				rhi = new RHI(radarBase);
@@ -257,7 +297,7 @@ public class RHI extends JPanel {
 				rhiDialogs.add(rhiDialog);
 			}
 		}
-//	}
+	}
 
 	public static void update() {
 		for (int i = 0; i < GUIManager.jlayers.size(); i++) {
@@ -267,6 +307,9 @@ public class RHI extends JPanel {
 				rhi.repaint();
 			}
 		}
+	}
+	public RadarBase getRadarBase() {
+		return radarBase;
 	}
 
 	public void exportRHI(Writer w) throws IOException {

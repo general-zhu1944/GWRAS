@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Writer;
-
+import java.util.LinkedList;
+import java.util.List;
+import java.awt.*;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -18,8 +20,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.kitty.radar.gui.GUIManager;
-import com.kitty.radar.gui.MainPanel;
+import com.kitty.radar.domain.ARCoord;
+import com.kitty.radar.domain.XYDCoord;
+import com.kitty.radar.gui.*;
 import org.meteoinfo.ndarray.Array;
 import org.meteoinfo.ndarray.DataType;
 import org.meteoinfo.ndarray.math.ArrayUtil;
@@ -27,7 +30,6 @@ import org.meteoinfo.ndarray.math.ArrayUtil;
 import com.kitty.radar.data.RadarData;
 import com.kitty.radar.domain.LLCoord;
 import com.kitty.radar.domain.XYCoord;
-import com.kitty.radar.gui.ExportSetDialog;
 import com.kitty.radar.listener.RhiWindowHandler;
 import com.kitty.radar.util.CommonProps;
 import com.kitty.radar.util.CommonUtils;
@@ -44,7 +46,7 @@ public class VCS extends JPanel {
 
 	public static double azimuth = 0;
 
-	public static Rectangle bounds = new Rectangle(0, 0, 480, 424);
+	public static Rectangle bounds = new Rectangle(0, 0, 480, 224);
 
 	private int height;
 
@@ -61,13 +63,18 @@ public class VCS extends JPanel {
 	private boolean update = true;
 
 	private BufferedImage image;
-	
-	public Point pointStart = null;//剖面起始点
-    public Point pointEnd   = null;//剖面起终点
-	MainPanel mainPanel = (MainPanel) GUIManager.activeMainPanel;
-	private RadarBase radarBase = mainPanel.getRadarBase();
 
-
+	public static List<VCS> vcss = new LinkedList<VCS>();
+	public static List<JDialog> vcsDialogs = new LinkedList<JDialog>();
+	private RadarBase radarBase;
+	public Point pointStart = new Point(0,0);//剖面起始点
+	public Point pointEnd   = new Point(60,0);//剖面起终点
+	public VCS(RadarBase radarBase) {
+		this.radarBase = radarBase;
+	}
+	public RadarBase getRadarBase() {
+		return radarBase;
+	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int w = this.getWidth();
@@ -107,8 +114,35 @@ public class VCS extends JPanel {
 		}
 		int[] x = new int[4];
 		int[] y = new int[4];
-		pointStart=new Point(0,0);
-		pointEnd=new Point(60,0);
+//		pointStart=new Point(0,0);
+//		pointEnd=new Point(60,0);
+
+		for (int i = 0; i < GUIManager.jlayers.size(); i++) {
+			if (radarBase == GUIManager.jlayers.get(i).getView().getRadarBase()) {
+				JMainPanelLayerUi uii = (JMainPanelLayerUi) GUIManager.jlayers.get(i).getUI();
+				DrawlinePanel dp = uii.getDrawlinePanel();
+				if (null != dp.linePostions.get(dp)) {
+					if (dp.getLinePosition().getLongitudeStart() != 0.0)
+					{
+						double longitudeStart = dp.getLinePosition().getLongitudeStart();
+						double latitudeStart = dp.getLinePosition().getLatitudeStart();
+						double longitudeEnd = dp.getLinePosition().getLongitudeEnd();
+						double latitudeEnd = dp.getLinePosition().getLatitudeEnd();
+						ARCoord arcStart = PositionUtils.toARCoord(longitudeStart, latitudeStart);
+						XYCoord xyStart = PositionUtils.toXYCoord(arcStart.azimuth, arcStart.r, radarBase);
+						XYDCoord startpoint = PositionUtils.toXYDCoord(xyStart.x, xyStart.y, radarBase);//左上坐标转雷达中心坐标
+						ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd, latitudeEnd);
+						XYCoord xyEnd = PositionUtils.toXYCoord(arcEnd.azimuth, arcEnd.r, radarBase);
+						XYDCoord endpoint = PositionUtils.toXYDCoord(xyEnd.x, xyEnd.y, radarBase);//左上坐标转雷达中心坐标
+						pointStart.x = (int) startpoint.x;
+						pointStart.y = (int) startpoint.y;
+						pointEnd.x = (int) endpoint.x;
+						pointEnd.y = (int) endpoint.y;
+					}
+				}
+			}
+		}
+
 		double binRes = l2.getBinInterval(radarBase.active_moment);
         float startEndDistance = (float) Math.sqrt(Math.pow(pointEnd.x - pointStart.x, 2) + Math.pow(pointEnd.y - pointStart.y, 2));//计算两点距离	
         range_max=startEndDistance;
@@ -264,32 +298,84 @@ public class VCS extends JPanel {
 	}
 	
 	public static void createRhiDialog(JFrame owner) {
-		if (vcs == null) {
-			final JDialog rhiDialog = new JDialog(owner, "VCS任意剖面显示");
-			rhiDialog.addWindowListener(new RhiWindowHandler(rhiDialog));
+		if (RHI.rhiDialogs.size() > 0) {
+			RHI.rhiDialogs.forEach(p -> {
+				p.removeAll();
+				p.dispose();
+			});
+		}
+		vcss.clear();
+
+		if (VCS.vcsDialogs.size() > 0) {
+			VCS.vcsDialogs.forEach(p -> {
+				p.removeAll();
+				p.dispose();
+			});
+		}
+		vcsDialogs.clear();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if (!GUIManager.syncTool) {
+			RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
+			JDialog vcsDialog = new JDialog(owner, "VCS任意剖面显示");
+			vcsDialog.addWindowListener(new RhiWindowHandler(vcsDialog));
 			if (bounds != null) {
-				rhiDialog.setBounds(bounds);
+				vcsDialog.setBounds(bounds);
 			} else {
-				rhiDialog.setSize(480, 420);
+				vcsDialog.setSize(480, 220);
 			}
-			CommonUtils.addEscAction((JComponent) rhiDialog.getContentPane(),
+			CommonUtils.addEscAction((JComponent) vcsDialog.getContentPane(),
 					new AbstractAction() {
 						public void actionPerformed(ActionEvent e) {
-							rhiDialog.dispose();
+							vcsDialog.dispose();
 							vcs = null;
 						}
 					});
-			vcs = new VCS();
+			vcs = new VCS(radarBase);
 			vcs.setDoubleBuffered(false);
-			rhiDialog.add(vcs);
-			rhiDialog.setVisible(true);
+			vcsDialog.add(vcs);
+			vcsDialog.setVisible(true);
+			vcss.add(vcs);
+			vcsDialogs.add(vcsDialog);
+		}else {
+			for (int i = 0; i < GUIManager.jlayers.size(); i++) {
+				RadarBase radarBase = GUIManager.jlayers.get(i).getView().getRadarBase();
+				JDialog vcsDialog = new JDialog(owner, "VCS任意剖面显示");
+				vcsDialog.addWindowListener(new RhiWindowHandler(vcsDialog));
+				if (bounds != null) {
+					vcsDialog.setBounds(bounds);
+					vcsDialog.setLocation(0, (screenSize.height) / 4 + 220 * i);
+				} else {
+					vcsDialog.setSize(480, 220);
+					vcsDialog.setLocation(0, (screenSize.height) / 4 + 220 * i);
+				}
+				CommonUtils.addEscAction((JComponent) vcsDialog.getContentPane(),
+						new AbstractAction() {
+							public void actionPerformed(ActionEvent e) {
+								vcsDialog.dispose();
+								vcs = null;
+								vcsDialogs.remove(vcsDialog);
+							}
+						});
+				vcs = new VCS(radarBase);
+				vcs.setDoubleBuffered(false);
+				vcsDialog.add(vcs);
+				vcsDialog.setVisible(true);
+				vcss.add(vcs);
+				vcsDialogs.add(vcsDialog);
+
+
+			}
 		}
 	}
 
+
 	public static void update() {
-		if (vcs != null) {
-			vcs.update = true;
-			vcs.repaint();
+		for (int i = 0; i < GUIManager.jlayers.size(); i++) {
+			vcs = vcss.get(i);
+			if (vcs != null) {
+				vcs.update = true;
+				vcs.repaint();
+			}
 		}
 	}
 

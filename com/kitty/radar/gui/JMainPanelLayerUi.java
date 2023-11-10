@@ -28,7 +28,11 @@ public class JMainPanelLayerUi extends LayerUI<MainPanel> {
         drawlinePanel = new DrawlinePanel(radarBase);
         measurePanel = new MeasurePanel(radarBase);
     }
-    
+
+    public DrawlinePanel getDrawlinePanel()
+    {
+        return drawlinePanel;
+    }
     @Override
     public void installUI(JComponent c) {
 	  super.installUI(c);
