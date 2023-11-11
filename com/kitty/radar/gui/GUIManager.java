@@ -314,8 +314,6 @@ public class GUIManager {
                 {
                     VCS.changepanel=1;
                     VCS.createVcsDialog(Radar.radar);
-
-
                 }
                 GUIManager.mainPanelContainer.repaint();
                 //CommonUtils.alert("请先选择雷达基数据文件！",Radar.radar);
