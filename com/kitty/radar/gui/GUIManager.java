@@ -311,7 +311,7 @@ public class GUIManager {
                 GUIManager.reCreateMainPanel(curNum);
                 if (VCS.vcsDialogs.size()>0)
                 {
-                    VCS.createRhiDialog(Radar.radar);
+                    VCS.createVcsDialog(Radar.radar);
                 }
                 GUIManager.mainPanelContainer.repaint();
                 //CommonUtils.alert("请先选择雷达基数据文件！",Radar.radar);

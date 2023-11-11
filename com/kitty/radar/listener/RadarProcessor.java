@@ -147,7 +147,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 			JMainPanelLayerUi.active = 2;
 			t_measure(ae);
 		} else if (CommonProps.AC_T_VCS_MENU.equals(command)) {
-				VCS.createRhiDialog(Radar.radar);
+				VCS.createVcsDialog(Radar.radar);
 		} else if (CommonProps.AC_T_VCS.equals(command)) {
 			JMainPanelLayerUi.active = 1;//1 »­Ïß, 2 ²â¾à
 			t_drawline(ae);

@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import com.kitty.radar.domain.ARCoord;
 import com.kitty.radar.domain.XYDCoord;
 import com.kitty.radar.gui.*;
+import com.kitty.radar.listener.VcsWindowHandler;
 import org.meteoinfo.ndarray.Array;
 import org.meteoinfo.ndarray.DataType;
 import org.meteoinfo.ndarray.math.ArrayUtil;
@@ -60,7 +61,7 @@ public class VCS extends JPanel {
 
 	public static float range_max = RadarBase.radius;
 
-	private boolean update = true;
+	public boolean update = true;
 
 	private BufferedImage image;
 
@@ -69,6 +70,8 @@ public class VCS extends JPanel {
 	private RadarBase radarBase;
 	public Point pointStart = new Point(0,0);//剖面起始点
 	public Point pointEnd   = new Point(60,0);//剖面起终点
+	public static Point pointStart1 = new Point(0,0);//剖面起始点
+	public static Point pointEnd1   = new Point(60,0);//剖面起终点
 	public VCS(RadarBase radarBase) {
 		this.radarBase = radarBase;
 	}
@@ -122,12 +125,13 @@ public class VCS extends JPanel {
 				JMainPanelLayerUi uii = (JMainPanelLayerUi) GUIManager.jlayers.get(i).getUI();
 				DrawlinePanel dp = uii.getDrawlinePanel();
 				if (null != dp.linePostions.get(dp)) {
-					if (dp.getLinePosition().getLongitudeStart() != 0.0)
+				//		if (dp.getLinePosition().getLongitudeStart() != 0.0f)
+				if (dp.linePostions.get(dp).getLongitudeStart() != 0.0)
 					{
-						double longitudeStart = dp.getLinePosition().getLongitudeStart();
-						double latitudeStart = dp.getLinePosition().getLatitudeStart();
-						double longitudeEnd = dp.getLinePosition().getLongitudeEnd();
-						double latitudeEnd = dp.getLinePosition().getLatitudeEnd();
+						double longitudeStart = dp.linePostions.get(dp).getLongitudeStart();
+						double latitudeStart = dp.linePostions.get(dp).getLatitudeStart();
+						double longitudeEnd = dp.linePostions.get(dp).getLongitudeEnd();
+						double latitudeEnd = dp.linePostions.get(dp).getLatitudeEnd();
 						ARCoord arcStart = PositionUtils.toARCoord(longitudeStart, latitudeStart);
 						XYCoord xyStart = PositionUtils.toXYCoord(arcStart.azimuth, arcStart.r, radarBase);
 						XYDCoord startpoint = PositionUtils.toXYDCoord(xyStart.x, xyStart.y, radarBase);//左上坐标转雷达中心坐标
@@ -138,9 +142,16 @@ public class VCS extends JPanel {
 						pointStart.y = (int) startpoint.y;
 						pointEnd.x = (int) endpoint.x;
 						pointEnd.y = (int) endpoint.y;
+						pointStart1=pointStart;
+						pointEnd1=pointEnd;
 					}
 				}
 			}
+		}
+		if (pointStart1!=pointStart)//切换面板时候，共享上次的剖面线
+		{
+			pointStart=pointStart1;
+			pointEnd=pointEnd1;
 		}
 
 		double binRes = l2.getBinInterval(radarBase.active_moment);
@@ -297,7 +308,7 @@ public class VCS extends JPanel {
 		}
 	}
 	
-	public static void createRhiDialog(JFrame owner) {
+	public static void createVcsDialog(JFrame owner) {
 		if (RHI.rhiDialogs.size() > 0) {
 			RHI.rhiDialogs.forEach(p -> {
 				p.removeAll();
@@ -317,7 +328,7 @@ public class VCS extends JPanel {
 		if (!GUIManager.syncTool) {
 			RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
 			JDialog vcsDialog = new JDialog(owner, "VCS任意剖面显示");
-			vcsDialog.addWindowListener(new RhiWindowHandler(vcsDialog));
+			vcsDialog.addWindowListener(new VcsWindowHandler(vcsDialog));
 			if (bounds != null) {
 				vcsDialog.setBounds(bounds);
 			} else {
@@ -328,6 +339,7 @@ public class VCS extends JPanel {
 						public void actionPerformed(ActionEvent e) {
 							vcsDialog.dispose();
 							vcs = null;
+							vcsDialogs.remove(vcsDialog);
 						}
 					});
 			vcs = new VCS(radarBase);
@@ -340,7 +352,7 @@ public class VCS extends JPanel {
 			for (int i = 0; i < GUIManager.jlayers.size(); i++) {
 				RadarBase radarBase = GUIManager.jlayers.get(i).getView().getRadarBase();
 				JDialog vcsDialog = new JDialog(owner, "VCS任意剖面显示");
-				vcsDialog.addWindowListener(new RhiWindowHandler(vcsDialog));
+				vcsDialog.addWindowListener(new VcsWindowHandler(vcsDialog));
 				if (bounds != null) {
 					vcsDialog.setBounds(bounds);
 					vcsDialog.setLocation(0, (screenSize.height) / 4 + 220 * i);
@@ -357,6 +369,7 @@ public class VCS extends JPanel {
 							}
 						});
 				vcs = new VCS(radarBase);
+
 				vcs.setDoubleBuffered(false);
 				vcsDialog.add(vcs);
 				vcsDialog.setVisible(true);

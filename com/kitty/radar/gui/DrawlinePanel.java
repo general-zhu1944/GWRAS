@@ -158,19 +158,19 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 		}
 		mousePressed = false;
 		Point pointEnd2 = e.getPoint();
-		if (GUIManager.isSyncTool()) {
+		if (GUIManager.syncTool) {
 			for (MainPanel panel : GUIManager.getJpanels()) {
 				for (VCS vcs : VCS.vcss) {
 					if (vcs.getRadarBase().equals(panel.getRadarBase())) {
 						int pixel = radarBase.center_X - radarBase.xoffset;//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
 						int scanl = radarBase.center_Y - radarBase.yoffset;
-						if (VCS.vcs != null) { //JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+ CSV.pointStart.x+"   "+CSV.pointStart.y+"  "+CSV.pointEnd.x+"  "+CSV.pointEnd.y);
-							vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / vcs.getRadarBase().scale_X));
-							vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
-							vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / vcs.getRadarBase().scale_X));
-							vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
-							vcs.update();
-						}
+						vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / vcs.getRadarBase().scale_X));
+						vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
+						vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / vcs.getRadarBase().scale_X));
+						vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
+						vcs.update = true;
+						vcs.repaint();
+
 					}
 				}
 			}
@@ -179,13 +179,13 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 				if (vcs.getRadarBase().equals(GUIManager.activeMainPanel.getRadarBase())) {
 					int pixel = radarBase.center_X - radarBase.xoffset;//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
 					int scanl = radarBase.center_Y - radarBase.yoffset;
-					if (VCS.vcs != null) { //JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+ CSV.pointStart.x+"   "+CSV.pointStart.y+"  "+CSV.pointEnd.x+"  "+CSV.pointEnd.y);
-						vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / radarBase.scale_X));
-						vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / radarBase.scale_Y));
-						vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / radarBase.scale_X));
-						vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / radarBase.scale_Y));
-						vcs.update();
-					}
+					vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / radarBase.scale_X));
+					vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / radarBase.scale_Y));
+					vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / radarBase.scale_X));
+					vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / radarBase.scale_Y));
+					vcs.update = true;
+					vcs.repaint();
+
 				}
 			}
 		}
@@ -220,6 +220,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 		if(GUIManager.syncTool) {
 			repaintOthers();
 		}
+
 	}
 
 	private void repaintOthers() {
