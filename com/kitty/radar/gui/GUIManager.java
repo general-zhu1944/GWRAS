@@ -1243,6 +1243,7 @@ public class GUIManager {
             }
             GUIManager.repaintAll();
             RHI.update();
+            VCS.update();
             BasicDrawPanel panel = (BasicDrawPanel) GUIManager.getComponent("vcs_panel");
             if (panel != null) {
                 panel.update();

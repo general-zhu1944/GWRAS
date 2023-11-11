@@ -384,10 +384,12 @@ public class VCS extends JPanel {
 
 	public static void update() {
 		for (int i = 0; i < GUIManager.jlayers.size(); i++) {
-			vcs = vcss.get(i);
-			if (vcs != null) {
-				vcs.update = true;
-				vcs.repaint();
+			if (i < vcss.size()) {
+				vcs = vcss.get(i);
+				if (vcs != null) {
+					vcs.update = true;
+					vcs.repaint();
+				}
 			}
 		}
 	}

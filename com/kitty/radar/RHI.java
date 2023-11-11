@@ -301,11 +301,14 @@ public class RHI extends JPanel {
 
 	public static void update() {
 		for (int i = 0; i < GUIManager.jlayers.size(); i++) {
-			rhi = rhis.get(i);
-			if (rhi != null) {
-				rhi.update = true;
-				rhi.repaint();
+			if(i<rhis.size()) {
+				rhi = rhis.get(i);
+				if (rhi != null) {
+					rhi.update = true;
+					rhi.repaint();
+				}
 			}
+
 		}
 	}
 	public RadarBase getRadarBase() {
