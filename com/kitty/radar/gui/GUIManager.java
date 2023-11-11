@@ -308,10 +308,14 @@ public class GUIManager {
                     return;
                 // JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+ curNum +setNum);
                 curNum = setNum;
+
                 GUIManager.reCreateMainPanel(curNum);
                 if (VCS.vcsDialogs.size()>0)
                 {
+                    VCS.changepanel=1;
                     VCS.createVcsDialog(Radar.radar);
+
+
                 }
                 GUIManager.mainPanelContainer.repaint();
                 //CommonUtils.alert("请先选择雷达基数据文件！",Radar.radar);
@@ -1249,11 +1253,13 @@ public class GUIManager {
                 panel.update();
             }
         }
-        GUIManager.activeMainPanel.update = true;
-        GUIManager.activeMainPanel.getMap().update = true;
-        GUIManager.activeMainPanel.repaint();
-        RHI.update();
-        VCS.update();
+        else {
+            GUIManager.activeMainPanel.update = true;
+            GUIManager.activeMainPanel.getMap().update = true;
+            GUIManager.activeMainPanel.repaint();
+            RHI.update();
+           VCS.update();
+        }
 
     }
 

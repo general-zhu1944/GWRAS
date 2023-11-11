@@ -52,6 +52,7 @@ public class VCS extends JPanel {
 	private int height;
 
 	private int width;
+	public static int changepanel=0;
 
 	private byte height_min = 0;//剖面回波起始高度
 
@@ -102,6 +103,7 @@ public class VCS extends JPanel {
 			update = false;
 		}
 		g.drawImage(image, 0, 0, width, height, null);
+
 	}
 	 
 
@@ -119,41 +121,42 @@ public class VCS extends JPanel {
 		int[] y = new int[4];
 //		pointStart=new Point(0,0);
 //		pointEnd=new Point(60,0);
+		if (changepanel==1) {
 
-		for (int i = 0; i < GUIManager.jlayers.size(); i++) {
-			if (radarBase == GUIManager.jlayers.get(i).getView().getRadarBase()) {
-				JMainPanelLayerUi uii = (JMainPanelLayerUi) GUIManager.jlayers.get(i).getUI();
-				DrawlinePanel dp = uii.getDrawlinePanel();
-				if (null != dp.linePostions.get(dp)) {
-				//		if (dp.getLinePosition().getLongitudeStart() != 0.0f)
-				if (dp.linePostions.get(dp).getLongitudeStart() != 0.0)
-					{
-						double longitudeStart = dp.linePostions.get(dp).getLongitudeStart();
-						double latitudeStart = dp.linePostions.get(dp).getLatitudeStart();
-						double longitudeEnd = dp.linePostions.get(dp).getLongitudeEnd();
-						double latitudeEnd = dp.linePostions.get(dp).getLatitudeEnd();
-						ARCoord arcStart = PositionUtils.toARCoord(longitudeStart, latitudeStart);
-						XYCoord xyStart = PositionUtils.toXYCoord(arcStart.azimuth, arcStart.r, radarBase);
-						XYDCoord startpoint = PositionUtils.toXYDCoord(xyStart.x, xyStart.y, radarBase);//左上坐标转雷达中心坐标
-						ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd, latitudeEnd);
-						XYCoord xyEnd = PositionUtils.toXYCoord(arcEnd.azimuth, arcEnd.r, radarBase);
-						XYDCoord endpoint = PositionUtils.toXYDCoord(xyEnd.x, xyEnd.y, radarBase);//左上坐标转雷达中心坐标
-						pointStart.x = (int) startpoint.x;
-						pointStart.y = (int) startpoint.y;
-						pointEnd.x = (int) endpoint.x;
-						pointEnd.y = (int) endpoint.y;
-						pointStart1=pointStart;
-						pointEnd1=pointEnd;
+			for (int i = 0; i < GUIManager.jlayers.size(); i++) {
+				if (radarBase == GUIManager.jlayers.get(i).getView().getRadarBase()) {
+					JMainPanelLayerUi uii = (JMainPanelLayerUi) GUIManager.jlayers.get(i).getUI();
+					DrawlinePanel dp = uii.getDrawlinePanel();
+					if (null != dp.linePostions.get(dp)) {
+						//		if (dp.getLinePosition().getLongitudeStart() != 0.0f)
+						if (dp.linePostions.get(dp).getLongitudeStart() != 0.0) {
+							double longitudeStart = dp.linePostions.get(dp).getLongitudeStart();
+							double latitudeStart = dp.linePostions.get(dp).getLatitudeStart();
+							double longitudeEnd = dp.linePostions.get(dp).getLongitudeEnd();
+							double latitudeEnd = dp.linePostions.get(dp).getLatitudeEnd();
+							ARCoord arcStart = PositionUtils.toARCoord(longitudeStart, latitudeStart);
+							XYCoord xyStart = PositionUtils.toXYCoord(arcStart.azimuth, arcStart.r, radarBase);
+							XYDCoord startpoint = PositionUtils.toXYDCoord(xyStart.x, xyStart.y, radarBase);//左上坐标转雷达中心坐标
+							ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd, latitudeEnd);
+							XYCoord xyEnd = PositionUtils.toXYCoord(arcEnd.azimuth, arcEnd.r, radarBase);
+							XYDCoord endpoint = PositionUtils.toXYDCoord(xyEnd.x, xyEnd.y, radarBase);//左上坐标转雷达中心坐标
+							pointStart.x = (int) startpoint.x;
+							pointStart.y = (int) startpoint.y;
+							pointEnd.x = (int) endpoint.x;
+							pointEnd.y = (int) endpoint.y;
+							pointStart1 = pointStart;
+							pointEnd1 = pointEnd;
+						}
 					}
 				}
 			}
-		}
-		if (pointStart1!=pointStart)//切换面板时候，共享上次的剖面线
-		{
-			pointStart=pointStart1;
-			pointEnd=pointEnd1;
-		}
+			if (pointStart1 != pointStart)//切换面板时候，共享上次的剖面线
+			{
+				pointStart = pointStart1;
+				pointEnd = pointEnd1;
+			}
 
+		}
 		double binRes = l2.getBinInterval(radarBase.active_moment);
         float startEndDistance = (float) Math.sqrt(Math.pow(pointEnd.x - pointStart.x, 2) + Math.pow(pointEnd.y - pointStart.y, 2));//计算两点距离	
         range_max=startEndDistance;
@@ -250,7 +253,6 @@ public class VCS extends JPanel {
 				}
 		
 		}
-
 	}
 
 	private void displayGrid(Graphics2D g) {

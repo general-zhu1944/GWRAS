@@ -220,7 +220,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 		if(GUIManager.syncTool) {
 			repaintOthers();
 		}
-
+		VCS.changepanel=0;
 	}
 
 	private void repaintOthers() {
