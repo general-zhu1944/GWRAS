@@ -24,7 +24,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.RandomAccess;
 import java.util.Set;
-
+import com.kitty.radar.color.ElevationColor;
+import com.kitty.radar.color.RadarColor;
+import com.kitty.radar.domain.XYCoord;
+import com.kitty.radar.color.RadarColor;
+import com.kitty.radar.gui.GUIManager;
+import com.kitty.radar.util.CommonProps;
+import com.kitty.radar.util.PositionUtils;
 import org.apache.commons.io.FileUtils;
 
 import com.kitty.radar.business.area.Area;
@@ -32,6 +38,17 @@ import com.kitty.radar.business.area.AreaDialog;
 import com.kitty.radar.util.CommonUtils;
 import com.kitty.radar.util.RadarUtils;
 
+import ucar.ma2.ArrayFloat;
+import ucar.ma2.ArrayInt;
+import ucar.ma2.DataType;
+import ucar.ma2.Index;
+import ucar.ma2.InvalidRangeException;
+import ucar.nc2.Attribute;
+import ucar.nc2.Dimension;
+import ucar.nc2.NetcdfFile;
+import ucar.nc2.NetcdfFileWriter;
+import ucar.nc2.Variable;
+import ucar.nc2.NetcdfFileWriter.Version;
 import javax.swing.*;
 
 public class MapOverlay  {
@@ -49,6 +66,15 @@ public class MapOverlay  {
     public static float polar_grid_spoke = 30;
 
     public static float polar_grid_ring = 50;
+    // ===================== Elevation Variables ========================
+
+    public static boolean elevation_on = true;
+
+    public static double[] dateLon;
+
+    public static double[] dateLat;
+
+    public static short[][] elevationArr;
 
     // ===================== Point Variables ========================
 
@@ -91,11 +117,12 @@ public class MapOverlay  {
     public static byte mapMode = 49;
 
     public static String mapFile =  "D:\\province.map"; //CommonUtils.appPath +
-
+    public static String elevationFile="D:\\gebco_2022_n35.0_s25.0_w100.0_e110.0.nc";
     private RadarBase radarBase;
 
 	private static byte[] mapFileBytes = null;
-	
+  //  private static byte[] elevationFileBytes = null;
+    public static NetcdfFile ofile; // 保存地形数据
 	static {
         File f = new File(mapFile);
         if (f.exists()) {
@@ -108,6 +135,19 @@ public class MapOverlay  {
         }
 		
 	}
+
+    static {
+        File f = new File(elevationFile);
+        if (f.exists()) {
+            try {
+                ofile=NetcdfFile.open(elevationFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+    }
     
     public MapOverlay(RadarBase radarBase) {
     	this.radarBase = radarBase;
@@ -141,6 +181,16 @@ public class MapOverlay  {
         }
         return image;
     }
+    public BufferedImage drawTerrain(BufferedImage image2) {
+        try {
+            if (elevation_on) {
+                displayElevation(image2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image2;
+    }
 
     private void displayArea() {
         Graphics2D g = (Graphics2D) image.createGraphics();
@@ -150,8 +200,73 @@ public class MapOverlay  {
         }
         g.dispose();
     }
-    
 
+    private void displayElevation(BufferedImage image2) {
+        Graphics2D g = (Graphics2D) image2.createGraphics();
+
+        try {
+            if( ofile!=null) {
+
+                //System.out.println(ofile.getVariables());
+                //获取经度
+                Variable lon = ofile.findVariable("lon");
+                double[] dateLon = (double[]) lon.read().copyTo1DJavaArray();
+                //获取纬度
+                Variable lat = ofile.findVariable("lat");
+                double[] dateLat = (double[]) lat.read().copyTo1DJavaArray();
+                //获取地形高度变量
+                Variable height = ofile.findVariable("elevation");
+                //获取经纬度数组的长度
+                int dateLonL = dateLon.length;
+                int dateLatL = dateLat.length;
+                //将地形高度变量放到二维数组中
+                short[][] heightArr = (short[][]) height.read().copyToNDJavaArray();
+                //double m_RadLo =dateLon[dateLonL-1] * Math.PI / 180.0;
+                double m_RadLa = dateLat[dateLatL - 1] * Math.PI / 180.0;
+                //double am_RadLo = dateLon[0] * Math.PI / 180.0;
+                double am_RadLa = dateLat[0] * Math.PI / 180.0;
+                double aEc = CommonProps.RJ + (CommonProps.RC - CommonProps.RJ)
+                        * (90 - RadarBase.latitude) / 90.0;
+                //double aEd = aEc * Math.cos(am_RadLa);
+                //double dx = (m_RadLo - am_RadLo) * aEd;
+                double dy = (m_RadLa - am_RadLa) * aEc;
+                double gridWidth = (dy) / dateLatL;
+                int w = PositionUtils.toLength(gridWidth / 1000,GUIManager.activeMainPanel.getRadarBase()) * 5;//像素单元格宽度
+                int hw = w / 2;
+                RadarColor radarColor = ElevationColor.color;
+                Color[] colors = radarColor.getColors();
+                float[] cvalues = radarColor.getColorValues();
+                XYCoord raincoord = null;
+
+                for (int i = 0; i < heightArr.length; i = i + 4) {
+                    for (int j = 0; j < heightArr[i].length; j = j + 4) {
+                        double v = heightArr[i][j];
+                        for (int k = 0; k < cvalues.length; k++) {
+                            if (k != cvalues.length - 1) {
+                                if (v >= cvalues[k] && v < cvalues[k + 1]) {
+                                    g.setColor(colors[k]);
+                                    raincoord = PositionUtils.toXYCoord2(dateLon[j], dateLat[i],GUIManager.activeMainPanel.getRadarBase());
+                                    g.fillRect(raincoord.x - hw, raincoord.y
+                                            - hw, w, w);
+                                }
+                            } else {
+                                if (v >= cvalues[k]) {
+                                    g.setColor(colors[k]);
+                                    g.fillRect(raincoord.x - hw, raincoord.y
+                                            - hw, w, w);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     private void displayGrid() {
         Graphics2D g = (Graphics2D) image.createGraphics();
         int pixel = this.radarBase.center_X - this.radarBase.xoffset;

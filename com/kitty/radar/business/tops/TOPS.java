@@ -69,7 +69,7 @@ public class TOPS extends RadarBase {
         for (int i = 0; i <grids.length ; i++) {
             for (int j = 0; j <grids[i].length ; j++) {
                 if (grids[i][j] != null) {
-                    ARCoord c = PositionUtils.toARCoord(grids[i][j].x, grids[i][j].y);                  
+                    ARCoord c = PositionUtils.toARCoord(grids[i][j].x, grids[i][j].y,radarBase);
                     List<String> list = new ArrayList<>(map.keySet());
                     Collections.reverse(list);
                     ListIterator keys=list.listIterator();
@@ -166,6 +166,14 @@ public class TOPS extends RadarBase {
 
     public static byte getResolution() {
         return resolution;
+    }
+    public static String evaLabelText(RadarBase radarBase) {
+        if(radarBase.l2 == null)
+            return "";
+        String lableText = "时间 " + RadarUtils.getFileTime(radarBase)
+//                + " - 文件 " + radarBase.l2.getSrcFileName()
+                + " - " + RadarUtils.getMomentLabel(radarBase);
+        return lableText;
     }
 
 }

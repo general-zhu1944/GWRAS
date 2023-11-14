@@ -40,8 +40,11 @@ import com.kitty.radar.RHI;
 import com.kitty.radar.Radar;
 import com.kitty.radar.RadarBase;
 import com.kitty.radar.RadarParams;
+import com.kitty.radar.RainOverlay;
 import com.kitty.radar.business.area.AreaDialog;
 import com.kitty.radar.business.cr.CR;
+import com.kitty.radar.business.surface.RadarDialog;
+import com.kitty.radar.business.surface.SurfaceDialog;
 import com.kitty.radar.business.vil.VIL;
 import com.kitty.radar.data.RadarData;
 import com.kitty.radar.domain.ListElement;
@@ -115,16 +118,22 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 			grid();
 		} else if (CommonProps.AC_MAP.equals(command)) {
 			map();
+		} else if (CommonProps.AC_TERRAIN.equals(command)) {
+//			terrain();			
 		} else if (CommonProps.AC_POINT.equals(command)) {
 			point();
 		} else if (CommonProps.AC_TRACK.equals(command)) {
 			track();
+		} else if (CommonProps.AC_DiscreteData.equals(command)) {
+			rain();
 		} else if (CommonProps.AC_AREA.equals(command)) {
 			circle();
 		} else if (CommonProps.AC_ABOUT.equals(command)) {
 			AboutDialog.createAboutDialog(Radar.radar);
 		} else if (CommonProps.AC_SITE_INFO.equals(command)) {
 			SiteInfoDialog.createSiteInfoDialog(Radar.radar);
+		} else if (CommonProps.AC_TQ_INFO.equals(command)) {
+			TianQingInfoDialog.createSiteInfoDialog(Radar.radar);
 		} else if (CommonProps.AC_MOMENT_RANGE.equals(command)) {
 		} else if (CommonProps.AC_BACKGROUND.equals(command)) {
 			BackgroundDialog.createBackgroundDialog(Radar.radar);
@@ -156,6 +165,20 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		//	t_wind(ae);
 		} else if (CommonProps.AC_T_GRID.equals(command)) {
 			grid();
+		} else if (CommonProps.AC_QUERY_RDAR.equals(command)) {
+			queryradar();
+		} else if (CommonProps.AC_QUERY_RAIN.equals(command)) {
+			queryrain();
+		} else if (CommonProps.AC_QUERY_TD.equals(command)) {
+			query("td");
+		} else if (CommonProps.AC_QUERY_TEMPER.equals(command)) {
+			query("temper");
+		} else if (CommonProps.AC_QUERY_WINDMAX.equals(command)) {
+			query("windmax");
+		} else if (CommonProps.AC_SURFACE.equals(command)) {
+			surface();
+		} else if (CommonProps.AC_DOWNLOAD_RADAR.equals(command)) {
+			downloadradar();
 		} else if (CommonProps.AC_T_MAP.equals(command)) {
 			map();
 		} else if (CommonProps.AC_T_CROSS.equals(command)) {
@@ -173,7 +196,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		} else if (CommonProps.AC_STOP_LOOP.equals(command)) {
 			stopLoop();
 		} else if (CommonProps.AC_CAPPI.equals(command)) {
-			cappi();
+			//cappi();
 		} else if (CommonProps.AC_SHOW_RIGHT_PANEL.equals(command)) {
 			Radar.showRightPanel = !Radar.showRightPanel;
 			GUIManager.rightPanel.setVisible(Radar.showRightPanel);
@@ -194,7 +217,82 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		}
 		Radar.radar.setCursor(oldCursor);
 	}
-
+// 	Cursor oldCursor1 = Radar.radar.getCursor();
+//	JOptionPane.showMessageDialog(null,oldCursor1.getName()); 
+	private void queryrain() {		
+		  Date str1= (Date)(SurfaceDialog.datePicker1.getValue());
+      	Date str2=(Date)(SurfaceDialog.datePicker2.getValue());
+      	if((str2.getTime()-str1.getTime())<60000)//毫秒
+      	{
+      		JOptionPane.showMessageDialog(null, "你选择时间段太短，请重新选择时间段 ！"); 
+      	}
+      	else
+      	{
+      		MainPanel mainPanel = GUIManager.activeMainPanel;
+      		RainOverlay rain = mainPanel.getRain();
+      		rain.CreateDiscreteData(str1, str2);		
+      		rain.element="rain";
+		
+			if(rain._discreteData!=null)
+			{
+				RainOverlay.rain_on = true;	
+				try {
+					GUIManager.setToolMapIcon();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				SurfaceDialog.jCheckBox_SurfaceData.setSelected(RainOverlay.rain_on);
+				rain.update = true;
+				mainPanel.repaint();
+	      	}
+      	}
+      	
+	}
+	private void queryradar() {		
+		  Date str1= (Date)(RadarDialog.datePicker1.getValue());
+    	 Date str2=(Date)(RadarDialog.datePicker2.getValue());
+    	 String datatype=RadarDialog.jcb.getSelectedItem().toString();
+    	 String radarid=RadarDialog.rada_id.getText().toString();
+    	if((str2.getTime()-str1.getTime())<60000)//毫秒
+    	{
+    		JOptionPane.showMessageDialog(null, "你选择时间段太短，请重新选择时间段 ！"); 
+    	}
+    	else
+    	{
+    		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm00");
+   	        try {
+            String date1 = sdf.format(str1);
+            String date2 = sdf.format(str2);
+    		RadarDialog.downradar(date1, date2, datatype, radarid, RadarParams.userId, RadarParams.pw, RadarParams.radarSavePath+"\\");
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+    	}
+    	
+	}
+	private void query(String element) {
+		Date str1 = (Date) (SurfaceDialog.datePicker1.getValue());
+		MainPanel mainPanel = GUIManager.activeMainPanel;
+		RainOverlay rain = mainPanel.getRain();
+		rain.CreateDiscreteData(str1, element);
+		rain.element = element;
+		if (rain._discreteData != null) {
+			RainOverlay.rain_on = true;
+			try {
+				GUIManager.setToolMapIcon();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			SurfaceDialog.jCheckBox_SurfaceData.setSelected(RainOverlay.rain_on);
+			rain.update = true;
+			mainPanel.repaint();
+		}
+	}
+	
+	
+	
+	
+	
 	private void exportCurrent() {
 		String fileName = "";
 		int type = 1;
@@ -258,6 +356,14 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 
 	private void circle() {
 		new AreaDialog();
+	}
+	
+	private void surface() {
+		new SurfaceDialog(this);
+	}
+	
+	private void downloadradar() {
+		new RadarDialog(this);
 	}
 
 	private void help() {
@@ -378,21 +484,21 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		}
 	}
 
-	private void cappi() {
-		try {
-			RadarBase.level = Float.parseFloat(GUIManager.cappiText.getText());
-			RadarBase.view = CommonProps.VIEW_CAPPI;
-			GUIManager.cappiButton.setSelected(true);
-			GUIManager.selectCutButton(null);
-			GUIManager.activeMainPanel.update = true;
-//			GUIManager.mainPanel.repaint();
-			GUIManager.repaintCurrent();
-		} catch (NumberFormatException e) {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	private void cappi() {
+//		try {
+//			RadarBase.level = Float.parseFloat(GUIManager.cappiText.getText());
+//			RadarBase.view = CommonProps.VIEW_CAPPI;
+//			GUIManager.cappiButton.setSelected(true);
+//			GUIManager.selectCutButton(null);
+//			GUIManager.activeMainPanel.update = true;
+////			GUIManager.mainPanel.repaint();
+//			GUIManager.repaintCurrent();
+//		} catch (NumberFormatException e) {
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	private void t_drawline(ActionEvent ae ) {
 			setActiveToolButton(ae);
 			GUIManager.currentToolCursor = CommonUtils.createCustomCursor(
@@ -516,6 +622,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 				panel.yoffset = 0;
 //				MapOverlay.update = true;
 				panel.getMap().update = true;
+				panel.getRain().update = true;
 				panel.update = true;
 				GUIManager.repaintAll();
 			});
@@ -528,6 +635,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 			GUIManager.activeMainPanel.yoffset = 0;
 //			MapOverlay.update = true;
 			GUIManager.activeMainPanel.getMap().update = true;
+			GUIManager.activeMainPanel.getRain().update = true;
 			GUIManager.activeMainPanel.update = true;
 			GUIManager.repaintCurrent();
 		}
@@ -639,6 +747,40 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 //		MapOverlay.update = true;
 		GUIManager.repaintAll();
 	}
+//	private void terrain() {
+//		MapOverlay.elevation_on = !MapOverlay.elevation_on;
+//		try {
+//			GUIManager.setToolMapIcon();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		GUIManager.menuTerrain.setSelected(MapOverlay.elevation_on);
+//		if(!MainPanel.update)
+//		{
+//			MainPanel.update=!MainPanel.update;
+//		}
+//		GUIManager.mainPanel.repaint();
+//	}
+	private void rain() {
+		RainOverlay.rain_on = !RainOverlay.rain_on;	
+		try {
+			GUIManager.setToolMapIcon();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		SurfaceDialog.jCheckBox_SurfaceData.setSelected(RainOverlay.rain_on);
+		
+		if(GUIManager.isSyncTool()) {
+			GUIManager.getJpanels().forEach(panel -> {
+				panel.getRain().update = true;
+				panel.repaint();
+			});
+		} else {
+			GUIManager.activeMainPanel.getRain().update = true;
+			GUIManager.activeMainPanel.repaint();
+		}
+		
+	}
 
 	private void point() {
 		MapOverlay.point_on = !MapOverlay.point_on;
@@ -722,7 +864,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 				radarBase.l2.setSrcFileName(elem.getLabel());
 				String oldSiteCode = RadarBase.siteCode;
 				if (radarBase.l2.open(file)) {
-					if (radarBase.l2.vcp != null && !radarBase.l2.vcp.equals(RadarBase.vcp)) {
+					if (radarBase.l2.vcp != null && !radarBase.l2.vcp.equals(radarBase.vcp)) {
 						radarBase.vcp = radarBase.l2.vcp;
 						GUIManager.vcpBorder.setTitle("VCP" + RadarBase.vcp);
 					}

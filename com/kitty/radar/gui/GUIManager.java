@@ -28,7 +28,7 @@ import com.kitty.radar.util.CommonUtils;
 import com.kitty.radar.util.RadarUtils;
 
 public class GUIManager {
-    public static JButton activeCutButton;
+    public static JRadioButton activeCutButton;
 
     public static JButton activeToolButton;
     public static Cursor currentToolCursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -39,7 +39,7 @@ public class GUIManager {
 
     public static JButton toolCross;
 
-    public static JRadioButton cappiButton = new JRadioButton("高度", RadarBase.view == CommonProps.VIEW_CAPPI);;
+    public static JRadioButton cappiButton = new JRadioButton("高度");;
 
     public static JTextField cappiText = new JTextField(CommonUtils.defaultFormat(RadarBase.level), 11);;
 
@@ -139,6 +139,7 @@ public class GUIManager {
     public static JCheckBoxMenuItem menuGrid;
 
     public static JCheckBoxMenuItem menuMap;
+    public static JCheckBoxMenuItem menuTerrain;
 
     private static Map compMap = new HashMap();
 
@@ -306,7 +307,6 @@ public class GUIManager {
                 }
                 if(setNum == curNum)
                     return;
-                // JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+ curNum +setNum);
                 curNum = setNum;
 
                 GUIManager.reCreateMainPanel(curNum);
@@ -355,6 +355,13 @@ public class GUIManager {
                 p.dispose();
         });
         }
+        if (VCS.vcsDialogs.size()>0)
+        {
+            VCS.vcsDialogs.forEach( p -> {
+                p.removeAll();
+                p.dispose();
+            });
+        }
         mainPanelContainer.removeAll();
         mainPanelContainer.setLayout(new GridLayout(rows,cols));
         int num = rows*cols;
@@ -401,6 +408,13 @@ public class GUIManager {
 
                 base2.vcp = base.l2.vcp;
                 base2.resolution = base.l2.resolution;
+               if( currentMoment[i]==CommonProps.MOMENT_VIL||currentMoment[i]==CommonProps.MOMENT_ET||currentMoment[i]==CommonProps.MOMENT_CAPPI)
+               {
+                   base2.view =CommonProps.VIEW_CAPPI;
+               }
+               else {
+                   base2.view = CommonProps.VIEW_PPI;
+               }
                 mainPanel.update = true;
                 mainPanel.repaint();
             }
@@ -449,20 +463,22 @@ public class GUIManager {
                 radarBase.active_moment = RadarData.SNRH;
                 basicMoment(CommonProps.MOMENT_SNRH);
             } else if (CommonProps.AC_LIQUID_WATER.equals(command)) {
-                radarBase.active_moment = RadarData.DBZ;
-                basicMoment(CommonProps.MOMENT_LW);
+                basicMoment2(CommonProps.MOMENT_LW);
             } else if (CommonProps.AC_VERTICAL_LIQUID_WATER.equals(command)) {
-                radarBase.active_moment = RadarData.DBZ;
                 basicMoment2(CommonProps.MOMENT_VIL);
             } else if (CommonProps.AC_ECHO_TOPS.equals(command)) {
-                radarBase.active_moment = RadarData.DBZ;
                 basicMoment2(CommonProps.MOMENT_ET);
+            } else if (CommonProps.AC_CAPPI_new.equals(command)) {
+                basicMoment2(CommonProps.MOMENT_CAPPI);
             } else {
 
             }
         }
         private void basicMoment2(byte moment) {
+            GUIManager.activeMainPanel.getRadarBase().active_moment = RadarData.DBZ;
+            GUIManager.activeMainPanel.getRadarBase().view = CommonProps.VIEW_CAPPI;
             GUIManager.activeMainPanel.getRadarBase().currentMoment = moment;
+            GUIManager.createCutButtons();
             GUIManager.updateComponents();
         }
         private void basicMoment(byte moment) {
@@ -488,13 +504,13 @@ public class GUIManager {
 
     private static JPanel createMomentPanel(GridBagLayout gbl) {
         JPanel momentPanel = new JPanel(gbl);
-        momentPanel.setLayout(new GridLayout(3, 4));
-        momentPanel.setBorder(BorderFactory.createTitledBorder("基本产品"));
+        momentPanel.setLayout(new GridLayout(4, 4));
+        momentPanel.setBorder(BorderFactory.createTitledBorder("产品"));
         ActionListener listener = new MomentActionListener();
 
         ButtonGroup moment = new ButtonGroup();
 //    	JRadioButton item = new JRadioButton("反射率(R)");
-        JRadioButton item = new JRadioButton("Ref");
+        JRadioButton item = new JRadioButton("REF");
         item.setActionCommand(CommonProps.AC_REFLECTIVITY);
         item.addActionListener(listener);
         moment.add(item);
@@ -503,7 +519,7 @@ public class GUIManager {
 
 
 //    	JRadioButton item2 = new JRadioButton("速度(V)");
-        JRadioButton item2 = new JRadioButton("Vel");
+        JRadioButton item2 = new JRadioButton("VEL");
         item2.setActionCommand(CommonProps.AC_VELOCITY);
         item2.addActionListener(listener);
         moment.add(item2);
@@ -511,18 +527,31 @@ public class GUIManager {
 
 
 //    	JRadioButton item3 = new JRadioButton("谱宽(W)");
-        JRadioButton item3 = new JRadioButton("Spec");
+        JRadioButton item3 = new JRadioButton("SW");
         item3.setActionCommand(CommonProps.AC_SPECTRUM_WIDTH);
         item3.addActionListener(listener);
         moment.add(item3);
         momentPanel.add(item3);
 
+
 //    	JRadioButton item4 = new JRadioButton("垂直累积液水含量(I)");
-//        JRadioButton item4 = new JRadioButton("VIL");
-//        item4.setActionCommand(CommonProps.AC_VERTICAL_LIQUID_WATER);
-//        item4.addActionListener(listener);
-//        moment.add(item4);
-//        momentPanel.add(item4);
+        JRadioButton item4 = new JRadioButton("VIL");
+        item4.setActionCommand(CommonProps.AC_VERTICAL_LIQUID_WATER);
+        item4.addActionListener(listener);
+        moment.add(item4);
+        momentPanel.add(item4);
+
+        JRadioButton item11 = new JRadioButton("TOP");
+        item11.setActionCommand(CommonProps.AC_ECHO_TOPS);
+        item11.addActionListener(listener);
+        moment.add(item11);
+        momentPanel.add(item11);
+
+        JRadioButton item12 = new JRadioButton("CAPPI");
+        item12.setActionCommand(CommonProps.AC_CAPPI_new);
+        item12.addActionListener(listener);
+        moment.add(item12);
+        momentPanel.add(item12);
 //
         JRadioButton item5 = new JRadioButton("DBT");
         item5.setActionCommand(CommonProps.AC_DBT);
@@ -592,17 +621,29 @@ public class GUIManager {
                     CommonUtils.alert("请选择要显示的数据文件", GUIManager.list);
                 } else {
                     GUIManager.cappiButton.setSelected(false);
-                    RadarBase.view = CommonProps.VIEW_PPI;
+                  //  RadarBase.view = CommonProps.VIEW_PPI;
                     if(syncCut) {
                         GUIManager.getJpanels().forEach(panel -> {
                             panel.getRadarBase().cutNum = value;
-                            panel.getRadarBase().view = CommonProps.VIEW_PPI;
+                            //  panel.getRadarBase().view = CommonProps.VIEW_PPI;
+
+                            if (panel.getRadarBase().currentMoment == CommonProps.MOMENT_VIL || panel.getRadarBase().currentMoment == CommonProps.MOMENT_ET || panel.getRadarBase().currentMoment == CommonProps.MOMENT_CAPPI) {
+                                panel.getRadarBase().view = CommonProps.VIEW_CAPPI;
+                            } else {
+                                panel.getRadarBase().view = CommonProps.VIEW_PPI;
+                            }
                             panel.update = true;
                             panel.repaint();
                         });
-                    } else {
+                    }else {
                         GUIManager.activeMainPanel.getRadarBase().cutNum = value;
                         GUIManager.activeMainPanel.getRadarBase().view = CommonProps.VIEW_PPI;
+                        if ( GUIManager.activeMainPanel.getRadarBase().currentMoment == CommonProps.MOMENT_VIL ||GUIManager.activeMainPanel.getRadarBase().currentMoment == CommonProps.MOMENT_ET ||
+                                GUIManager.activeMainPanel.getRadarBase().currentMoment == CommonProps.MOMENT_CAPPI) {
+                            GUIManager.activeMainPanel.getRadarBase().view= CommonProps.VIEW_CAPPI;
+                        } else {
+                            GUIManager.activeMainPanel.getRadarBase().view = CommonProps.VIEW_PPI;
+                        }
                         GUIManager.activeMainPanel.update = true;
                         GUIManager.activeMainPanel.repaint();
                     }
@@ -681,12 +722,12 @@ public class GUIManager {
             }
             if (!cappiButton.isSelected() && activeCutButton != null
                     && activeCutButton.getText().equals(cut.getText())) {
-//                selectCutButton(cut);
+               selectCutButton(cut);
                 btn1 = null;
             }
         }
         if (!cappiButton.isSelected() && btn1 != null) {
-//            selectCutButton(btn1);
+           selectCutButton(btn1);
         }
         for (; i < cutPanel.getComponentCount();) {
             cutPanel.remove(i);
@@ -695,7 +736,7 @@ public class GUIManager {
         cutPanel.updateUI();
     }
 
-    public static void selectCutButton(JButton cutButton) {
+    public static void selectCutButton(JRadioButton cutButton) {
         if (activeCutButton != null) {
             activeCutButton.setSelected(false);
         }
@@ -706,13 +747,32 @@ public class GUIManager {
                 for (MainPanel mainPanel : jpanels) {
                     RadarBase radarBase = mainPanel.getRadarBase();
                     radarBase.cutNum = Integer.parseInt(activeCutButton.getActionCommand());
-                    RadarBase.view = CommonProps.VIEW_PPI;
+                    if(radarBase.currentMoment==CommonProps.MOMENT_VIL||radarBase.currentMoment==CommonProps.MOMENT_ET|| radarBase.currentMoment==CommonProps.MOMENT_CAPPI)
+                    {
+                        radarBase.view =CommonProps.VIEW_CAPPI;
+                    }
+                    else {
+                        radarBase.view = CommonProps.VIEW_PPI;
+                    }
+
                 }
             } else {
                 RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
                 radarBase.cutNum = Integer.parseInt(activeCutButton.getActionCommand());
-                RadarBase.view = CommonProps.VIEW_PPI;
+                if(radarBase.currentMoment==CommonProps.MOMENT_VIL||radarBase.currentMoment==CommonProps.MOMENT_ET|| radarBase.currentMoment==CommonProps.MOMENT_CAPPI)
+                {
+                    radarBase.view =CommonProps.VIEW_CAPPI;
+                }
+                else {
+                    radarBase.view = CommonProps.VIEW_PPI;
+                }
+
             }
+        }
+        if((GUIManager.activeMainPanel.getRadarBase().currentMoment==CommonProps.MOMENT_ET)||(GUIManager.activeMainPanel.getRadarBase().currentMoment==CommonProps.MOMENT_VIL)
+                ||(GUIManager.activeMainPanel.getRadarBase().currentMoment==CommonProps.MOMENT_CAPPI))
+        {
+            GUIManager.activeMainPanel.getRadarBase().view = CommonProps.VIEW_CAPPI;
         }
     }
 
@@ -966,6 +1026,12 @@ public class GUIManager {
                 GUIManager.syncTime = ((JCheckBoxMenuItem)e.getSource()).getState();
                 if(GUIManager.isSyncTime()) {
                     GUIManager.syncAllMainPanel4Time();
+                    for (MainPanel mainPanel : jpanels) {
+                        if (mainPanel != activeMainPanel) {
+                            mainPanel.update = true;
+                            mainPanel.repaint();
+                        }
+                    }
                 }
             }
         });
@@ -985,99 +1051,99 @@ public class GUIManager {
         itemSyncCut.setActionCommand(CommonProps.AC_SYNC_CUT);
         rootMenu.add(itemSyncCut);
         ActionListener listener = new MomentActionListener();
-        ButtonGroup moment = new ButtonGroup();
-        rootMenu = new JMenu("变量(M)");
-        rootMenu.setMnemonic(KeyEvent.VK_M);
-        menuBar.add(rootMenu);
-        item = new JMenuItem("      基本产品");
-        rootMenu.add(item);
-        item = new JRadioButtonMenuItem("反射率(R)", true);
-        item.setMnemonic(KeyEvent.VK_R);
-        item.setActionCommand(CommonProps.AC_REFLECTIVITY);
-        item.addActionListener(processor);
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
-        putComponent("menu_moment" + RadarData.DBZ, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("速度(V)");
-        item.setActionCommand(CommonProps.AC_VELOCITY);
-        item.setMnemonic(KeyEvent.VK_V);
-        item.addActionListener(processor);
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
-        putComponent("menu_moment" + RadarData.V, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("谱宽(W)");
-        item.setActionCommand(CommonProps.AC_SPECTRUM_WIDTH);
-        item.setMnemonic(KeyEvent.VK_W);
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
-        item.addActionListener(processor);
-        putComponent("menu_moment" + RadarData.W, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("滤波前反射率(DBT)");
-        item.setActionCommand(CommonProps.AC_DBT);
-        item.addActionListener(processor);
-        item.setVisible(false);
-        putComponent("menu_moment" + RadarData.DBT, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("差分反射率(ZDR)");
-        item.setActionCommand(CommonProps.AC_ZDR);
-        item.addActionListener(processor);
-        item.setVisible(false);
-        putComponent("menu_moment" + RadarData.ZDR, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("差分相移率(KDP)");
-        item.setActionCommand(CommonProps.AC_KDP);
-        item.addActionListener(processor);
-        item.setVisible(false);
-        putComponent("menu_moment" + RadarData.KDP, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("差分相移(φDP)");
-        item.setActionCommand(CommonProps.AC_DP);
-        item.addActionListener(processor);
-        item.setVisible(false);
-        putComponent("menu_moment" + RadarData.DP, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("协相关系数(CC)");
-        item.setActionCommand(CommonProps.AC_CC);
-        item.addActionListener(processor);
-        item.setVisible(false);
-        putComponent("menu_moment" + RadarData.CC, item);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("水平通道信噪比(SNRH)");
-        item.setActionCommand(CommonProps.AC_SNRH);
-        item.addActionListener(processor);
-        item.setVisible(false);
-        putComponent("menu_moment" + RadarData.SNRH, item);
-        rootMenu.add(item);
-        moment.add(item);
-        rootMenu.addSeparator();
-        item = new JMenuItem("      计算产品");
-        rootMenu.add(item);
-        item = new JRadioButtonMenuItem("垂直累积液水含量(I)");
-        item.setMnemonic(KeyEvent.VK_I);
-        item.setActionCommand(CommonProps.AC_VERTICAL_LIQUID_WATER);
-        item.addActionListener(listener);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("cappi(I)");
-        item.setMnemonic(KeyEvent.VK_C);
-        item.setActionCommand(CommonProps.AC_CAPPI_new);
-        item.addActionListener(listener);
-        rootMenu.add(item);
-        moment.add(item);
-        item = new JRadioButtonMenuItem("etops(I)");
-        item.setMnemonic(KeyEvent.VK_E);
-        item.setActionCommand(CommonProps.AC_ECHO_TOPS);
-        item.addActionListener(listener);
-        rootMenu.add(item);
-        moment.add(item);
+//        ButtonGroup moment = new ButtonGroup();
+//        rootMenu = new JMenu("变量(M)");
+//        rootMenu.setMnemonic(KeyEvent.VK_M);
+//        menuBar.add(rootMenu);
+//        item = new JMenuItem("      基本产品");
+//        rootMenu.add(item);
+//        item = new JRadioButtonMenuItem("反射率(R)", true);
+//        item.setMnemonic(KeyEvent.VK_R);
+//        item.setActionCommand(CommonProps.AC_REFLECTIVITY);
+//        item.addActionListener(processor);
+//        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+//        putComponent("menu_moment" + RadarData.DBZ, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("速度(V)");
+//        item.setActionCommand(CommonProps.AC_VELOCITY);
+//        item.setMnemonic(KeyEvent.VK_V);
+//        item.addActionListener(processor);
+//        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
+//        putComponent("menu_moment" + RadarData.V, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("谱宽(W)");
+//        item.setActionCommand(CommonProps.AC_SPECTRUM_WIDTH);
+//        item.setMnemonic(KeyEvent.VK_W);
+//        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+//        item.addActionListener(processor);
+//        putComponent("menu_moment" + RadarData.W, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("滤波前反射率(DBT)");
+//        item.setActionCommand(CommonProps.AC_DBT);
+//        item.addActionListener(processor);
+//        item.setVisible(false);
+//        putComponent("menu_moment" + RadarData.DBT, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("差分反射率(ZDR)");
+//        item.setActionCommand(CommonProps.AC_ZDR);
+//        item.addActionListener(processor);
+//        item.setVisible(false);
+//        putComponent("menu_moment" + RadarData.ZDR, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("差分相移率(KDP)");
+//        item.setActionCommand(CommonProps.AC_KDP);
+//        item.addActionListener(processor);
+//        item.setVisible(false);
+//        putComponent("menu_moment" + RadarData.KDP, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("差分相移(φDP)");
+//        item.setActionCommand(CommonProps.AC_DP);
+//        item.addActionListener(processor);
+//        item.setVisible(false);
+//        putComponent("menu_moment" + RadarData.DP, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("协相关系数(CC)");
+//        item.setActionCommand(CommonProps.AC_CC);
+//        item.addActionListener(processor);
+//        item.setVisible(false);
+//        putComponent("menu_moment" + RadarData.CC, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("水平通道信噪比(SNRH)");
+//        item.setActionCommand(CommonProps.AC_SNRH);
+//        item.addActionListener(processor);
+//        item.setVisible(false);
+//        putComponent("menu_moment" + RadarData.SNRH, item);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        rootMenu.addSeparator();
+//        item = new JMenuItem("      计算产品");
+//        rootMenu.add(item);
+//        item = new JRadioButtonMenuItem("垂直累积液水含量(I)");
+//        item.setMnemonic(KeyEvent.VK_I);
+//        item.setActionCommand(CommonProps.AC_VERTICAL_LIQUID_WATER);
+//        item.addActionListener(listener);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("cappi(I)");
+//        item.setMnemonic(KeyEvent.VK_C);
+//        item.setActionCommand(CommonProps.AC_CAPPI_new);
+//        item.addActionListener(listener);
+//        rootMenu.add(item);
+//        moment.add(item);
+//        item = new JRadioButtonMenuItem("etops(I)");
+//        item.setMnemonic(KeyEvent.VK_E);
+//        item.setActionCommand(CommonProps.AC_ECHO_TOPS);
+//        item.addActionListener(listener);
+//        rootMenu.add(item);
+//        moment.add(item);
         //分析
         rootMenu = new JMenu("分析(A)");
         rootMenu.setMnemonic(KeyEvent.VK_A);
@@ -1100,6 +1166,11 @@ public class GUIManager {
         rootMenu = new JMenu("设置(P)");
         rootMenu.setMnemonic(KeyEvent.VK_P);
         menuBar.add(rootMenu);
+        item = new JMenuItem("天擎配置(C)...");
+        item.addActionListener(processor);
+        item.setActionCommand(CommonProps.AC_TQ_INFO);
+        item.setMnemonic(KeyEvent.VK_C);
+        rootMenu.add(item);
         item = new JMenuItem("站点信息(I)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_SITE_INFO);
@@ -1113,6 +1184,20 @@ public class GUIManager {
         item = new JMenuItem("分辨率(R)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_RESOLUTION);
+        item.setMnemonic(KeyEvent.VK_R);
+        rootMenu.add(item);
+
+        rootMenu = new JMenu("数据(D)");
+        rootMenu.setMnemonic(KeyEvent.VK_D);
+        menuBar.add(rootMenu);
+        item = new JMenuItem("地面实况数据(S)");
+        item.addActionListener(processor);
+        item.setActionCommand(CommonProps.AC_SURFACE);
+        item.setMnemonic(KeyEvent.VK_S);
+        rootMenu.add(item);
+        item = new JMenuItem("雷达基数据(R)");
+        item.addActionListener(processor);
+        item.setActionCommand(CommonProps.AC_DOWNLOAD_RADAR);
         item.setMnemonic(KeyEvent.VK_R);
         rootMenu.add(item);
 
@@ -1131,6 +1216,14 @@ public class GUIManager {
         menuMap.addActionListener(processor);
         menuMap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
         rootMenu.add(menuMap);
+
+        menuTerrain = new JCheckBoxMenuItem("地形(T)", MapOverlay.elevation_on);
+        menuTerrain.setMnemonic(KeyEvent.VK_T);
+        menuTerrain.setActionCommand(CommonProps.AC_TERRAIN);
+        menuTerrain.addActionListener(processor);
+        menuTerrain.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
+        rootMenu.add(menuTerrain);
+
         item = new JMenuItem("区域(C)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_AREA);
@@ -1241,7 +1334,15 @@ public class GUIManager {
     public static void updateComponentsAll() {
         if(GUIManager.isSyncTime()) {
             for (MainPanel jPanel : jpanels) {
+                if(jPanel.getRadarBase().currentMoment==CommonProps.MOMENT_VIL|| jPanel.getRadarBase().currentMoment==CommonProps.MOMENT_ET|| jPanel.getRadarBase().currentMoment==CommonProps.MOMENT_CAPPI)
+                {
+                    jPanel.getRadarBase().view =CommonProps.VIEW_CAPPI;
+                }
+                else {
+                    jPanel.getRadarBase().view = CommonProps.VIEW_PPI;
+                }
                 jPanel.update = true;
+                //jPanel.repaint();
             }
             GUIManager.repaintAll();
             RHI.update();
@@ -1302,7 +1403,7 @@ public class GUIManager {
                 radarBase.scale_Y = base.scale_Y;
                 mainPanel.xoffset = activeMainPanel.xoffset;
                 mainPanel.yoffset = activeMainPanel.yoffset;
-
+                mainPanel.getRain().update = true;
                 mainPanel.getMap().update = true;
                 mainPanel.update = update;
                 mainPanel.repaint();
@@ -1346,8 +1447,6 @@ public class GUIManager {
                     continue;
                 }
                 base2.l2= base.l2;
-                mainPanel.update = true;
-                mainPanel.repaint();
             }
         }
     }

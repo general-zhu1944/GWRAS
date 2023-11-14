@@ -178,6 +178,8 @@ public class RadarUtils {
 			label = "dBT";
 		} else if (moment == CommonProps.MOMENT_SNRH) {
 			label = "dBT";
+		} else if (moment == CommonProps.MOMENT_CAPPI) {
+			label = "dBZ";
 		}
 		return label;
 	}

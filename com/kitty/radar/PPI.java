@@ -227,5 +227,14 @@ public class PPI extends RadarBase {
 			}
 		}
 	}
+	public static String evaLabelText(RadarBase radarBase) {
+		if(radarBase.l2 == null)
+			return "";
+		String label = RadarUtils.getFileTime(radarBase) +
+				" - " + CommonUtils.format(radarBase.l2.getElevation(radarBase.cutNum), 1)+"бу"+
+				//				"- " + radarBase.l2.getSrcFileName() +
+				" - " + RadarUtils.getMomentLabel(radarBase);
+		return label;
+	}
 
 }

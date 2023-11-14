@@ -17,7 +17,7 @@ public class RadarBase {
 
     public static short resolution = RadarData.DOPPLER_RESOLUTION_HIGH; // 速度分辨率
 
-    public static byte view = CommonProps.VIEW_PPI;
+    public byte view = CommonProps.VIEW_PPI;
 
     public int cutNum = 0; // 选中的仰角
 

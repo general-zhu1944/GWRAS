@@ -58,7 +58,7 @@ public class VIL extends RadarBase {
 			for (int j = 0; j < grids[i].length; j++) {
 				if (grids[i][j] != null) {
 					ARCoord c = PositionUtils.toARCoord(grids[i][j].x,
-							grids[i][j].y);
+							grids[i][j].y,radarBase);
 					double v = 0;
 					double value1 = 0;
 					double h1 = 0;
@@ -171,6 +171,14 @@ public class VIL extends RadarBase {
 
 	public static byte getResolution() {
 		return resolution;
+	}
+	public static String evaLabelText(RadarBase radarBase) {
+		if(radarBase.l2 == null)
+			return "";
+		String label = "时间 " + RadarUtils.getFileTime(radarBase)
+//				+ " - 文件 " + radarBase.l2.getSrcFileName()
+				+ " - " + RadarUtils.getMomentLabel(radarBase);
+		return label;
 	}
 
 }

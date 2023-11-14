@@ -40,7 +40,7 @@ public class CR extends RadarBase {
         int moment = radarBase.active_moment;
         double binInterval = rd.getBinInterval(moment);
         double rangeToFirst = rd.getRangeToFirstBin(moment);
-        JOptionPane.showMessageDialog(null, "消息提示tjjjjt：");
+      //  JOptionPane.showMessageDialog(null, "消息提示tjjjjt：");
         Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();
         NavigableMap map = rd.readFile(moment);
 //        GUIManager.toolBarLabel.setText( " 站名 " +RadarBase.radarName + " - 时间 " + RadarUtils.getFileTime() + " - 文件 "
@@ -50,7 +50,7 @@ public class CR extends RadarBase {
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 if (grids[i][j] != null) {
-                    ARCoord c = PositionUtils.toARCoord(grids[i][j].x, grids[i][j].y);
+                    ARCoord c = PositionUtils.toARCoord(grids[i][j].x, grids[i][j].y,radarBase);
                     Iterator keys = map.keySet().iterator();                    
                     while (keys.hasNext()) {
                         Double e = (Double) keys.next();
@@ -127,5 +127,14 @@ public class CR extends RadarBase {
     public static byte getResolution() {
         return resolution;
     }
+    public static String evaLabelText(RadarBase radarBase) {
+        if(radarBase.l2 == null)
+            return "";
+        String label = "时间 " + RadarUtils.getFileTime(radarBase)
+//                + " - 文件 " + radarBase.l2.getSrcFileName()
+                + " - " + RadarUtils.getMomentLabel(radarBase);
+        return label;
+    }
+
 
 }

@@ -21,6 +21,7 @@ public interface CommonProps {
     public static final byte MOMENT_HP = 5;
     
     public static final byte MOMENT_VIL = 6;
+    public static final byte MOMENT_CAPPI = -4;
     
     public static final byte MOMENT_CR = -2;
 
@@ -84,8 +85,22 @@ public interface CommonProps {
     public static final String AC_RHI = "RHI";
 
     public static final String AC_GRID = "Grid";
+    public static final String AC_SURFACE="Surface";
+
+    public static final String AC_DOWNLOAD_RADAR="Download Radar";//弹出下载对话框
+
+    public static final String AC_QUERY_RDAR="QUERY Radar";//执行下载
+
+    public static final String AC_QUERY_RAIN = "Query Rain";
+
+    public static final String AC_QUERY_TEMPER = "Query Temper";
+
+    public static final String AC_QUERY_TD = "Query Td";
+
+    public static final String AC_QUERY_WINDMAX = "Query Windmax";
 
     public static final String AC_MAP = "Map";
+    public static final String AC_TERRAIN="terrain";
 
     public static final String AC_POINT = "Point";
 
@@ -120,6 +135,7 @@ public interface CommonProps {
     public static final String AC_HELP = "Help";
 
     public static final String AC_SITE_INFO = "Site Info";
+    public static final String AC_TQ_INFO = "TianQing Info";
 
     public static final String AC_MOMENT_RANGE = "Moment Range";
 
@@ -174,5 +190,6 @@ public interface CommonProps {
 	public static final String AC_EXPORT_SET = "Export Set";
 
 	public static final String AC_EXPORT_CURRENT = "Export Current";
+    public static final String AC_DiscreteData="discreteData";
 
 }

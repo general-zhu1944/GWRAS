@@ -10,7 +10,9 @@ import java.awt.event.MouseWheelListener;
 import com.kitty.radar.MapOverlay;
 import com.kitty.radar.RHI;
 import com.kitty.radar.RadarBase;
+import com.kitty.radar.business.cappi.CAPPI;
 import com.kitty.radar.business.cr.CR;
+import com.kitty.radar.business.tops.TOPS;
 import com.kitty.radar.business.vil.VIL;
 import com.kitty.radar.data.RadarData;
 import com.kitty.radar.domain.ARCoord;
@@ -87,6 +89,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				* radarBase.zoom / (double) zoom1)
 				+ radarBase.center_Y - y;
 		mainPanel.getMap().update = true;
+		mainPanel.getRain().update = true;
 		mainPanel.update = true;
 		mainPanel.repaint();
 		GUIManager.syncAllMainPanel(true);
@@ -147,6 +150,60 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				}
 			}
 		}
+		
+		//设置选中变量
+		int curMoment = activeMainPanel.getRadarBase().currentMoment;
+		Component[] varComps = GUIManager.getVarPanel().getComponents();
+		for (int j = 0; j < varComps.length; j++) {
+			Component varComp = varComps[j];
+			if(varComp instanceof JRadioButton) {
+				String command = ((JRadioButton) varComp).getActionCommand();
+
+				String curActionCommond  = "";
+				if(curMoment == CommonProps.MOMENT_R) {
+					curActionCommond = CommonProps.AC_REFLECTIVITY;
+				}
+				if(curMoment == CommonProps.MOMENT_V) {
+					curActionCommond = CommonProps.AC_VELOCITY;
+				}
+				if(curMoment == CommonProps.MOMENT_W) {
+					curActionCommond = CommonProps.AC_SPECTRUM_WIDTH;
+				}
+				if(curMoment == CommonProps.MOMENT_DBT) {
+					curActionCommond = CommonProps.AC_DBT;
+				}
+				if(curMoment == CommonProps.MOMENT_ZDR) {
+					curActionCommond = CommonProps.AC_ZDR;
+				}
+				if(curMoment == CommonProps.MOMENT_KDP) {
+					curActionCommond = CommonProps.AC_KDP;
+				}
+				if(curMoment == CommonProps.MOMENT_DP) {
+					curActionCommond = CommonProps.AC_DP;
+				}
+				if(curMoment == CommonProps.MOMENT_CC) {
+					curActionCommond = CommonProps.AC_CC;
+				}
+				if(curMoment == CommonProps.MOMENT_SNRH) {
+					curActionCommond = CommonProps.AC_SNRH;
+				}
+				if(curMoment == CommonProps.MOMENT_LW) {
+					curActionCommond = CommonProps.AC_LIQUID_WATER;
+				}
+				if(curMoment == CommonProps.MOMENT_VIL) {
+					curActionCommond = CommonProps.AC_VERTICAL_LIQUID_WATER;
+				}
+				if(curMoment == CommonProps.MOMENT_ET) {
+					curActionCommond = CommonProps.AC_ECHO_TOPS;
+				}
+				if(curMoment == CommonProps.MOMENT_HP) {
+					curActionCommond = CommonProps.AC_HAIL_PROBABILITY;
+				}
+				if(command.equals(curActionCommond)) {
+					((JRadioButton) varComp).setSelected(true);
+				}
+			}
+		}
 
 		//1. 设置cut选中
 		GUIManager.createCutButtons();
@@ -161,6 +218,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				}
 			}
 		}
+		GUIManager.setPPIEnabled();
 
 		//2. 设置文件同步
 		String srcFileName = "";
@@ -187,10 +245,11 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		LLCoord llc = null;
 		if (radarBase.l2 != null) {
 			int currentMoment = radarBase.currentMoment;
-			if (currentMoment == CommonProps.MOMENT_ET) {
-			} else if (currentMoment == CommonProps.MOMENT_HP) {
+			if (currentMoment == CommonProps.MOMENT_HP) {
+			} else if (currentMoment == CommonProps.MOMENT_ET) {
+				value = TOPS.getPointValue(x, y,radarBase);
 			} else if (currentMoment == CommonProps.MOMENT_VIL) {
-//				value = VIL.getPointValue(x, y);
+				value = VIL.getPointValue(x, y,radarBase);
 			} else {
 				if (radarBase.view == CommonProps.VIEW_PPI) {
 					if (radarBase.cutNum == CommonProps.MOMENT_CR) {
@@ -205,6 +264,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 						XYCoord s = PositionUtils.toXYCoord2(llc.longitude, llc.latitude, radarBase);
 					}
 				} else if (radarBase.view == CommonProps.VIEW_CAPPI) {
+					value = CAPPI.getPointValue(x, y,radarBase);
 				}
 				value = RadarUtils.getMomentValue((float) value, radarBase.currentMoment);
 			}
@@ -376,6 +436,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				mainPanel.xoffset = 0;
 				mainPanel.yoffset = 0;
 				mainPanel.getMap().update = true;
+				mainPanel.getRain().update = true;
 				mainPanel.update = true;
 				mainPanel.repaint();
 				GUIManager.syncAllMainPanel(true);
@@ -388,6 +449,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				radarBase.yoffset += e.getY() - radarBase.center_Y;
 				radarBase.setZoom(zoom);
 				mainPanel.getMap().update = true;
+				mainPanel.getRain().update = true;
 				mainPanel.update = true;
 				mainPanel.repaint();
 				GUIManager.syncAllMainPanel(true);
@@ -401,6 +463,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				radarBase.yoffset += e.getY() - radarBase.center_Y;
 				radarBase.setZoom(zoom);
 				mainPanel.getMap().update = true;
+				mainPanel.getRain().update = true;
 				mainPanel.update = true;
 				mainPanel.repaint();
 				GUIManager.syncAllMainPanel(true);

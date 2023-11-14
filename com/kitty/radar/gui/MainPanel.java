@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import com.kitty.radar.MapOverlay;
 import com.kitty.radar.PPI;
 import com.kitty.radar.RadarBase;
+import com.kitty.radar.RainOverlay;
+import com.kitty.radar.business.cappi.CAPPI;
 import com.kitty.radar.business.cr.CR;
 import com.kitty.radar.business.tops.TOPS;
 import com.kitty.radar.business.vil.VIL;
@@ -23,8 +25,18 @@ import com.kitty.radar.util.RadarUtils;
 
 public class MainPanel extends JPanel implements Printable {
     private  MapOverlay map;
+	
+	private RainOverlay rain;
 
-    //面板基本参数
+    public RainOverlay getRain() {
+		return rain;
+	}
+
+	public void setRain(RainOverlay rain) {
+		this.rain = rain;
+	}
+
+	//面板基本参数
     private RadarBase radarBase;
 
     public int xoffset = 0;
@@ -99,6 +111,7 @@ public class MainPanel extends JPanel implements Printable {
         radarBase.active_moment = activeMoment;
         radarBase.currentMoment = currentMoment;
         map = new MapOverlay(radarBase);
+        rain = new RainOverlay(radarBase);
     }
 
 
@@ -116,7 +129,7 @@ public class MainPanel extends JPanel implements Printable {
         drawImage(g, xoffset, yoffset);
         {
             //绘制标题
-            evaLabelText();
+     //       evaLabelText();
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(Color.white);
             g2.setFont(new Font("微软雅黑", Font.BOLD, 16));//微软雅黑
@@ -205,21 +218,42 @@ public class MainPanel extends JPanel implements Printable {
 //            GUIManager.toolBarLabel.setText(" ");
 //            GUIManager.statusCenter.setText(" ");
             Graphics2D g2 = (Graphics2D) image.createGraphics();
-            g2.setPaint(Color.BLACK);
-            g2.fillRect(0, 0, RadarBase.width, RadarBase.height);
+            if(MapOverlay.elevation_on)
+            {
+                //JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+MapOverlay.elevation_on);
+                image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                image=map.drawTerrain(image);
+                g2= (Graphics2D) image.createGraphics();
+            }
+            if(!MapOverlay.elevation_on){
+                image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                g2= (Graphics2D) image.createGraphics();
+                g2.setPaint(Color.BLACK);
+                g2.fillRect(0, 0, RadarBase.width, RadarBase.height);
+            }
+          //  g2.setPaint(Color.BLACK);
+          //  g2.fillRect(0, 0, RadarBase.width, RadarBase.height);
             try {
                 int moment = RadarBase.currentMoment;
-                if (moment == CommonProps.MOMENT_ET) {
-                    TOPS.display(g2,this.radarBase);
+                if ((moment == CommonProps.MOMENT_CAPPI)&&(radarBase.view == CommonProps.VIEW_CAPPI)) {
+                    CAPPI.display(g2, this.radarBase);
+                    this.labelText = CAPPI.evaLabelText(this.radarBase);
                 }
-				if (moment == CommonProps.MOMENT_VIL) {
-					VIL.display(g2,this.radarBase);
+                if ((moment == CommonProps.MOMENT_ET)&&(radarBase.view == CommonProps.VIEW_CAPPI)) {
+                    TOPS.display(g2, this.radarBase);
+                    this.labelText = TOPS.evaLabelText(this.radarBase);
+                }
+                if ((moment == CommonProps.MOMENT_VIL)&&(radarBase.view == CommonProps.VIEW_CAPPI)) {
+                    VIL.display(g2, this.radarBase);
+                    this.labelText = VIL.evaLabelText(this.radarBase);
 				} else {
                     if (RadarBase.view == CommonProps.VIEW_PPI) {
                         if (RadarBase.cutNum == CommonProps.MOMENT_CR) {
                             CR.display(g2,this.radarBase);
+                            this.labelText = CR.evaLabelText(this.radarBase);
                         } else {
                             PPI.displayPPI(g2, this.radarBase);
+                            this.labelText = PPI.evaLabelText(this.radarBase);
                         }
 					}
                 }
@@ -233,7 +267,10 @@ public class MainPanel extends JPanel implements Printable {
         }
         int w = width - CommonProps.COLOR_WIDTH;
         g.drawImage(image, xoffset, yoffset, xoffset + w, yoffset + height, 0, 0, w, height, null);
-		//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+image.getWidth()+"ll"+image.getHeight());
+        if(rain._discreteData!=null)
+        {    		 
+        g.drawImage(rain.drawRain(), xoffset, yoffset, width, height,null);
+        }
         g.drawImage(map.drawMap(), xoffset, yoffset, width, height, null);
         g.drawImage(image, w, 0, width, height, w, 0, width, height, null);
 

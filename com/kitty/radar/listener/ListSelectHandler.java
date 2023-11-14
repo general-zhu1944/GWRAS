@@ -13,7 +13,7 @@ public class ListSelectHandler implements ListSelectionListener {
         if (e.getValueIsAdjusting() == false) {
             RadarProcessor.displayFile(null);
 
-            GUIManager.createCutButtons();
+           // GUIManager.createCutButtons();
             Component[] comps = GUIManager.cutPanel.getComponents();
             int cut = GUIManager.activeMainPanel.getRadarBase().cutNum;
             for (int i = 0; i < comps.length; i++) {

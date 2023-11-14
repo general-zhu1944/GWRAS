@@ -4,6 +4,7 @@ import java.awt.print.PageFormat;
 import java.io.File;
 import java.util.Timer;
 
+import com.kitty.radar.business.surface.RadarDialog;
 import com.kitty.radar.gui.PrintPreviewDialog;
 import com.kitty.radar.util.CommonUtils;
 
@@ -27,6 +28,14 @@ public class RadarParams {
 
     protected PrintPreviewDialog previewDialog;
 
-    protected Timer deleteTimer;
+    protected Timer deleteTimer;    
+    public static String downloadradarstationid="";
+    
+    public static String userId ="";
+    
+    public static String pw ="";
+    
+    public static String radarSavePath = CommonUtils.appPath; // 最后的保存目录路径
+    
 
 }
