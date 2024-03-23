@@ -18,6 +18,7 @@ import com.kitty.radar.business.cr.CR;
 import com.kitty.radar.business.tops.TOPS;
 import com.kitty.radar.business.vil.VIL;
 import com.kitty.radar.color.RadarColor;
+import com.kitty.radar.data.RadarData;
 import com.kitty.radar.util.CommonProps;
 import com.kitty.radar.util.CommonUtils;
 import com.kitty.radar.util.PositionUtils;
@@ -139,7 +140,7 @@ public class MainPanel extends JPanel implements Printable {
         if (mActive) {
             if (GUIManager.activeToolButton != null) {
                 String command = GUIManager.activeToolButton.getActionCommand();
-                if (CommonProps.AC_T_CURSOR.equals(command)
+                if (CommonProps.AC_T_CURSOR.equals(command)||CommonProps.AC_T_MEASURE.equals(command)
                 ) {
             //绘制十字光标
             Graphics2D g2 = (Graphics2D) g.create();
@@ -248,7 +249,7 @@ public class MainPanel extends JPanel implements Printable {
                     this.labelText = VIL.evaLabelText(this.radarBase);
 				} else {
                     if (RadarBase.view == CommonProps.VIEW_PPI) {
-                        if (RadarBase.cutNum == CommonProps.MOMENT_CR) {
+                        if ((RadarBase.cutNum == CommonProps.MOMENT_CR )&&(RadarBase.active_moment== RadarData.DBZ) ) {
                             CR.display(g2,this.radarBase);
                             this.labelText = CR.evaLabelText(this.radarBase);
                         } else {

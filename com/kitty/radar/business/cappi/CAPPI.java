@@ -36,6 +36,9 @@ public class CAPPI extends RadarBase {
     private static double R = 6371.0 * 1000.0 * 4.0 / 3.0;     // effective radius of earth in meters.
     private static float h= antennaHeight*1000;
     private static float z=3*1000;
+    private static NavigableMap map_old;
+    private static NavigableMap map;
+    private static String filetime;//用于判断当前雷达文件是否一致，一致就不用重新读取数据计算
     
     public static List<Double> fixedElevation = new ArrayList<>();
     
@@ -52,7 +55,18 @@ public class CAPPI extends RadarBase {
         double binInterval = rd.getBinInterval(moment);
         double rangeToFirst = rd.getRangeToFirstBin(moment);
         Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();
-        NavigableMap map = rd.readFile(moment);      
+        if(!radarBase.l2.getFileTime().toString().equals(filetime))//避免同一文件多次读取数据
+        {
+            map = rd.readFile(moment);
+            map_old=map;
+            filetime=radarBase.l2.getFileTime().toString();
+            //   JOptionPane.showMessageDialog(null, "消息提示tjjjjt：");
+        }
+        else
+        {
+            map=map_old;
+        }
+    //    NavigableMap map = rd.readFile(moment);
         Iterator it =map.keySet().iterator();
         while(it.hasNext()) {
         	 Object e =it.next(); //取出元素

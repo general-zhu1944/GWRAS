@@ -12,6 +12,8 @@ import java.util.Map;
 import com.kitty.component.third.RandomAccessFile;
 import com.kitty.radar.RadarBase;
 
+import javax.swing.*;
+
 public class FMT extends RadarData {
 
 	public static final byte[] MOMENT_INDEX = new byte[36];
@@ -65,6 +67,12 @@ public class FMT extends RadarData {
 		super.readHeader(recordNum);
 		this.recordNum = recordNum;
 		this.readParams(this.getCutNum(recordNum));
+		return true;
+	}
+	@Override
+	public boolean readRcecordnum(int recordNum) {
+		super. readRcecordnum(recordNum);
+		this.recordNum = recordNum;
 		return true;
 	}
 

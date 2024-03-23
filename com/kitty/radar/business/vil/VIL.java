@@ -23,6 +23,9 @@ public class VIL extends RadarBase {
 	public static float gridWidth = 4f; // 单元格宽度，单位：km
 
 	public static float range = 230;
+	private static NavigableMap map_old;
+	private static NavigableMap map;
+	private static String filetime;//用于判断当前雷达文件是否一致，一致就不用重新读取数据计算
 
 	public static void display(Graphics2D g,RadarBase radarBase) {
 		RadarData l2 = radarBase.l2;
@@ -37,7 +40,18 @@ public class VIL extends RadarBase {
 		int moment = radarBase.active_moment;
 		double binInterval = rd.getBinInterval(moment);
 		double rangeToFirst = rd.getRangeToFirstBin(moment);
-		NavigableMap map = rd.readFile(moment);
+		if(!radarBase.l2.getFileTime().toString().equals(filetime))//避免同一文件多次读取数据
+		{
+			map = rd.readFile(moment);
+			map_old=map;
+			filetime=radarBase.l2.getFileTime().toString();
+			//   JOptionPane.showMessageDialog(null, "消息提示tjjjjt：");
+		}
+		else
+		{
+			map=map_old;
+		}
+//		NavigableMap map = rd.readFile(moment);
 //		GUIManager.toolBarLabel.setText(RadarBase.radarName + " 时间 " + RadarUtils.getFileTime()
 //				+ " - 文件 " + l2.getSrcFileName() + " - "
 //				+ RadarUtils.getMomentLabel());

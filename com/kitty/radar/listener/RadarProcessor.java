@@ -501,8 +501,9 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 //	}
 	private void t_drawline(ActionEvent ae ) {
 			setActiveToolButton(ae);
-			GUIManager.currentToolCursor = CommonUtils.createCustomCursor(
-					"resource/measure_32.gif", new Point(3, 3), "measure");
+	    	GUIManager.currentToolCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+//			GUIManager.currentToolCursor = CommonUtils.createCustomCursor(
+//					"resource/d3.png", new Point(3, 3), "measure");
 			GUIManager.getJpanels().forEach(panel -> {
 				panel.setCursor(GUIManager.currentToolCursor);
 			});

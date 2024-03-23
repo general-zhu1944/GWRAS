@@ -173,8 +173,8 @@ public class SC extends RadarData {
 				this.close();
 				return false;
 			}
-			RadarBase.latitude = (float)header.radarSiteInfo.LatitudeValue;
-			RadarBase.longitude = (float)header.radarSiteInfo.LongitudeValue;
+			RadarBase.latitude = (float)header.radarSiteInfo.LatitudeValue/100;
+			RadarBase.longitude = (float)header.radarSiteInfo.LongitudeValue/100;
 			RadarBase.radarName = (String)header.radarSiteInfo.Station;
 			RadarBase.siteCode = (String)header.radarSiteInfo.StationNumber;
 			initParams();

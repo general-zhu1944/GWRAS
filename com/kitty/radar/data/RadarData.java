@@ -16,6 +16,7 @@ import com.kitty.component.third.TreeMapExt;
 public abstract class RadarData {
 
 	// ============================ 支持的雷达格式 ============================
+	public static final Option RADAR_FORMAT_CA_CB = new Option("CA/CB", 3);
 
 	public static final Option RADAR_FORMAT_SA_SB = new Option("SA/SB", 2);
 
@@ -447,6 +448,12 @@ public abstract class RadarData {
 		}
 		return 0;
 	}
+	public boolean readRcecordnum(int recordNum)
+	{
+		this.cutRecordNum = -1;
+		return true;
+	}
+
 
 	public static boolean isValid(double value) {
 		return value > -3270;

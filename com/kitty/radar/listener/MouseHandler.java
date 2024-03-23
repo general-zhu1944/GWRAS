@@ -110,95 +110,55 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			}
 		}
 
-		//更新选中的toolbar
-		JPanel varPanel = GUIManager.getVarPanel();
-		Component[] components = varPanel.getComponents();
-		for (int i = 0; i < components.length; i++) {
-			Component comp = components[i];
-			if(comp instanceof JRadioButton) {
-				int moment = activeMainPanel.getRadarBase().currentMoment;
-				String command = ((JRadioButton) comp).getActionCommand();
-				if (CommonProps.AC_REFLECTIVITY.equals(command)
-						&& moment == CommonProps.MOMENT_R) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_VELOCITY.equals(command)
-						&& moment == CommonProps.MOMENT_V) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_SPECTRUM_WIDTH.equals(command)
-						&& moment == CommonProps.MOMENT_W) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_DBT.equals(command)
-						&& moment == CommonProps.MOMENT_DBT) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_ZDR.equals(command)
-						&& moment == CommonProps.MOMENT_ZDR) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_KDP.equals(command)
-						&& moment == CommonProps.MOMENT_KDP) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_DP.equals(command)
-						&& moment == CommonProps.MOMENT_DP) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_CC.equals(command)
-						&& moment == CommonProps.MOMENT_CC) {
-					((JRadioButton) comp).setSelected(true);
-				} else if (CommonProps.AC_SNRH.equals(command)
-						&& moment == CommonProps.MOMENT_SNRH) {
-					((JRadioButton) comp).setSelected(true);
-				} else {
-
-				}
-			}
-		}
-		
 		//设置选中变量
 		int curMoment = activeMainPanel.getRadarBase().currentMoment;
+		String curActionCommond  = "";
+		if(curMoment == CommonProps.MOMENT_R) {
+			curActionCommond = CommonProps.AC_REFLECTIVITY;
+		}
+		if(curMoment == CommonProps.MOMENT_V) {
+			curActionCommond = CommonProps.AC_VELOCITY;
+		}
+		if(curMoment == CommonProps.MOMENT_W) {
+			curActionCommond = CommonProps.AC_SPECTRUM_WIDTH;
+		}
+		if(curMoment == CommonProps.MOMENT_DBT) {
+			curActionCommond = CommonProps.AC_DBT;
+		}
+		if(curMoment == CommonProps.MOMENT_ZDR) {
+			curActionCommond = CommonProps.AC_ZDR;
+		}
+		if(curMoment == CommonProps.MOMENT_KDP) {
+			curActionCommond = CommonProps.AC_KDP;
+		}
+		if(curMoment == CommonProps.MOMENT_DP) {
+			curActionCommond = CommonProps.AC_DP;
+		}
+		if(curMoment == CommonProps.MOMENT_CC) {
+			curActionCommond = CommonProps.AC_CC;
+		}
+		if(curMoment == CommonProps.MOMENT_SNRH) {
+			curActionCommond = CommonProps.AC_SNRH;
+		}
+		if(curMoment == CommonProps.MOMENT_LW) {
+			curActionCommond = CommonProps.AC_LIQUID_WATER;
+		}
+		if(curMoment == CommonProps.MOMENT_VIL) {
+			curActionCommond = CommonProps.AC_VERTICAL_LIQUID_WATER;
+		}
+		if(curMoment == CommonProps.MOMENT_ET) {
+			curActionCommond = CommonProps.AC_ECHO_TOPS;
+		}
+		if(curMoment == CommonProps.MOMENT_HP) {
+			curActionCommond = CommonProps.AC_HAIL_PROBABILITY;
+		}
 		Component[] varComps = GUIManager.getVarPanel().getComponents();
 		for (int j = 0; j < varComps.length; j++) {
 			Component varComp = varComps[j];
 			if(varComp instanceof JRadioButton) {
 				String command = ((JRadioButton) varComp).getActionCommand();
 
-				String curActionCommond  = "";
-				if(curMoment == CommonProps.MOMENT_R) {
-					curActionCommond = CommonProps.AC_REFLECTIVITY;
-				}
-				if(curMoment == CommonProps.MOMENT_V) {
-					curActionCommond = CommonProps.AC_VELOCITY;
-				}
-				if(curMoment == CommonProps.MOMENT_W) {
-					curActionCommond = CommonProps.AC_SPECTRUM_WIDTH;
-				}
-				if(curMoment == CommonProps.MOMENT_DBT) {
-					curActionCommond = CommonProps.AC_DBT;
-				}
-				if(curMoment == CommonProps.MOMENT_ZDR) {
-					curActionCommond = CommonProps.AC_ZDR;
-				}
-				if(curMoment == CommonProps.MOMENT_KDP) {
-					curActionCommond = CommonProps.AC_KDP;
-				}
-				if(curMoment == CommonProps.MOMENT_DP) {
-					curActionCommond = CommonProps.AC_DP;
-				}
-				if(curMoment == CommonProps.MOMENT_CC) {
-					curActionCommond = CommonProps.AC_CC;
-				}
-				if(curMoment == CommonProps.MOMENT_SNRH) {
-					curActionCommond = CommonProps.AC_SNRH;
-				}
-				if(curMoment == CommonProps.MOMENT_LW) {
-					curActionCommond = CommonProps.AC_LIQUID_WATER;
-				}
-				if(curMoment == CommonProps.MOMENT_VIL) {
-					curActionCommond = CommonProps.AC_VERTICAL_LIQUID_WATER;
-				}
-				if(curMoment == CommonProps.MOMENT_ET) {
-					curActionCommond = CommonProps.AC_ECHO_TOPS;
-				}
-				if(curMoment == CommonProps.MOMENT_HP) {
-					curActionCommond = CommonProps.AC_HAIL_PROBABILITY;
-				}
+
 				if(command.equals(curActionCommond)) {
 					((JRadioButton) varComp).setSelected(true);
 				}
@@ -207,6 +167,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 		//1. 设置cut选中
 		GUIManager.createCutButtons();
+		//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+activeMainPanel.getRadarBase().currentMoment+";;"+activeMainPanel.getRadarBase().cutNum);
 		Component[] comps = GUIManager.cutPanel.getComponents();
 		int cut = activeMainPanel.getRadarBase().cutNum;
 		for (int i = 0; i < comps.length; i++) {
@@ -216,9 +177,11 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				if(btnCut == cut) {
 					((JRadioButton) comp).setSelected(true);
 				}
+				else {
+					((JRadioButton) comp).setSelected(false);
+				}
 			}
 		}
-		GUIManager.setPPIEnabled();
 
 		//2. 设置文件同步
 		String srcFileName = "";
@@ -480,8 +443,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			for (MainPanel panel : GUIManager.getJpanels()) {
 				if (GUIManager.activeToolButton != null) {
 					String command = GUIManager.activeToolButton.getActionCommand();
-					if (!CommonProps.AC_T_CURSOR.equals(command)
-					) {
+					if (!CommonProps.AC_T_CURSOR.equals(command)&&!CommonProps.AC_T_MEASURE.equals(command)) {
 						return;
 					}
 				}
@@ -502,7 +464,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		} else {
 			if (GUIManager.activeToolButton != null) {
 				String command = GUIManager.activeToolButton.getActionCommand();
-				if (!CommonProps.AC_T_CURSOR.equals(command)
+				if (!CommonProps.AC_T_CURSOR.equals(command)&&!CommonProps.AC_T_MEASURE.equals(command)
 				) {
 					return;
 				}

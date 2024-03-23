@@ -101,7 +101,7 @@ public class SurfaceDialog extends JDialog {
 
 
         MainPanel mainPanel = GUIManager.activeMainPanel;
-        RainOverlay rain = GUIManager.activeMainPanel.getRain();
+        RainOverlay rain = mainPanel.getRain();
         JPanel selectrainPanel = new JPanel();
         selectrainPanel.setLayout(new FlowLayout(1,15,5));
         JCheckBox cb1 = new JCheckBox("É¢µã");

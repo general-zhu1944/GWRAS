@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import com.kitty.radar.business.area.AreaDialog;
+import com.kitty.radar.data.FMT;
 import com.kitty.radar.data.RadarData;
 import com.kitty.radar.domain.ARCoord;
 import com.kitty.radar.domain.LLCoord;
@@ -36,26 +37,65 @@ public class PPI extends RadarBase {
 			return;
 		}
 		Date queueDate = new Date();
-		SimpleDateFormat queueDateFormat= new SimpleDateFormat("HH:mm:ss:SSSS");
-		String now2 = queueDateFormat.format(queueDate);
+		//	SimpleDateFormat queueDateFormat= new SimpleDateFormat("HH:mm:ss:SSSS");
+		//	String now2 = queueDateFormat.format(queueDate);
 
 		Color color, oldColor;
 		int[] x = new int[4];
 		int[] y = new int[4];
 		int pixel = radarBase.center_X - radarBase.xoffset;
 		int scanl = radarBase.center_Y - radarBase.yoffset;
-		double dd2=Math.sqrt(radarBase.xoffset*radarBase.xoffset+radarBase.yoffset*radarBase.yoffset);//与雷达点的距离（像素）
-		double dd3=Math.sqrt(radarBase.center_X*radarBase.center_X+radarBase.center_Y*radarBase.center_Y);		
-	    int d=(int)((dd2+dd3)/radarBase.scale_X);
+		double dd2 = Math.sqrt(radarBase.xoffset * radarBase.xoffset + radarBase.yoffset * radarBase.yoffset);//与雷达点的距离（像素）
+		double dd3 = Math.sqrt(radarBase.center_X * radarBase.center_X + radarBase.center_Y * radarBase.center_Y);
+		int d = (int) ((dd2 + dd3) / radarBase.scale_X);
 		double halfWidth = l2.beamWidth / 2.0;
 		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();
-		int recordNum = l2.getCutStart(radarBase.cutNum);
+		int recordNum =  l2.getCutStart(radarBase.cutNum);;
+
+		//JOptionPane.showMessageDialog(null, "消息提示tjjggggggggggggjjt：" +radarBase.active_moment+"；；"+ radarBase.cutNum+"ll"+recordNum+"[["+l2.getBinCount(radarBase.active_moment));
+		//JOptionPane.showMessageDialog(null, "消息提示tjjtttttjjt：" +radarBase.active_moment+"；；"+ l2.getBinCount(radarBase.active_moment));
+
+		if (RadarBase.radarFormat == 0) {
+			//FMT l3=(FMT) l2;
+			l2.readRcecordnum(recordNum);
+			//JOptionPane.showMessageDialog(null, "消息提vvv示：" +radarBase.active_moment+"；；"+ radarBase.cutNum+"ll"+recordNum+"[["+l3.getBinCount(radarBase.active_moment));
+			if (!(l2.getBinCount(radarBase.active_moment) > 0)) {
+			//	JOptionPane.showMessageDialog(null, "消息提示tjjggghhhgggggjjt：");
+				if ((radarBase.active_moment == RadarData.V)||(radarBase.active_moment == RadarData.W)) {
+					if (radarBase.cutNum == 0||radarBase.cutNum == 2) {
+						recordNum = l2.getCutStart(radarBase.cutNum + 1);
+					//	JOptionPane.showMessageDialog(null, "消息提示tjbpppppjjjt：" +radarBase.active_moment+"；；"+ radarBase.cutNum+"ll"+recordNum);
+
+						//
+					}
+//					if (radarBase.cutNum == 2) {
+//						recordNum = l2.getCutStart(radarBase.cutNum + 1);
+//					}
+				}
+				else  {
+					if (radarBase.cutNum == 1||radarBase.cutNum == 3) {
+					//	JOptionPane.showMessageDialog(null, "消息提示tjjmmmm：");
+						recordNum = l2.getCutStart(radarBase.cutNum - 1);
+					//	JOptionPane.showMessageDialog(null, "消息提示tjjbbbbbbjjt：" +radarBase.active_moment+"；；"+ radarBase.cutNum+"ll"+recordNum);
+
+					}
+//					if (radarBase.cutNum == 3) {
+//						recordNum = l2.getCutStart(radarBase.cutNum - 1);
+//					}
+
+				}
+			}
+		}
+
+
 		int number = l2.readCut(recordNum);
 //		GUIManager.toolBarLabel
 //				.setText("时间 " + RadarUtils.getFileTime() + " - 仰角 " + CommonUtils.format(l2.getElevation(cutNum), 6)
 //						+ "° - 文件 " + l2.getSrcFileName() + " - " + RadarUtils.getMomentLabel(radarBase));
 		int active_moment = radarBase.active_moment;
+
 		int bins = l2.getBinCount(active_moment);
+		//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+bins+active_moment);
 		double rangeStep = l2.getBinInterval(active_moment);
 		int bins2=(int)(d/rangeStep);//计算显示范围内最大径向长度（中心到矩形定点的距离）对应库数
 		if(bins2<bins)
@@ -92,7 +132,9 @@ public class PPI extends RadarBase {
 			oldColor = null;
 			for (int j = 0; j < bins; j=j+dt) {
 				color = colorCache[l2.getBinaryValue(active_moment, i, j)];
-				//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+color);
+				if((active_moment==3)) {
+					//JOptionPane.showMessageDialog(null, "消息提示tjjjjt：" + l2.getBinaryValue(active_moment, i, j));
+				}
 				if (oldColor == null) {
 					if (color != null) {
 						x[0] = (int) Math.round(range[j] * RadarUtils.cos(ang1)
@@ -149,8 +191,8 @@ public class PPI extends RadarBase {
 				g.fillPolygon(x, y, 4);
 			}
 		}
-		Date queueDate1 = new Date();
-		String now3 = queueDateFormat.format(queueDate1);
+	//	Date queueDate1 = new Date();
+	//	String now3 = queueDateFormat.format(queueDate1);
 		//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+now2+"--"+now3+": "+(queueDate1.getTime()-queueDate.getTime()));
 	}
 

@@ -11,7 +11,7 @@ import com.kitty.component.third.RandomAccessFile;
 /**
  * NEXRAD Level II(WSR-88D)格式雷达文件读取基类、SA、SB格式雷达文件读取类。
  */
-public class SA_SB extends RadarData {
+public class CA_CB extends RadarData {
 
 	public static final byte RECORD_HEADER_SIZE = 12; // 单位：字节
 
@@ -21,7 +21,7 @@ public class SA_SB extends RadarData {
 	// 体扫文件的title（文件头）大小，CINRAD没有title，国外为24字节
 	public byte fileHeaderSize = 0;
 
-	public short recordSize = 2432;
+	public short recordSize = 4132;//注：2432为S波段每层仰角的数据大小  4132是CA/CB波段每层仰角的数据大小
 
 	public short messageSize = 0;
 
@@ -144,7 +144,7 @@ public class SA_SB extends RadarData {
 	 */
 	public boolean open(File file) {
 		try {
-			bins = new byte[MAX_CUT_RECORDS][recordSize - 32];//MAX_CUT_RECORDS某仰角中的径向总数
+			bins = new byte[MAX_CUT_RECORDS][recordSize - 32];
 			if (srcFileName == null) {
 				srcFileName = file.getName();
 			}
@@ -211,7 +211,7 @@ public class SA_SB extends RadarData {
 		return false;
 	}
 
-	private void readHeaderOnly(int recordNum) throws IOException {//recordNum每层开始径向，相当于定位某层
+	private void readHeaderOnly(int recordNum) throws IOException {//recordNum仰角数
 		raf.seek(recordNum * recordSize + fileHeaderSize);
 		raf.skipBytes(RECORD_HEADER_SIZE);
 		messageSize = raf.readShort();

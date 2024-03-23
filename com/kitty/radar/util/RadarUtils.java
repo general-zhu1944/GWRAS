@@ -24,10 +24,7 @@ import com.kitty.radar.color.VelHighColor;
 import com.kitty.radar.color.VelLowColor;
 import com.kitty.radar.color.VilColor;
 import com.kitty.radar.color.ZDRColor;
-import com.kitty.radar.data.FMT;
-import com.kitty.radar.data.RadarData;
-import com.kitty.radar.data.SA_SB;
-import com.kitty.radar.data.SC;
+import com.kitty.radar.data.*;
 import com.kitty.radar.domain.ARCoord;
 import com.kitty.radar.domain.GridValue;
 import com.kitty.radar.domain.LLCoord;
@@ -119,6 +116,8 @@ public class RadarUtils {
 			return new SC();
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_FMT.getValue()) {
 			return new FMT();
+		}else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_CA_CB.getValue()) {
+			return new CA_CB();
 		}
 		return new FMT();
 	}

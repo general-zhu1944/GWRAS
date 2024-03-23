@@ -621,12 +621,12 @@ public class GUIManager {
                     CommonUtils.alert("请选择要显示的数据文件", GUIManager.list);
                 } else {
                     GUIManager.cappiButton.setSelected(false);
+                    GUIManager.selectCutButton((JRadioButton) ae.getSource());
                   //  RadarBase.view = CommonProps.VIEW_PPI;
                     if(syncCut) {
                         GUIManager.getJpanels().forEach(panel -> {
                             panel.getRadarBase().cutNum = value;
                             //  panel.getRadarBase().view = CommonProps.VIEW_PPI;
-
                             if (panel.getRadarBase().currentMoment == CommonProps.MOMENT_VIL || panel.getRadarBase().currentMoment == CommonProps.MOMENT_ET || panel.getRadarBase().currentMoment == CommonProps.MOMENT_CAPPI) {
                                 panel.getRadarBase().view = CommonProps.VIEW_CAPPI;
                             } else {
@@ -669,6 +669,7 @@ public class GUIManager {
             }
         } else {
             int cutNum = 0;
+          //  JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+l2.getCutNumber());
             for (int i = 0; i < l2.getCutNumber(); i++) {
                 l2.readHeader(l2.getCutStart(i));//获取最近读取的recordNum，获得该层的不同要素的距离库数、库长
                 if (l2.getBinCount(radarBase.active_moment) > 0) {
@@ -722,7 +723,8 @@ public class GUIManager {
             }
             if (!cappiButton.isSelected() && activeCutButton != null
                     && activeCutButton.getText().equals(cut.getText())) {
-               selectCutButton(cut);
+               // JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+activeCutButton.getActionCommand()+activeCutButton.getText() );
+                selectCutButton(cut);
                 btn1 = null;
             }
         }
@@ -746,7 +748,7 @@ public class GUIManager {
             if(syncCut) {
                 for (MainPanel mainPanel : jpanels) {
                     RadarBase radarBase = mainPanel.getRadarBase();
-                    radarBase.cutNum = Integer.parseInt(activeCutButton.getActionCommand());
+                   // radarBase.cutNum = Integer.parseInt(activeCutButton.getActionCommand());
                     if(radarBase.currentMoment==CommonProps.MOMENT_VIL||radarBase.currentMoment==CommonProps.MOMENT_ET|| radarBase.currentMoment==CommonProps.MOMENT_CAPPI)
                     {
                         radarBase.view =CommonProps.VIEW_CAPPI;
@@ -758,7 +760,7 @@ public class GUIManager {
                 }
             } else {
                 RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
-                radarBase.cutNum = Integer.parseInt(activeCutButton.getActionCommand());
+              //  radarBase.cutNum = Integer.parseInt(activeCutButton.getActionCommand());
                 if(radarBase.currentMoment==CommonProps.MOMENT_VIL||radarBase.currentMoment==CommonProps.MOMENT_ET|| radarBase.currentMoment==CommonProps.MOMENT_CAPPI)
                 {
                     radarBase.view =CommonProps.VIEW_CAPPI;
@@ -827,7 +829,7 @@ public class GUIManager {
             button.setMargin(insets);
             button.setFocusable(false);
             toolBar.add(button);
-            button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/zoom_out.png")));
+            button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/d3.png")));
             button.setActionCommand(CommonProps.AC_T_VCS);
             button.addActionListener(processor);
             button.setToolTipText("画线");
@@ -1456,8 +1458,9 @@ public class GUIManager {
         RadarBase base = activeMainPanel.getRadarBase();
         for (MainPanel mainPanel : jpanels) {
             if(mainPanel != activeMainPanel) {
-                RadarBase base2 = mainPanel.getRadarBase();
+               RadarBase base2 = mainPanel.getRadarBase();
                 base2.cutNum = base.cutNum;
+
 //    			base2.l2 = base.l2;
 
 //    			base2.vcp = base.l2.vcp;

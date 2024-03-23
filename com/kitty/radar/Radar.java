@@ -7,7 +7,10 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.Enumeration;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 import org.apache.commons.jci.monitor.FilesystemAlterationMonitor;
@@ -21,7 +24,7 @@ import com.kitty.radar.util.ConfigInfo;
 
 public class Radar extends JFrame {
 
-	public static final String APP_NAME = "å—å……å¤©æ°”é›·è¾¾æ˜¾ç¤ºåˆ†æç³»ç»Ÿ";
+	public static final String APP_NAME = "ÄÏ³äÊĞÌìÆøÀ×´ïÏÔÊ¾·ÖÎöÈí¼şÏµÍ³";
 
 	public static final String APP_VERSION = "1.0";
 
@@ -31,9 +34,9 @@ public class Radar extends JFrame {
 
 	public static final String E_MAIL = "275551265@qq.com";
 
-	public static final String AUTHOR = "ç«¹åˆ©";
+	public static final String AUTHOR = "ÖñÀû";
 
-	public static final String COPYRIGHT_INFO = "å·ä¸œåŒ—å¼ºå¤©æ°”ç ”ç©¶å—å……å¸‚é‡ç‚¹å®éªŒå®¤ (C)2021";
+	public static final String COPYRIGHT_INFO = "°æÈ¨ËùÓĞ (C) 2020-2023";
 
 	public static RadarProcessor processor = new RadarProcessor();
 
@@ -41,11 +44,11 @@ public class Radar extends JFrame {
 
 	private static FilesystemAlterationMonitor fam;
 
-	public static byte updateRate = 30; // é”Ÿçš†è®¹æ‹·é”Ÿæ–¤æ‹·é”Ÿé“°ç¡·æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿè½¿ä¼™æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½
+	public static byte updateRate = 30; // ×Ô¶¯¸üĞÂ¼ä¸ô£¬µ¥Î»£ºÃë
 
-//	public static boolean showToolBar = true;
+	public static boolean showToolBar = true;
 
-//	public static boolean showStatus = true;
+	public static boolean showStatus = true;
 
 	public static boolean showRightPanel = true;
 
@@ -58,14 +61,13 @@ public class Radar extends JFrame {
 		}
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		addWindowListener(new BasicWindowHandler());
-		ConfigInfo.readConfigInfo();
+		ConfigInfo.readConfigInfo();//¶ÁÈ¡ÅäÖÃÎÄ¼ş
 		this.setTitle(APP_NAME);
-		this.setJMenuBar(GUIManager.createMenu(processor));
-		Container pane = this.getContentPane();
-//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);
-//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);
-		GUIManager.createPanels(processor, pane);
-
+		this.setJMenuBar(GUIManager.createMenu(processor));//ÉèÖÃ²Ëµ¥À¸
+		Container pane = this.getContentPane();//ÊµÀı»¯ÈİÆ÷¶ÔÏó
+//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);//ÏòÈİÆ÷Ìí¼Ó¹¤¾ßÀ¸
+//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);//ÏòÈİÆ÷Ìí¼Ó×´Ì¬À¸
+		GUIManager.createPanels(processor, pane);	
 		startFileMonitor();
 		processor.startDeleteTimer();
 	}
@@ -90,13 +92,14 @@ public class Radar extends JFrame {
 			System.setOut(ps);
 			UIManager
 					.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
-			UIManager.getDefaults().put("FileChooser.cancelButtonText", "å–é”Ÿæ–¤æ‹·");
+			UIManager.getDefaults().put("FileChooser.cancelButtonText", "È¡Ïû");
 			UIManager.getDefaults().put("FileChooser.cancelButtonToolTipText",
-					"é”Ÿæˆªé—­å¯¹ä¼™æ‹·é”Ÿæ–¤æ‹·");
+					"¹Ø±Õ¶Ô»°¿ò");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Font font = new Font("é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·", Font.PLAIN, 12);
+		//Font font = new Font("ËÎÌå", Font.PLAIN, 12);
+		Font font = new Font("ï¿½ï¿½ï¿½ï¿½", Font.PLAIN, 12);
 		Enumeration keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
 			Object key = keys.nextElement();

@@ -129,7 +129,7 @@ public class SiteInfoDialog extends PropsDialog {
         label1.setBounds(25, 18, 50, 30);
         ItemHandler clistener = new ItemHandler(this);
         Option[] options = new Option[] { RadarData.RADAR_FORMAT_FMT, RadarData.RADAR_FORMAT_SC,
-        		RadarData.RADAR_FORMAT_SA_SB };
+        		RadarData.RADAR_FORMAT_SA_SB , RadarData.RADAR_FORMAT_CA_CB };
         comboFormat = new JComboBox(options);
         for (int i = 0; i < options.length; i++) {
             if (options[i].getValue() == RadarBase.radarFormat) {
