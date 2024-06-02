@@ -24,7 +24,11 @@ import com.kitty.radar.color.VelHighColor;
 import com.kitty.radar.color.VelLowColor;
 import com.kitty.radar.color.VilColor;
 import com.kitty.radar.color.ZDRColor;
-import com.kitty.radar.data.*;
+import com.kitty.radar.data.FMT;
+import com.kitty.radar.data.RadarData;
+import com.kitty.radar.data.SA_SB;
+import com.kitty.radar.data.SC;
+import com.kitty.radar.data.CA_CB;
 import com.kitty.radar.domain.ARCoord;
 import com.kitty.radar.domain.GridValue;
 import com.kitty.radar.domain.LLCoord;
@@ -67,7 +71,7 @@ public class RadarUtils {
 		return cos[i];
 	}
 
-	public static RadarColor getRadarColor(int moment) {
+	public static RadarColor getRadarColor(int moment, RadarBase RadarBase) {
 		if (moment == CommonProps.MOMENT_DBT) {
 			moment = CommonProps.MOMENT_R;
 		}
@@ -107,19 +111,20 @@ public class RadarUtils {
 		return RefPrecipColor.color;
 	}
 
-	public static RadarData createRadarData() {
+	public static RadarData createRadarData(RadarBase radarBase) {
 		if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_SA_SB.getValue()) {
 			//JOptionPane.showMessageDialog(null, "消息提示tjjjjt1：");
-			return new SA_SB();
+			return new SA_SB(radarBase);
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_SC.getValue()) {
 			//JOptionPane.showMessageDialog(null, "消息提示tjjjjt2：");
-			return new SC();
+			return new SC(radarBase);
+		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_CA_CB.getValue()) {
+			//JOptionPane.showMessageDialog(null, "消息提示tjjjjt2：");
+			return new CA_CB(radarBase);
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_FMT.getValue()) {
-			return new FMT();
-		}else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_CA_CB.getValue()) {
-			return new CA_CB();
+			return new FMT(radarBase);
 		}
-		return new FMT();
+		return new FMT(radarBase);
 	}
 
 	public static String getRadarFormatLabel() {
@@ -128,6 +133,9 @@ public class RadarUtils {
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_SC
 				.getValue()) {
 			return RadarData.RADAR_FORMAT_SC.getName();
+		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_CA_CB
+				.getValue()) {
+			return RadarData.RADAR_FORMAT_CA_CB.getName();
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_FMT.getValue()) {
 			return RadarData.RADAR_FORMAT_FMT.getName();
 		}
@@ -349,7 +357,7 @@ public class RadarUtils {
 	 */
 	public static GridValue[][] getGridsXY(int gridWidth, float range, RadarBase radarBase) {
 		int halfWidth = gridWidth / 2;
-		int r = PositionUtils.toLength(range, radarBase);
+		int r = PositionUtils.toLength(range, radarBase.getScale_X());
 		int n = (r + halfWidth) / gridWidth;
 		int l = n * gridWidth - halfWidth;
 		GridValue[][] grids = new GridValue[2 * n + 1][2 * n + 1];
@@ -358,8 +366,8 @@ public class RadarUtils {
 			int j = 0;
 			for (int y = -l; y <= l; y += gridWidth) {
 				if (Math.sqrt(x * x + y * y) <= r) {
-					int px = x - radarBase.xoffset + radarBase.center_X;
-					int py = y - radarBase.yoffset + radarBase.center_Y;
+					int px = x - radarBase.getXoffset() + radarBase.getCenter_X();
+					int py = y - radarBase.getYoffset() + radarBase.getCenter_Y();
 					if (px >= 0 && py >= 0) {
 						grids[i][j] = new GridValue(px, py);
 					}
@@ -419,7 +427,7 @@ public class RadarUtils {
 										CommonUtils.format(c.r, 1), svalue });
 							} else {
 								LLCoord llc = PositionUtils.toLLCoord(
-										c.azimuth, c.r);
+										c.azimuth, c.r, radarBase.getLongitude(), radarBase.getLatitude());
 								RadarUtils.writeValues(w, new String[] {
 										CommonUtils.format(llc.longitude, 6),
 										CommonUtils.format(llc.latitude, 6),

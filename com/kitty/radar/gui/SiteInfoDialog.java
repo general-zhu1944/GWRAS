@@ -50,6 +50,7 @@ public class SiteInfoDialog extends PropsDialog {
 
     public SiteInfoDialog(Frame owner) {
         super(owner, "’æµ„–≈œ¢", true);
+        RadarBase RadarBase = GUIManager.activeMainPanel.getRadarBase();
         Dimension d = new Dimension(300, 243);
         this.setSize(d);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -75,12 +76,12 @@ public class SiteInfoDialog extends PropsDialog {
         d = textRadarName.getMinimumSize();
         d.width = 126;
         textRadarName.setMinimumSize(d);
-        BigDecimal bd = new BigDecimal(RadarBase.longitude);
+        BigDecimal bd = new BigDecimal(RadarBase.getLongitude());
         bd = bd.setScale(6,RoundingMode.HALF_UP);
         textLongitude = new JTextField(bd.toString(), 20);
         textLongitude.setMinimumSize(d);
         textLongitude.setHorizontalAlignment(JTextField.RIGHT);
-        bd = new BigDecimal(RadarBase.latitude);
+        bd = new BigDecimal(RadarBase.getLatitude());
         bd = bd.setScale(6, RoundingMode.HALF_UP);
         textLatitude = new JTextField(bd.toString(), 20);
         textLatitude.setMinimumSize(d);

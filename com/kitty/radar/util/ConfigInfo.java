@@ -55,10 +55,10 @@ public class ConfigInfo {
                 GUIManager.syncTool = Boolean.parseBoolean(props.getProperty("sync.tool"));
                 RadarParams.enableDelete = Boolean.parseBoolean(props.getProperty("auto.delete"));
                 RadarParams.deleteDays = Integer.parseInt(props.getProperty("delete.days"));
-                RadarBase.latitude = Double.parseDouble(props.getProperty("latitude"));
-                RadarBase.longitude = Double.parseDouble(props.getProperty("longitude"));
-                RadarBase.radarName = props.getProperty("radar.name");
-                RadarBase.level = Float.parseFloat(props.getProperty("level"));
+                RadarBase.latitude1 = Double.parseDouble(props.getProperty("latitude"));
+                RadarBase.longitude1 = Double.parseDouble(props.getProperty("longitude"));
+//                RadarBase.radarName1 = props.getProperty("radar.name");
+//                RadarBase.level = Float.parseFloat(props.getProperty("level"));
                 RadarBase.setRadarFormat(Byte.parseByte(props.getProperty("radar.format")));
                 MapOverlay.grid_on = Boolean.parseBoolean(props.getProperty("grid.on"));
                 RainOverlay.rain_on = Boolean.parseBoolean(props.getProperty("rain.on"));
@@ -86,8 +86,8 @@ public class ConfigInfo {
 //                RadarBase.maximum_l = Float.parseFloat(props.getProperty("maximum.l"));
 //                RadarBase.minimum_p = Float.parseFloat(props.getProperty("minimum.p"));
 //                RadarBase.maximum_p = Float.parseFloat(props.getProperty("maximum.p"));
-                RHI.range_min = Float.parseFloat(props.getProperty("minimum.rhir"));
-                RHI.range_max = Float.parseFloat(props.getProperty("maximum.rhir"));
+//                RHI.range_min = Float.parseFloat(props.getProperty("minimum.rhir"));
+//                RHI.range_max = Float.parseFloat(props.getProperty("maximum.rhir"));
                 MapOverlay.polar_grid_spoke = Float.parseFloat(props
                         .getProperty("polar.grid.spoke"));
                 MapOverlay.polar_grid_ring = Float.parseFloat(props.getProperty("polar.grid.ring"));
@@ -156,6 +156,7 @@ public class ConfigInfo {
 
     public static void writeConfiguration() {
         File file = new File(CommonUtils.getUserHomeDir(), "radarsc_cfg.properties");
+        RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
         OutputStream os = null;
         try {
             Properties props = new Properties();
@@ -167,11 +168,11 @@ public class ConfigInfo {
             props.setProperty("sync.tool", String.valueOf(GUIManager.isSyncTool()));
             props.setProperty("auto.delete", String.valueOf(RadarParams.enableDelete));
             props.setProperty("delete.days", String.valueOf(RadarParams.deleteDays));
-            props.setProperty("latitude", String.valueOf(RadarBase.latitude));
-            props.setProperty("longitude", String.valueOf(RadarBase.longitude));
-            props.setProperty("radar.name", RadarBase.radarName);
+            props.setProperty("latitude", String.valueOf(radarBase.getLatitude()));
+            props.setProperty("longitude", String.valueOf(radarBase.getLongitude()));
+            props.setProperty("radar.name", radarBase.radarName);
             props.setProperty("radar.format", String.valueOf(RadarBase.radarFormat));
-            props.setProperty("level", String.valueOf(RadarBase.level));
+//            props.setProperty("level", String.valueOf(RadarBase.level));
             props.setProperty("grid.on", String.valueOf(MapOverlay.grid_on));
             props.setProperty("rain.on", String.valueOf(RainOverlay.rain_on));
             props.setProperty("map.on", String.valueOf(MapOverlay.map_on));

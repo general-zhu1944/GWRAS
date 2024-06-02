@@ -9,11 +9,16 @@ import java.util.Set;
 import com.kitty.component.gui.domain.Option;
 import com.kitty.component.third.RandomAccessFile;
 import com.kitty.component.third.TreeMapExt;
+import com.kitty.radar.RadarBase;
 
 /**
  * 雷达文件读取基类。
  */
 public abstract class RadarData {
+	
+	
+	
+	protected RadarBase radarBase;
 
 	// ============================ 支持的雷达格式 ============================
 	public static final Option RADAR_FORMAT_CA_CB = new Option("CA/CB", 3);
@@ -99,7 +104,8 @@ public abstract class RadarData {
 
 	public RandomAccessFile raf;
 
-	public RadarData() {
+	public RadarData(RadarBase radarBase) {
+		this.radarBase = radarBase;
 		for (int i = 0; i < cutStarts.length; i++) {
 			cutStarts[i] = -1;
 		}

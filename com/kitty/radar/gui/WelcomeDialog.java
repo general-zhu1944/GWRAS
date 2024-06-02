@@ -27,7 +27,7 @@ public class WelcomeDialog extends BasicDialog {
         this.mainPanel.addLabel("软件设计: " + Radar.AUTHOR + "  " + Radar.PHONE + "  " + Radar.E_MAIL,
                 23, 89);
         this.mainPanel.addLabel("特别感谢: 康岚  四川省气象台、王亚强  中国气象科学研究院", 23, 119);
-        this.mainPanel.addLabel("欢迎来电或E-mail联系", 23, 149);
+        this.mainPanel.addLabel("欢迎来电联系", 23, 149);
         this.buttonPanel.remove(this.cancelButton);
         this.confirmButton.setText("    确定    ");
         cb = new JCheckBox("下次启动不再显示");

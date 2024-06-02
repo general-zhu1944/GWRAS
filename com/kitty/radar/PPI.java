@@ -43,19 +43,19 @@ public class PPI extends RadarBase {
 		Color color, oldColor;
 		int[] x = new int[4];
 		int[] y = new int[4];
-		int pixel = radarBase.center_X - radarBase.xoffset;
-		int scanl = radarBase.center_Y - radarBase.yoffset;
-		double dd2 = Math.sqrt(radarBase.xoffset * radarBase.xoffset + radarBase.yoffset * radarBase.yoffset);//与雷达点的距离（像素）
-		double dd3 = Math.sqrt(radarBase.center_X * radarBase.center_X + radarBase.center_Y * radarBase.center_Y);
-		int d = (int) ((dd2 + dd3) / radarBase.scale_X);
+		int pixel = radarBase.getCenter_X() - radarBase.getXoffset();
+		int scanl = radarBase.getCenter_Y() - radarBase.getYoffset();
+		double dd2 = Math.sqrt(radarBase.getXoffset() * radarBase.getXoffset() + radarBase.getYoffset() * radarBase.getYoffset());//与雷达点的距离（像素）
+		double dd3 = Math.sqrt(radarBase.getCenter_X() * radarBase.getCenter_X()+ radarBase.getCenter_Y() * radarBase.getCenter_Y());
+		int d = (int) ((dd2 + dd3) / radarBase.getScale_X());
 		double halfWidth = l2.beamWidth / 2.0;
-		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();
+		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment,radarBase).getColorCache();
 		int recordNum =  l2.getCutStart(radarBase.cutNum);;
 
 		//JOptionPane.showMessageDialog(null, "消息提示tjjggggggggggggjjt：" +radarBase.active_moment+"；；"+ radarBase.cutNum+"ll"+recordNum+"[["+l2.getBinCount(radarBase.active_moment));
 		//JOptionPane.showMessageDialog(null, "消息提示tjjtttttjjt：" +radarBase.active_moment+"；；"+ l2.getBinCount(radarBase.active_moment));
 
-		if (RadarBase.radarFormat == 0) {
+		if (radarBase.radarFormat == 0) {
 			//FMT l3=(FMT) l2;
 			l2.readRcecordnum(recordNum);
 			//JOptionPane.showMessageDialog(null, "消息提vvv示：" +radarBase.active_moment+"；；"+ radarBase.cutNum+"ll"+recordNum+"[["+l3.getBinCount(radarBase.active_moment));
@@ -86,6 +86,22 @@ public class PPI extends RadarBase {
 				}
 			}
 		}
+		if (radarBase.radarFormat == 3) {
+			//FMT l3=(FMT) l2;
+				if ((radarBase.active_moment == RadarData.V)||(radarBase.active_moment == RadarData.W)) {
+					if (radarBase.cutNum == 0||radarBase.cutNum == 2) {
+						recordNum = l2.getCutStart(radarBase.cutNum + 1);
+					}
+				}
+				else  {
+					if (radarBase.cutNum == 1||radarBase.cutNum == 3) {
+						//	JOptionPane.showMessageDialog(null, "消息提示tjjmmmm：");
+						recordNum = l2.getCutStart(radarBase.cutNum - 1);
+
+					}
+				}
+			}
+
 
 
 		int number = l2.readCut(recordNum);
@@ -104,15 +120,15 @@ public class PPI extends RadarBase {
 		}
 		//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+bins);
 		int dt=1;
-		if(radarBase.zoom==4)
+		if(radarBase.getZoom()==4)
 		{
 			dt=1;
 		}
-		if(radarBase.zoom==2)
+		if(radarBase.getZoom()==2)
 		{
 			dt=2;
 		}
-		if(radarBase.zoom==1)
+		if(radarBase.getZoom()==1)
 		{
 			dt=3;
 		}
@@ -138,31 +154,31 @@ public class PPI extends RadarBase {
 				if (oldColor == null) {
 					if (color != null) {
 						x[0] = (int) Math.round(range[j] * RadarUtils.cos(ang1)
-								* radarBase.scale_X)
+								* radarBase.getScale_X())
 								+ pixel;
 						y[0] = (int) Math.round(range[j] * RadarUtils.sin(ang1)
-								* radarBase.scale_Y)
+								* radarBase.getScale_Y())
 								+ scanl;
 						x[1] = (int) Math.round(range[j] * RadarUtils.cos(ang2)
-								* radarBase.scale_X)
+								* radarBase.getScale_X())
 								+ pixel;
 						y[1] = (int) Math.round(range[j] * RadarUtils.sin(ang2)
-								* radarBase.scale_Y)
+								* radarBase.getScale_Y())
 								+ scanl;
 					}
 				} else {
 					if (color != oldColor) {
 						x[2] = (int) Math.round(range[j] * RadarUtils.cos(ang2)
-								* radarBase.scale_X)
+								* radarBase.getScale_X())
 								+ pixel;
 						y[2] = (int) Math.round(range[j] * RadarUtils.sin(ang2)
-								* radarBase.scale_Y)
+								* radarBase.getScale_Y())
 								+ scanl;
 						x[3] = (int) Math.round(range[j] * RadarUtils.cos(ang1)
-								* radarBase.scale_X)
+								* radarBase.getScale_X())
 								+ pixel;
 						y[3] = (int) Math.round(range[j] * RadarUtils.sin(ang1)
-								* radarBase.scale_Y)
+								* radarBase.getScale_Y())
 								+ scanl;
 						g.setPaint(oldColor);
 						g.fillPolygon(x, y, 4);
@@ -176,16 +192,16 @@ public class PPI extends RadarBase {
 			}
 			if (oldColor != null) {
 				x[2] = (int) Math.round(range[bins] * RadarUtils.cos(ang2)
-						* radarBase.scale_X)
+						* radarBase.getScale_X())
 						+ pixel;
 				y[2] = (int) Math.round(range[bins] * RadarUtils.sin(ang2)
-						* radarBase.scale_Y)
+						* radarBase.getScale_Y())
 						+ scanl;
 				x[3] = (int) Math.round(range[bins] * RadarUtils.cos(ang1)
-						* radarBase.scale_X)
+						* radarBase.getScale_X())
 						+ pixel;
 				y[3] = (int) Math.round(range[bins] * RadarUtils.sin(ang1)
-						* radarBase.scale_Y)
+						* radarBase.getScale_Y())
 						+ scanl;
 				g.setPaint(oldColor);
 				g.fillPolygon(x, y, 4);
@@ -257,7 +273,7 @@ public class PPI extends RadarBase {
 									CommonUtils.format(range[j], 1), svalue });
 				} else {
 					LLCoord c = PositionUtils.toLLCoord(azimuth,
-							PositionUtils.toR2(range[j], cos));
+							PositionUtils.toR2(range[j], cos), radarBase.getLongitude(), radarBase.getLatitude());
 					RadarUtils
 							.writeValues(
 									w,

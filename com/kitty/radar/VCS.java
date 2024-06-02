@@ -60,7 +60,7 @@ public class VCS extends JPanel {
 
 	public static float range_min = 0;
 
-	public static float range_max = RadarBase.radius;
+	public static float range_max = 0;
 
 	public boolean update = true;
 
@@ -74,6 +74,7 @@ public class VCS extends JPanel {
 
 	public VCS(RadarBase radarBase) {
 		this.radarBase = radarBase;
+		range_max = radarBase.radius;
 	}
 	public RadarBase getRadarBase() {
 		return radarBase;
@@ -112,7 +113,7 @@ public class VCS extends JPanel {
 			return;
 		}
 
-		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();//根据RadarBase.currentMoment获取相应的颜色数组
+		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase).getColorCache();//根据RadarBase.currentMoment获取相应的颜色数组
 		if (colorCache == null) {
 			return;
 		}
@@ -132,10 +133,10 @@ public class VCS extends JPanel {
 							double latitudeStart = dp.getLinePosition().getLatitudeStart();
 							double longitudeEnd = dp.getLinePosition().getLongitudeEnd();
 							double latitudeEnd = dp.getLinePosition().getLatitudeEnd();
-							ARCoord arcStart = PositionUtils.toARCoord(longitudeStart, latitudeStart);
+							ARCoord arcStart = PositionUtils.toARCoord(longitudeStart, latitudeStart, radarBase.getLongitude(), radarBase.getLatitude());
 							XYCoord xyStart = PositionUtils.toXYCoord(arcStart.azimuth, arcStart.r, radarBase);
 							XYDCoord startpoint = PositionUtils.toXYDCoord(xyStart.x, xyStart.y, radarBase);//左上坐标转雷达中心坐标
-							ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd, latitudeEnd);
+							ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd, latitudeEnd, radarBase.getLongitude(), radarBase.getLatitude());
 							XYCoord xyEnd = PositionUtils.toXYCoord(arcEnd.azimuth, arcEnd.r, radarBase);
 							XYDCoord endpoint = PositionUtils.toXYDCoord(xyEnd.x, xyEnd.y, radarBase);//左上坐标转雷达中心坐标
 							pointStart.x = (int) startpoint.x;
@@ -226,16 +227,16 @@ public class VCS extends JPanel {
 									+ LEFT_WIDTH;
 
 							y[0] =baseY- (int) Math.round((PositionUtils.getHeight(
-											range2, l2.getElevation() +halfWidth) )
+											range2, l2.getElevation() +halfWidth, radarBase) )
 											* scaleY);
 							y[1] = baseY-(int) Math.round((PositionUtils.getHeight(
-											range2, l2.getElevation() + halfWidth))
+											range2, l2.getElevation() + halfWidth, radarBase))
 											* scaleY);
 							y[2] =baseY-  (int) Math.round((PositionUtils.getHeight(
-											range1, l2.getElevation() - halfWidth) )
+											range1, l2.getElevation() - halfWidth, radarBase) )
 											* scaleY);
 							y[3] = baseY- (int) Math.round((PositionUtils.getHeight(
-											range1, l2.getElevation() - halfWidth) )
+											range1, l2.getElevation() - halfWidth, radarBase) )
 											* scaleY);
 
 							g.fillPolygon(x, y, 4);

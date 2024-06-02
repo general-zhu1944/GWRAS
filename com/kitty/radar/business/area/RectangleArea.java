@@ -65,8 +65,8 @@ public class RectangleArea extends Area {
             g.setColor(Color.RED);
             g.setStroke(new BasicStroke(2));
             XYCoord c = PositionUtils.toXYCoord2(lx, ly, this.getRadarBase());
-            int w = PositionUtils.toLength(width, this.getRadarBase());
-            int h = PositionUtils.toLength(height, this.getRadarBase());
+            int w = PositionUtils.toLength(width, this.getRadarBase().getScale_X());
+            int h = PositionUtils.toLength(height, this.getRadarBase().getScale_X());
             g.drawRect(c.x - w / 2, c.y - h / 2, w, h);
         }
     }
@@ -89,8 +89,8 @@ public class RectangleArea extends Area {
     @Override
     public Shape toShape() {
         XYCoord c = PositionUtils.toXYCoord2(lx, ly, this.getRadarBase());
-        int w = PositionUtils.toLength(width, this.getRadarBase());
-        int h = PositionUtils.toLength(height, this.getRadarBase());
+        int w = PositionUtils.toLength(width, this.getRadarBase().getScale_X());
+        int h = PositionUtils.toLength(height, this.getRadarBase().getScale_X());
         return new Rectangle2D.Double(c.x - w / 2, c.y - h / 2, w, h);
     }
 

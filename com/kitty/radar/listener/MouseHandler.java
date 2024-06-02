@@ -35,6 +35,9 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 	private int y;
 
+	/*
+	 * MainPanel鼠标进入展示区域
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
@@ -46,6 +49,9 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		}
 	}
 
+	/*
+	 * MainPanel鼠标离开展示区域
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
@@ -61,6 +67,9 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 	}
 
+	/*
+	 * 鼠标滚轮滚定，重新计算缩放
+	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
 		RadarBase radarBase = mainPanel.getRadarBase();
@@ -68,26 +77,26 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		if (num == 0) {
 			return;
 		} else if (num > 0) {
-			num = radarBase.zoom / 2;
+			num = radarBase.getZoom() / 2;
 			if (num < RadarBase.MIN_ZOOM) {
 				return;
 			}
 		} else {
-			num = radarBase.zoom +1;
+			num = radarBase.getZoom() +1;
 			if (num > RadarBase.MAX_ZOOM) {
 				return;
 			}
 		}
-		int zoom1 = radarBase.zoom;
+		int zoom1 = radarBase.getZoom();
 		radarBase.setZoom(num);
 		int x = e.getX();
 		int y = e.getY();
-		radarBase.xoffset += Math.round((x - radarBase.center_X)
-				* radarBase.zoom / (double) zoom1)
-				+ radarBase.center_X - x;
-		radarBase.yoffset += Math.round((y - radarBase.center_Y)
-				* radarBase.zoom / (double) zoom1)
-				+ radarBase.center_Y - y;
+		radarBase.setXoffset((int) (radarBase.getXoffset() + (Math.round((x - radarBase.getCenter_X())
+				* radarBase.getZoom() / (double) zoom1)
+				+ radarBase.getCenter_X() - x)));
+		radarBase.setYoffset((int) (radarBase.getYoffset() + (Math.round((y - radarBase.getCenter_Y())
+				* radarBase.getZoom() / (double) zoom1)
+				+ radarBase.getCenter_Y() - y)));
 		mainPanel.getMap().update = true;
 		mainPanel.getRain().update = true;
 		mainPanel.update = true;
@@ -110,55 +119,95 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			}
 		}
 
+		//更新选中的toolbar
+		JPanel varPanel = GUIManager.getVarPanel();
+		Component[] components = varPanel.getComponents();
+		for (int i = 0; i < components.length; i++) {
+			Component comp = components[i];
+			if(comp instanceof JRadioButton) {
+				int moment = activeMainPanel.getRadarBase().currentMoment;
+				String command = ((JRadioButton) comp).getActionCommand();
+				if (CommonProps.AC_REFLECTIVITY.equals(command)
+						&& moment == CommonProps.MOMENT_R) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_VELOCITY.equals(command)
+						&& moment == CommonProps.MOMENT_V) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_SPECTRUM_WIDTH.equals(command)
+						&& moment == CommonProps.MOMENT_W) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_DBT.equals(command)
+						&& moment == CommonProps.MOMENT_DBT) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_ZDR.equals(command)
+						&& moment == CommonProps.MOMENT_ZDR) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_KDP.equals(command)
+						&& moment == CommonProps.MOMENT_KDP) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_DP.equals(command)
+						&& moment == CommonProps.MOMENT_DP) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_CC.equals(command)
+						&& moment == CommonProps.MOMENT_CC) {
+					((JRadioButton) comp).setSelected(true);
+				} else if (CommonProps.AC_SNRH.equals(command)
+						&& moment == CommonProps.MOMENT_SNRH) {
+					((JRadioButton) comp).setSelected(true);
+				} else {
+
+				}
+			}
+		}
+		
 		//设置选中变量
 		int curMoment = activeMainPanel.getRadarBase().currentMoment;
-		String curActionCommond  = "";
-		if(curMoment == CommonProps.MOMENT_R) {
-			curActionCommond = CommonProps.AC_REFLECTIVITY;
-		}
-		if(curMoment == CommonProps.MOMENT_V) {
-			curActionCommond = CommonProps.AC_VELOCITY;
-		}
-		if(curMoment == CommonProps.MOMENT_W) {
-			curActionCommond = CommonProps.AC_SPECTRUM_WIDTH;
-		}
-		if(curMoment == CommonProps.MOMENT_DBT) {
-			curActionCommond = CommonProps.AC_DBT;
-		}
-		if(curMoment == CommonProps.MOMENT_ZDR) {
-			curActionCommond = CommonProps.AC_ZDR;
-		}
-		if(curMoment == CommonProps.MOMENT_KDP) {
-			curActionCommond = CommonProps.AC_KDP;
-		}
-		if(curMoment == CommonProps.MOMENT_DP) {
-			curActionCommond = CommonProps.AC_DP;
-		}
-		if(curMoment == CommonProps.MOMENT_CC) {
-			curActionCommond = CommonProps.AC_CC;
-		}
-		if(curMoment == CommonProps.MOMENT_SNRH) {
-			curActionCommond = CommonProps.AC_SNRH;
-		}
-		if(curMoment == CommonProps.MOMENT_LW) {
-			curActionCommond = CommonProps.AC_LIQUID_WATER;
-		}
-		if(curMoment == CommonProps.MOMENT_VIL) {
-			curActionCommond = CommonProps.AC_VERTICAL_LIQUID_WATER;
-		}
-		if(curMoment == CommonProps.MOMENT_ET) {
-			curActionCommond = CommonProps.AC_ECHO_TOPS;
-		}
-		if(curMoment == CommonProps.MOMENT_HP) {
-			curActionCommond = CommonProps.AC_HAIL_PROBABILITY;
-		}
 		Component[] varComps = GUIManager.getVarPanel().getComponents();
 		for (int j = 0; j < varComps.length; j++) {
 			Component varComp = varComps[j];
 			if(varComp instanceof JRadioButton) {
 				String command = ((JRadioButton) varComp).getActionCommand();
 
-
+				String curActionCommond  = "";
+				if(curMoment == CommonProps.MOMENT_R) {
+					curActionCommond = CommonProps.AC_REFLECTIVITY;
+				}
+				if(curMoment == CommonProps.MOMENT_V) {
+					curActionCommond = CommonProps.AC_VELOCITY;
+				}
+				if(curMoment == CommonProps.MOMENT_W) {
+					curActionCommond = CommonProps.AC_SPECTRUM_WIDTH;
+				}
+				if(curMoment == CommonProps.MOMENT_DBT) {
+					curActionCommond = CommonProps.AC_DBT;
+				}
+				if(curMoment == CommonProps.MOMENT_ZDR) {
+					curActionCommond = CommonProps.AC_ZDR;
+				}
+				if(curMoment == CommonProps.MOMENT_KDP) {
+					curActionCommond = CommonProps.AC_KDP;
+				}
+				if(curMoment == CommonProps.MOMENT_DP) {
+					curActionCommond = CommonProps.AC_DP;
+				}
+				if(curMoment == CommonProps.MOMENT_CC) {
+					curActionCommond = CommonProps.AC_CC;
+				}
+				if(curMoment == CommonProps.MOMENT_SNRH) {
+					curActionCommond = CommonProps.AC_SNRH;
+				}
+				if(curMoment == CommonProps.MOMENT_LW) {
+					curActionCommond = CommonProps.AC_LIQUID_WATER;
+				}
+				if(curMoment == CommonProps.MOMENT_VIL) {
+					curActionCommond = CommonProps.AC_VERTICAL_LIQUID_WATER;
+				}
+				if(curMoment == CommonProps.MOMENT_ET) {
+					curActionCommond = CommonProps.AC_ECHO_TOPS;
+				}
+				if(curMoment == CommonProps.MOMENT_HP) {
+					curActionCommond = CommonProps.AC_HAIL_PROBABILITY;
+				}
 				if(command.equals(curActionCommond)) {
 					((JRadioButton) varComp).setSelected(true);
 				}
@@ -167,7 +216,6 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 		//1. 设置cut选中
 		GUIManager.createCutButtons();
-		//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+activeMainPanel.getRadarBase().currentMoment+";;"+activeMainPanel.getRadarBase().cutNum);
 		Component[] comps = GUIManager.cutPanel.getComponents();
 		int cut = activeMainPanel.getRadarBase().cutNum;
 		for (int i = 0; i < comps.length; i++) {
@@ -177,11 +225,9 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				if(btnCut == cut) {
 					((JRadioButton) comp).setSelected(true);
 				}
-				else {
-					((JRadioButton) comp).setSelected(false);
-				}
 			}
 		}
+		GUIManager.setPPIEnabled();
 
 		//2. 设置文件同步
 		String srcFileName = "";
@@ -223,7 +269,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 								arc.azimuth, arc.r);
 						llc = PositionUtils.toLLCoord(arc.azimuth,
 								PositionUtils.toR(arc.r, radarBase.l2
-										.getElevation(radarBase.cutNum)));
+										.getElevation(radarBase.cutNum)), radarBase.getLongitude(), radarBase.getLatitude());
 						XYCoord s = PositionUtils.toXYCoord2(llc.longitude, llc.latitude, radarBase);
 					}
 				} else if (radarBase.view == CommonProps.VIEW_CAPPI) {
@@ -233,7 +279,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			}
 		}
 		if (llc == null) {
-			llc = PositionUtils.toLLCoord(arc.azimuth, arc.r);
+			llc = PositionUtils.toLLCoord(arc.azimuth, arc.r, radarBase.getLongitude(), radarBase.getLatitude());
 		}
 
 		String text = "["
@@ -246,7 +292,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				+ CommonUtils.format(arc.r, 1)
 				+ RadarUtils.getDistanceUnitLabel()
 				+ ", "
-				+ CommonUtils.format(PositionUtils.getHeight(arc.r, radarBase.cutNum), 1)
+				+ CommonUtils.format(PositionUtils.getHeight(arc.r, radarBase.cutNum, radarBase), 1)
 				+ RadarUtils.getDistanceUnitLabel()
 				+ "] -- "
 				+ (RadarData.isValid(value) ? CommonUtils.format(value,
@@ -257,7 +303,11 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	}
 
 
+	/*
+	 * MainPanel鼠标左键按下事件处理（不用释放鼠标）
+	 */
 	public void mousePressed(MouseEvent e) {
+		System.out.println(e.getX()+":"+e.getY());
 		setActiveMainPanel(e);
 
 		MainPanel mainPanel = (MainPanel)e.getComponent();
@@ -328,6 +378,9 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 	}
 
+	/*
+	 * MainPanel鼠标左键按下后拖动（此时鼠标左键未释放）
+	 */
 	public void mouseDragged(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
 		RadarBase radarBase = mainPanel.getRadarBase();
@@ -365,8 +418,8 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			int dx = x0 - x;
 			int dy = y0 - y;
 
-			radarBase.xoffset -= dx;
-			radarBase.yoffset -= dy;
+			radarBase.setXoffset(radarBase.getXoffset() - dx);
+			radarBase.setYoffset(radarBase.getYoffset() - dy);
 
 			mainPanel.xoffset += dx;
 			mainPanel.yoffset += dy;
@@ -383,6 +436,9 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		}
 	}
 
+	/*
+	 * MainPanel鼠标左键释放
+	 */
 	public void mouseReleased(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
 		RadarBase radarBase = mainPanel.getRadarBase();
@@ -404,12 +460,12 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				mainPanel.repaint();
 				GUIManager.syncAllMainPanel(true);
 			} else if (CommonProps.AC_T_ZOOM_IN.equals(command)) {
-				int zoom = radarBase.zoom * 2;
+				int zoom = radarBase.getZoom() * 2;
 				if (zoom > radarBase.MAX_ZOOM) {
 					return;
 				}
-				radarBase.xoffset += e.getX() - radarBase.center_X;
-				radarBase.yoffset += e.getY() - radarBase.center_Y;
+				radarBase.setXoffset(radarBase.getXoffset() + e.getX() - radarBase.getCenter_X());
+				radarBase.setYoffset(radarBase.getYoffset() + e.getY() - radarBase.getCenter_Y());
 				radarBase.setZoom(zoom);
 				mainPanel.getMap().update = true;
 				mainPanel.getRain().update = true;
@@ -417,13 +473,13 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 				mainPanel.repaint();
 				GUIManager.syncAllMainPanel(true);
 			} else if (CommonProps.AC_T_ZOOM_OUT.equals(command)) {
-				int zoom = radarBase.zoom / 2;
+				int zoom = radarBase.getZoom() / 2;
 				if (zoom < radarBase.MIN_ZOOM) {
 					return;
 				}
 
-				radarBase.xoffset += e.getX() - radarBase.center_X;
-				radarBase.yoffset += e.getY() - radarBase.center_Y;
+				radarBase.setXoffset(radarBase.getXoffset() + e.getX() - radarBase.getCenter_X());
+				radarBase.setYoffset(radarBase.getYoffset() + e.getY() - radarBase.getCenter_Y());
 				radarBase.setZoom(zoom);
 				mainPanel.getMap().update = true;
 				mainPanel.getRain().update = true;
@@ -434,6 +490,9 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		}
 	}
 
+	/*
+	 * 鼠标未按键情况下移动
+	 */
 	public void mouseMoved(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
 		mainPanel.setmX(e.getX());
@@ -443,7 +502,8 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			for (MainPanel panel : GUIManager.getJpanels()) {
 				if (GUIManager.activeToolButton != null) {
 					String command = GUIManager.activeToolButton.getActionCommand();
-					if (!CommonProps.AC_T_CURSOR.equals(command)&&!CommonProps.AC_T_MEASURE.equals(command)) {
+					if (!CommonProps.AC_T_CURSOR.equals(command)
+					) {
 						return;
 					}
 				}
@@ -464,7 +524,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		} else {
 			if (GUIManager.activeToolButton != null) {
 				String command = GUIManager.activeToolButton.getActionCommand();
-				if (!CommonProps.AC_T_CURSOR.equals(command)&&!CommonProps.AC_T_MEASURE.equals(command)
+				if (!CommonProps.AC_T_CURSOR.equals(command)
 				) {
 					return;
 				}

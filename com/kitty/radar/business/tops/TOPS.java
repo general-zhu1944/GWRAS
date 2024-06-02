@@ -46,7 +46,7 @@ public class TOPS extends RadarBase {
         if (radarBase.l2 == null) { // 没有选中的文件
             return;
         }
-        int w = PositionUtils.toLength(gridWidth,radarBase);
+        int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
         int hw = w / 2;     
         GridValue[][] grids = RadarUtils.getGridsXY(w, range,radarBase);
         RadarData rd = radarBase.l2;
@@ -102,7 +102,7 @@ public class TOPS extends RadarBase {
         radarBase.datas = grids;
 
         // 画出格点
-		RadarColor radarColor = RadarUtils.getRadarColor(radarBase.currentMoment);
+		RadarColor radarColor = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase);
 		Color[] colors = radarColor.getColors();
 		float[] cvalues = radarColor.getColorValues();
 		for (int i = 0; i < grids.length; i++) {
@@ -134,10 +134,10 @@ public class TOPS extends RadarBase {
     public static float getPointValue(int x, int y,RadarBase radarBase) {
         if (radarBase.datas != null) {
             GridValue[][] grids = (GridValue[][])radarBase.datas;
-            int w = PositionUtils.toLength(gridWidth,radarBase);
-            int i = (int) Math.floor((x + radarBase.xoffset - radarBase.center_X) / (double) w)
+            int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
+            int i = (int) Math.floor((x + radarBase.getXoffset() - radarBase.getCenter_X()) / (double) w)
                     + grids.length / 2;
-            int j = (int) Math.floor((y + radarBase.yoffset - radarBase.center_Y) / (double) w)
+            int j = (int) Math.floor((y + radarBase.getYoffset() - radarBase.getCenter_Y()) / (double) w)
                     + grids.length / 2;
             if (i >= 0 && j >= 0 && i < grids.length && j < grids[i].length && grids[i][j] != null) {
                 return (float)grids[i][j].getDoubleValue();

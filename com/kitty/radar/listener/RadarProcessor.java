@@ -11,10 +11,12 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;
 import java.awt.print.PrinterJob;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -31,6 +33,8 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 
 import com.kitty.component.gui.FileChooser;
 import com.kitty.radar.VCS;
@@ -119,7 +123,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		} else if (CommonProps.AC_MAP.equals(command)) {
 			map();
 		} else if (CommonProps.AC_TERRAIN.equals(command)) {
-//			terrain();			
+			terrain();			
 		} else if (CommonProps.AC_POINT.equals(command)) {
 			point();
 		} else if (CommonProps.AC_TRACK.equals(command)) {
@@ -501,9 +505,8 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 //	}
 	private void t_drawline(ActionEvent ae ) {
 			setActiveToolButton(ae);
-	    	GUIManager.currentToolCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-//			GUIManager.currentToolCursor = CommonUtils.createCustomCursor(
-//					"resource/d3.png", new Point(3, 3), "measure");
+			GUIManager.currentToolCursor = CommonUtils.createCustomCursor(
+					"resource/measure_32.gif", new Point(3, 3), "measure");
 			GUIManager.getJpanels().forEach(panel -> {
 				panel.setCursor(GUIManager.currentToolCursor);
 			});
@@ -616,8 +619,8 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		if(GUIManager.isSyncTool()) {
 			GUIManager.getJpanels().forEach(panel -> {
 				RadarBase radarBase = panel.getRadarBase();
-				radarBase.xoffset = 0;
-				radarBase.yoffset = 0;
+				radarBase.setXoffset(0);
+				radarBase.setYoffset(0);
 				radarBase.setZoom(1);
 				panel.xoffset = 0;
 				panel.yoffset = 0;
@@ -629,8 +632,8 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 			});
 		} else {
 			RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
-			radarBase.xoffset = 0;
-			radarBase.yoffset = 0;
+			radarBase.setXoffset(0);
+			radarBase.setYoffset(0);
 			radarBase.setZoom(1);
 			GUIManager.activeMainPanel.xoffset = 0;
 			GUIManager.activeMainPanel.yoffset = 0;
@@ -748,20 +751,20 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 //		MapOverlay.update = true;
 		GUIManager.repaintAll();
 	}
-//	private void terrain() {
-//		MapOverlay.elevation_on = !MapOverlay.elevation_on;
-//		try {
-//			GUIManager.setToolMapIcon();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		GUIManager.menuTerrain.setSelected(MapOverlay.elevation_on);
-//		if(!MainPanel.update)
-//		{
-//			MainPanel.update=!MainPanel.update;
-//		}
-//		GUIManager.mainPanel.repaint();
-//	}
+	private void terrain() {
+		MapOverlay.elevation_on = !MapOverlay.elevation_on;
+		try {
+			GUIManager.setToolMapIcon();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		GUIManager.menuTerrain.setSelected(MapOverlay.elevation_on);
+		GUIManager.getJpanels().forEach(panel -> {
+			panel.getMap().update = true;
+			panel.update = true;
+			panel.repaint();
+		});
+	}
 	private void rain() {
 		RainOverlay.rain_on = !RainOverlay.rain_on;	
 		try {
@@ -825,8 +828,8 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 				BufferedOutputStream out = new BufferedOutputStream(
 						new FileOutputStream(file));
 
-				BufferedImage image = new BufferedImage(radarBase.width,
-						radarBase.height, BufferedImage.TYPE_INT_RGB);
+				BufferedImage image = new BufferedImage(radarBase.getWidth(),
+						radarBase.getHeight(), BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = (Graphics2D) image.createGraphics();
 				GUIManager.activeMainPanel.drawImage(g, 0, 0);
 				g.dispose();
@@ -859,20 +862,23 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 			elem = (ListElement) GUIManager.list.getSelectedValue();
 		}
 		if (elem != null) {
-			File file = new File(filePath, elem.getLabel());			
+			File file = new File(filePath, elem.getLabel());		
+			if (elem.getLabel().toLowerCase().endsWith(".bz2")) {
+				file = extractFile(file);
+			}
 			if (file != null) {
-				radarBase.l2 = RadarUtils.createRadarData();
+				radarBase.l2 = RadarUtils.createRadarData(radarBase);
 				radarBase.l2.setSrcFileName(elem.getLabel());
-				String oldSiteCode = RadarBase.siteCode;
+				String oldSiteCode = radarBase.siteCode;
 				if (radarBase.l2.open(file)) {
 					if (radarBase.l2.vcp != null && !radarBase.l2.vcp.equals(radarBase.vcp)) {
 						radarBase.vcp = radarBase.l2.vcp;
-						GUIManager.vcpBorder.setTitle("VCP" + RadarBase.vcp);
+						GUIManager.vcpBorder.setTitle("VCP" + radarBase.vcp);
 					}
-					RadarBase.resolution = radarBase.l2.resolution;
+					radarBase.resolution = radarBase.l2.resolution;
 					int radius = RadarUtils.getRadarRadius();
-					if (radius != RadarBase.radius) {
-						RadarBase.setRadarFormat(RadarBase.radarFormat);
+					if (radius != radarBase.radius) {
+						radarBase.setRadarFormat(radarBase.radarFormat);
 						CR.setResolution(CR.getResolution());
 		                VIL.setResolution(VIL.getResolution());
 					}
@@ -892,6 +898,18 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		}
 		GUIManager.createCutButtons();
 		GUIManager.updateComponentsAll();
+	}
+	private static File extractFile(File file) {
+		String path = CommonUtils.getTempDir();
+		File f = new File(path, "radar_bz2.bin");
+		try {
+			if (BZip2.extract(file.getAbsolutePath(), f.getAbsolutePath())) {
+				return f;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void startDeleteTimer() {

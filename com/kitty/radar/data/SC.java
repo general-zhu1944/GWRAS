@@ -10,8 +10,13 @@ import javax.swing.JOptionPane;
 
 import com.kitty.component.third.RandomAccessFile;
 import com.kitty.radar.RadarBase;
+import com.kitty.radar.gui.GUIManager;
 
 public class SC extends RadarData {
+
+	public SC(RadarBase radarBase) {
+		super(radarBase);
+	}
 
 	RadarDataFileHeader header = new RadarDataFileHeader();
 
@@ -173,8 +178,9 @@ public class SC extends RadarData {
 				this.close();
 				return false;
 			}
-			RadarBase.latitude = (float)header.radarSiteInfo.LatitudeValue/100;
-			RadarBase.longitude = (float)header.radarSiteInfo.LongitudeValue/100;
+	        RadarBase RadarBase = GUIManager.activeMainPanel.getRadarBase();
+			RadarBase.setLatitude((float)header.radarSiteInfo.LatitudeValue/100);
+			RadarBase.setLongitude((float)header.radarSiteInfo.LongitudeValue/100);
 			RadarBase.radarName = (String)header.radarSiteInfo.Station;
 			RadarBase.siteCode = (String)header.radarSiteInfo.StationNumber;
 			initParams();
@@ -188,7 +194,7 @@ public class SC extends RadarData {
 
 	private void initParams() {
 		this.cutNumber = (byte) (header.radarObservationInfo.SType - 100);
-		RadarBase.antennaHeight = (float) (header.radarSiteInfo.Height / 1000000.0);
+		radarBase.setAntennaHeight((float) (header.radarSiteInfo.Height / 1000000.0));
 		this.readParams(0);
 
 		// ≥ı ºªØcutStarts
@@ -212,7 +218,7 @@ public class SC extends RadarData {
 		header.radarSiteInfo.Country = raf.readString(30);
 		header.radarSiteInfo.Province = raf.readString(20);
 		header.radarSiteInfo.Station = raf.readString(40);
-		header.radarSiteInfo.StationNumber = raf.readString(10);
+		header.radarSiteInfo.StationNumber = raf.readString(10).trim();
 		header.radarSiteInfo.RadarType = raf.readString(20);
 		header.radarSiteInfo.Longitude = raf.readString(16);
 		header.radarSiteInfo.Latitude = raf.readString(16);

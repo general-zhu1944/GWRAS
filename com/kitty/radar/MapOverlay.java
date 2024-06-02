@@ -13,15 +13,20 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.RandomAccess;
 import java.util.Set;
 import com.kitty.radar.color.ElevationColor;
@@ -49,6 +54,8 @@ import ucar.nc2.NetcdfFile;
 import ucar.nc2.NetcdfFileWriter;
 import ucar.nc2.Variable;
 import ucar.nc2.NetcdfFileWriter.Version;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class MapOverlay  {
@@ -70,11 +77,11 @@ public class MapOverlay  {
 
     public static boolean elevation_on = true;
 
-    public static double[] dateLon;
+    public double[] dateLon;
 
-    public static double[] dateLat;
+    public double[] dateLat;
 
-    public static short[][] elevationArr;
+    public short[][] elevationArr;
 
     // ===================== Point Variables ========================
 
@@ -113,26 +120,31 @@ public class MapOverlay  {
     public static final byte MAP_TOWNNAME = 16;
 
     public static final byte MAP_DETAILNAME = 32; // 是否显示详细的地名，该值为true并且放大4倍以上时显示
+    
+    private double latitude = 30.822000; // 地图中心纬度，如：北京 39.808889
+
+    private double longitude = 106.078000; // 地图中心经度，如：北京 116.471944
 
     public static byte mapMode = 49;
 
-    public static String mapFile =  "D:\\province.map"; //CommonUtils.appPath +
+//    public static String mapFile =  "D:\\province.map"; //CommonUtils.appPath +
+//    public static String mapFile =  "D:\\xxx.map";
     public static String elevationFile="D:\\gebco_2022_n35.0_s25.0_w100.0_e110.0.nc";
     private RadarBase radarBase;
 
-	private static byte[] mapFileBytes = null;
+	private byte[] mapFileBytes = null;
   //  private static byte[] elevationFileBytes = null;
     public static NetcdfFile ofile; // 保存地形数据
 	static {
-        File f = new File(mapFile);
-        if (f.exists()) {
-        	try {
-				mapFileBytes = FileUtils.readFileToByteArray(f);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
+//        File f = new File(mapFile);
+//        if (f.exists()) {
+//        	try {
+//				mapFileBytes = FileUtils.readFileToByteArray(f);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//        }
 		
 	}
 
@@ -155,18 +167,20 @@ public class MapOverlay  {
 
 	public BufferedImage drawMap() {
         if (image == null) {
-            image = new BufferedImage(this.radarBase.width, this.radarBase.height, BufferedImage.TYPE_INT_ARGB);
+            
             update = true;
         }
         if (update) {
+        	image = new BufferedImage(this.radarBase.getWidth(), this.radarBase.getHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = (Graphics2D) image.createGraphics();
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
-            g.fillRect(0, 0, this.radarBase.width, this.radarBase.height);
+            g.fillRect(0, 0, this.radarBase.getWidth(), this.radarBase.getHeight());
             g.dispose();
 
             try {
                 if (map_on) {
-                    displayMap();
+                	if(getMapFileBytes())
+                		displayMap();
                 }
                 if (grid_on) {
                     displayGrid();
@@ -181,6 +195,33 @@ public class MapOverlay  {
         }
         return image;
     }
+	
+	private static final Map<String, byte[]> mapMap = new HashMap<String, byte[]>();
+	
+	private boolean getMapFileBytes() {
+		String fileKey = "map/"+this.radarBase.siteCode+".map";
+		//JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+this.radarBase.siteCode+"  "+fileKey);
+		if(mapMap.containsKey(fileKey)) {
+			mapFileBytes = mapMap.get(fileKey);
+			return true;
+		} else {
+			File f = new File(fileKey);
+			if (f.exists()) {
+				
+				try {
+					mapFileBytes = FileUtils.readFileToByteArray(f);
+					mapMap.put(fileKey, mapFileBytes);
+					return true;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("未找到地图文件:"+this.radarBase.siteCode+".map");
+			}
+		}
+		return false;
+	}
+	
     public BufferedImage drawTerrain(BufferedImage image2) {
         try {
             if (elevation_on) {
@@ -226,55 +267,60 @@ public class MapOverlay  {
                 //double am_RadLo = dateLon[0] * Math.PI / 180.0;
                 double am_RadLa = dateLat[0] * Math.PI / 180.0;
                 double aEc = CommonProps.RJ + (CommonProps.RC - CommonProps.RJ)
-                        * (90 - RadarBase.latitude) / 90.0;
+                        * (90 - radarBase.getLatitude()) / 90.0;
                 //double aEd = aEc * Math.cos(am_RadLa);
                 //double dx = (m_RadLo - am_RadLo) * aEd;
                 double dy = (m_RadLa - am_RadLa) * aEc;
                 double gridWidth = (dy) / dateLatL;
-                int w = PositionUtils.toLength(gridWidth / 1000,GUIManager.activeMainPanel.getRadarBase()) * 5;//像素单元格宽度
+                int w = PositionUtils.toLength(gridWidth / 1000,radarBase.getScale_X()) * 5;//像素单元格宽度
+                if(w == 0)
+                	w = 1;
                 int hw = w / 2;
+                if(hw == 0)
+                	hw = 1;
                 RadarColor radarColor = ElevationColor.color;
                 Color[] colors = radarColor.getColors();
                 float[] cvalues = radarColor.getColorValues();
                 XYCoord raincoord = null;
-
                 for (int i = 0; i < heightArr.length; i = i + 4) {
                     for (int j = 0; j < heightArr[i].length; j = j + 4) {
-                        double v = heightArr[i][j];
-                        for (int k = 0; k < cvalues.length; k++) {
-                            if (k != cvalues.length - 1) {
-                                if (v >= cvalues[k] && v < cvalues[k + 1]) {
-                                    g.setColor(colors[k]);
-                                    raincoord = PositionUtils.toXYCoord2(dateLon[j], dateLat[i],GUIManager.activeMainPanel.getRadarBase());
-                                    g.fillRect(raincoord.x - hw, raincoord.y
-                                            - hw, w, w);
-                                }
-                            } else {
-                                if (v >= cvalues[k]) {
-                                    g.setColor(colors[k]);
-                                    g.fillRect(raincoord.x - hw, raincoord.y
-                                            - hw, w, w);
-                                }
-                            }
-                        }
-                    }
-
+                        double v = heightArr[i][j];	//高度
+						for (int k = 0; k < cvalues.length; k++) {
+							if (k != cvalues.length - 1) {
+								if (v >= cvalues[k] && v < cvalues[k + 1]) {
+									g.setColor(colors[k]);
+//									 raincoord= PositionUtils.toXYCoord2(dateLon[j], dateLat[i], radarBase, longitude, latitude);
+									 raincoord= PositionUtils.toXYCoord2(dateLon[j], dateLat[i], radarBase);
+									g.fillRect(raincoord.x - hw, raincoord.y
+											- hw, w, w);
+								}
+							} else {
+								if (v >= cvalues[k]) {
+									g.setColor(colors[k]);
+									g.fillRect(raincoord.x - hw, raincoord.y
+											- hw, w, w);
+								}
+							}
+						}
+					}
+				
                 }
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
     }
+
     private void displayGrid() {
         Graphics2D g = (Graphics2D) image.createGraphics();
-        int pixel = this.radarBase.center_X - this.radarBase.xoffset;
-        int scanl = this.radarBase.center_Y - this.radarBase.yoffset;
+        int pixel = this.radarBase.getCenter_X() - this.radarBase.getXoffset();
+        int scanl = this.radarBase.getCenter_Y() - this.radarBase.getYoffset();
         g.setPaint(new Color(214, 177, 159));
 
-        for (double x = polar_grid_ring; x <= RadarBase.radius; x += polar_grid_ring) {
-            int r = (int) Math.round(x * this.radarBase.scale_X);
+        for (double x = polar_grid_ring; x <= radarBase.radius; x += polar_grid_ring) {
+            int r = (int) Math.round(x * this.radarBase.getScale_X());
             int d = 2 * r;
             g.drawOval(pixel - r, scanl - r, d, d);
             String num = CommonUtils.format(x, 0);
@@ -286,22 +332,33 @@ public class MapOverlay  {
         }
 
         for (double x = 0; x < 360.0; x += polar_grid_spoke) {
-            g.drawLine(pixel, scanl, (int) Math.round(RadarBase.radius * RadarUtils.cos(x)
-                    * this.radarBase.scale_X + pixel), (int) Math.round(RadarBase.radius * RadarUtils.sin(x)
-                    * this.radarBase.scale_Y + scanl));
+            g.drawLine(pixel, scanl, (int) Math.round(radarBase.radius * RadarUtils.cos(x)
+                    * this.radarBase.getScale_X() + pixel), (int) Math.round(radarBase.radius * RadarUtils.sin(x)
+                    * this.radarBase.getScale_Y() + scanl));
         }
         g.dispose();
     }
 
     private void displayMap() {
-//        File f = new File(mapFile);
         if (null != mapFileBytes) {
             Graphics2D g = (Graphics2D) image.createGraphics();
-            int mapRadius = (int) Math.round( 460* this.radarBase.scale_X); // 地图半径为150km RadarUtils.getRadarRadius()
-            int pixel = this.radarBase.center_X - this.radarBase.xoffset - mapRadius;
-            int scanl = this.radarBase.center_Y - this.radarBase.yoffset - mapRadius;
-            double mapTimes = 1.0 / 8.0; // 地图数据放大了8倍
-//            RandomAccessFile file = null;
+            int mapRadius = (int) Math.round( 460* this.radarBase.getScale_X()); // 地图半径为150km RadarUtils.getRadarRadius()
+            int pixel = this.radarBase.getCenter_X() - this.radarBase.getXoffset() - mapRadius;
+            int scanl = this.radarBase.getCenter_Y() - this.radarBase.getYoffset() - mapRadius;
+            //JOptionPane.showMessageDialog(null, "消息提示tjjjjt："+pixel+"  "+this.radarBase.getCenter_X());
+            // 中心点为南充：经纬度如下
+            // latitude = 30.822000; // 中心纬度
+            // longitude = 106.078000; // 中心经度
+            // 如果雷达中心点经纬度不在南充，需要计算偏移
+            // 雷达地图的坐标原点为雷达所在位置
+            //雅安
+            // 以下代码在使用的不是以雷达中心点为原点的map数据时需要放开以正确显示地图,否则不需要
+//            double nclongitude = 103.040253;
+//            double nclatitue = 29.945055;
+//            XYCoord xyNC = PositionUtils.toXYCoord2(nclongitude, nclatitue, radarBase); //雅安xy坐标(相对于雷达点)
+//            pixel = pixel + (xyNC.x-radarBase.getCenter_X()+this.radarBase.getXoffset()); //偏移量还要加上南充相对于雷达中心的偏移量
+//            scanl = scanl + (xyNC.y-radarBase.getCenter_Y()+this.radarBase.getYoffset());
+            double mapTimes = 1.0 / 8.0; // 地图数据放大了8倍,
             DataInputStream file = null;
 
             try {
@@ -398,12 +455,12 @@ public class MapOverlay  {
             mapMsgHead.bytes = file.readUnsignedShort();	//2
             readLen += 6;
 
-            x0 = (int) Math.round(mapMsgHead.x1 * mapTimes * this.radarBase.scale_X) + pixel;
-            y0 = (int) Math.round(mapMsgHead.y1 * mapTimes * this.radarBase.scale_X) + scanl;
+            x0 = (int) Math.round(mapMsgHead.x1 * mapTimes * this.radarBase.getScale_X()) + pixel;
+            y0 = (int) Math.round(mapMsgHead.y1 * mapTimes * this.radarBase.getScale_X()) + scanl;
             msgLength = mapMsgHead.bytes / 4;
             for (int j = 0; j < msgLength; j++) {
-                x1 = (int) Math.round(file.readShort() * mapTimes * this.radarBase.scale_X) + pixel;	//2
-                y1 = (int) Math.round(file.readShort() * mapTimes * this.radarBase.scale_X) + scanl;	//2
+                x1 = (int) Math.round(file.readShort() * mapTimes * this.radarBase.getScale_X()) + pixel;	//2
+                y1 = (int) Math.round(file.readShort() * mapTimes * this.radarBase.getScale_X()) + scanl;	//2
                 readLen += 4;
                 g.drawLine(x0, y0, x1, y1);
                 x0 = x1;
@@ -443,7 +500,7 @@ public class MapOverlay  {
             townName.bytes = file.readUnsignedShort();	//2
             readLen += 12;
             if (townName.bytes != 6) {
-                if (this.radarBase.zoom >= 4 && (mapMode & MAP_DETAILNAME) != 0) {
+                if (this.radarBase.getZoom() >= 4 && (mapMode & MAP_DETAILNAME) != 0) {
                     draw = true;
                     continue;
                 } else {
@@ -456,8 +513,8 @@ public class MapOverlay  {
             readLen += townName.bytes;
             String name = new String(townName.name, "GBK").trim();
             if (draw) {
-                x0 = (int) Math.round(townName.x1 * mapTimes * this.radarBase.scale_X) + pixel;
-                y0 = (int) Math.round(townName.y1 * mapTimes * this.radarBase.scale_X) + scanl;
+                x0 = (int) Math.round(townName.x1 * mapTimes * this.radarBase.getScale_X()) + pixel;
+                y0 = (int) Math.round(townName.y1 * mapTimes * this.radarBase.getScale_X()) + scanl;
                 if (!nameSet.contains(name)) {
                     g.drawOval(x0 - r, y0 - r, d, d);
                     g.drawString(name, x0 + 5, y0 + 4);
@@ -470,52 +527,100 @@ public class MapOverlay  {
     }
 
     // Cinrad地图结构
-    private class MapMsgHead { // 地图信息头
+    public static class MapMsgHead { // 地图信息头
 
-        int flag1; // 标志位1
+    	public int flag1; // 标志位1
 
-        int flag2; // 标志位2
+    	public int flag2; // 标志位2
 
-        short x1; // 起始点x
+    	public short x1; // 起始点x
 
-        short y1; // 起始点y
+    	public short y1; // 起始点y
 
-        int bytes; // 字节数
+    	public int bytes; // 字节数
+    	
+    	public short[] xy;	//点数组
+
+        public byte[] toByteArray() throws IOException {
+        	ByteArrayOutputStream ous = new ByteArrayOutputStream();
+        	DataOutputStream dous = new DataOutputStream(ous);
+        	dous.writeShort(this.flag1);
+        	dous.writeShort(this.flag2);
+        	dous.writeShort(this.x1);
+        	dous.writeShort(this.y1);
+        	dous.writeShort(bytes);
+        	for (int i = 0; i < xy.length; i=i+2) {
+				dous.writeShort(xy[i]);
+				dous.writeShort(xy[i+1]);
+			}
+        	return ous.toByteArray();
+        }
 
     }
 
-    private class MapTownName { // 地名数据
+    public static class MapTownName { // 地名数据
 
-        int flag1; // 标志位1
+    	public int flag1; // 标志位1
 
-        int flag2; // 标志位2
+    	public int flag2; // 标志位2
 
-        int flag3; // 标志位3
+    	public int flag3; // 标志位3
 
-        short x1; // 起始点x
+    	public short x1; // 起始点x
 
-        short y1; // 起始点y
+    	public short y1; // 起始点y
 
-        int bytes; // 字节数
+    	public int bytes; // 字节数
 
-        byte[] name = new byte[6];
+    	public byte[] name = new byte[6];
+    	
+    	public byte[] toByteArray() throws IOException {
+         	ByteArrayOutputStream ous = new ByteArrayOutputStream();
+         	DataOutputStream dous = new DataOutputStream(ous);
+         	dous.writeShort(this.flag1);
+         	dous.writeShort(this.flag2);
+         	dous.writeShort(this.flag3);
+         	dous.writeShort(this.x1);
+         	dous.writeShort(this.y1);
+         	dous.writeShort(bytes);						 
+			dous.write(name);
+         	return ous.toByteArray();
+         }
 
     }
 
-    private class MapHead { // 地图文件头
+    public static class MapHead { // 地图文件头
 
-        int mapID; // 地图的类别ID
+        public int mapID; // 地图的类别ID
 
-        int flag1; // 标志位1 (00或01)
+        public int flag1; // 标志位1 (00或01)
 
-        int flag2; // 标志位2 (01或17)
+        public int flag2; // 标志位2 (01或17)
 
-        int length;
+        public int length;//4字节
 
-        int startpos; // 数据偏移量
+        public int startpos; // 数据偏移量
 
-        byte[] unused = new byte[202]; // 未用
+        public byte[] unused = new byte[202]; // 未用
 
+        public byte[] toByteArray(int startpos, int length) throws IOException {
+        	this.startpos = startpos;
+        	this.length = length;
+        	return this.toByteArray();
+        }
+
+
+        public byte[] toByteArray() throws IOException {
+        	ByteArrayOutputStream ous = new ByteArrayOutputStream();
+        	DataOutputStream dous = new DataOutputStream(ous);
+        	dous.writeShort(this.mapID);
+        	dous.writeShort(this.flag1);
+        	dous.writeShort(this.flag2);
+        	dous.writeInt(this.length);
+        	dous.writeShort(this.startpos);
+        	dous.write(this.unused);
+        	return ous.toByteArray();
+        }
     }
 
 }

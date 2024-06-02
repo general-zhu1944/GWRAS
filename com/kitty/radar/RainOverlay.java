@@ -89,6 +89,8 @@ public class RainOverlay {
     double[] valueswindmax = new double[]{ 6, 10, 14, 18, 22, 26, 30, 34};
     String[] unites=new String[] {"mm","°C","m/s"};
     String unite=null;
+    
+    private static boolean mock = false;
 
 
     public class JsonParser //获取地面日资料jons格式数据结构
@@ -155,13 +157,13 @@ public class RainOverlay {
 
     public BufferedImage drawRain() {
     	 if (image == null) {
-             image = new BufferedImage(this.radarBase.width, this.radarBase.height, BufferedImage.TYPE_INT_ARGB);
+             image = new BufferedImage(this.radarBase.getWidth(), this.radarBase.getHeight(), BufferedImage.TYPE_INT_ARGB);
              update = true;
          }
          if (update) {
              Graphics2D g = (Graphics2D) image.createGraphics();
              g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
-             g.fillRect(0, 0, this.radarBase.width, this.radarBase.height);             
+             g.fillRect(0, 0, this.radarBase.getWidth(), this.radarBase.getHeight());             
              g.dispose();
              try {
                  if (rain_on) {
@@ -216,20 +218,40 @@ public class RainOverlay {
      
     }
     
+    private double[][] mockDiscreteData() {
+		double[][] S = new double[3][100];
+		for(int i =0; i<100; i++) {
+			S[0][i] = 104.5702-((double)i)/10;
+			S[1][i] = 28.81781529;
+			S[2][i] = 10+i;
+		}
+		this._discreteData = S;
+		return S;
+    }
+    
     public void CreateDiscreteData(Date t1,String element) {
+    	if(mock) {
+    		this.mockDiscreteData();
+    		return;
+    	}
     	/* 1. 定义client对象 */
 		DataQueryClient client = new DataQueryClient() ;		
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm00");
     	String date1 = sdf.format(t1);
-    	String userId ="BCCD_BFNA_NCQXT";// cn ;
-		String pwd = "NCqxt@2569730";//pw ;
+    	String userId =RadarParams.userId;// cn ;
+		String pwd = RadarParams.pw;//pw ;
 		String threshold=SurfaceDialog.textrain.getText().toString();
 		/* 2.2  接口ID */
 		String interfaceId = "getSurfEleInRectByTime" ;
-		String minLon="105.0";
-		String maxLon="107.0";
-		String minLat="30.0";
-		String maxLat="32.0";
+//		String minLon="105.0";
+//		String maxLon="107.0";
+//		String minLat="30.0";
+//		String maxLat="32.0";
+
+		String minLon=(radarBase.getLongitude()-1)+"";
+		String maxLon=(radarBase.getLongitude()+1)+"";
+		String minLat=(radarBase.getLatitude()-1)+"";
+		String maxLat=(radarBase.getLatitude()+1)+"";
 		String eledata="";
 		if(element=="temper")
 		{
@@ -348,20 +370,28 @@ public class RainOverlay {
     }
 
     public void CreateDiscreteData(Date t1,Date t2) {
+    	if(mock) {
+    		mockDiscreteData();
+    		return;
+    	}
     	/* 1. 定义client对象 */
 		DataQueryClient client = new DataQueryClient() ;		
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm00");
     	String date1 = sdf.format(t1);
         String date2 = sdf.format(t2);
-    	String userId ="BCCD_BFNA_NCQXT";// cn ;
-		String pwd = "NCqxt@2569730";//pw ;
+    	String userId =RadarParams.userId;// cn ;
+		String pwd = RadarParams.pw;//pw ;
 		String threshold=SurfaceDialog.textrain.getText().toString();
 		/* 2.2  接口ID */
 		String interfaceId = "statSurfEleInRect" ;
-		String minLon="105.0";
-		String maxLon="107.0";
-		String minLat="30.0";
-		String maxLat="32.0";
+//		String minLon="105.0";
+//		String maxLon="107.0";
+//		String minLat="30.0";
+//		String maxLat="32.0";
+		String minLon=(radarBase.getLongitude()-1)+"";
+		String maxLon=(radarBase.getLongitude()+1)+"";
+		String minLat=(radarBase.getLatitude()-1)+"";
+		String maxLat=(radarBase.getLatitude()+1)+"";
 		/* 2.3  接口参数，多个参数间无顺序 */
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("dataCode","SURF_CHN_PRE_MIN"); 
@@ -466,10 +496,10 @@ public class RainOverlay {
         //double XDelt = 0;
         //double YDelt = 0;
         //---- Generate Grid Coordinate           
-        double Xlb = 104.0;
-        double Ylb = 30.0;
-        double Xrt = 107.1;
-        double Yrt = 32.1;
+        double Xlb = radarBase.getLongitude()-1;
+        double Ylb = radarBase.getLatitude()-1;
+        double Xrt = radarBase.getLongitude()+1;
+        double Yrt = radarBase.getLatitude()+1;
         //XDelt = this.drawingPanel1.getWidth() / cols;
         //YDelt = this.drawingPanel1.getHeight() / rows;
 
@@ -811,8 +841,8 @@ public class RainOverlay {
         double b = 0;
         double c = 0;
         boolean ifX = false;
-        x0 = radarBase.width / 2;
-        y0 = radarBase.height / 2;
+        x0 = radarBase.getWidth() / 2;
+        y0 = radarBase.getHeight() / 2;
         double dist = 0;
         dist = 100;
         a = x0 - dist;
@@ -894,14 +924,14 @@ public class RainOverlay {
     }
     public void CreateLegend() {
         PointD aPoint = new PointD();
-        aPoint.X =this.radarBase.center_X/100;
-        aPoint.Y =  this.radarBase.center_Y/2;
+        aPoint.X =this.radarBase.getCenter_X()/100;
+        aPoint.Y =  this.radarBase.getCenter_Y()/2;
         LegendPara lPara = new LegendPara();
         lPara.startPoint = aPoint;
         lPara.isTriangle = true;
         lPara.isVertical = true;
-        lPara.length = radarBase.height / 2;
-        lPara.width = radarBase.height/ 100;
+        lPara.length = radarBase.getHeight() / 2;
+        lPara.width = radarBase.getHeight()/ 100;
         lPara.contourValues = values;
         
         _legendPolygons = Legend.CreateLegend(lPara);

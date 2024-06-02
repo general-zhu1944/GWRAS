@@ -9,6 +9,10 @@ import java.awt.print.PrinterException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
 import com.kitty.radar.MapOverlay;
 import com.kitty.radar.PPI;
 import com.kitty.radar.RadarBase;
@@ -25,6 +29,11 @@ import com.kitty.radar.util.PositionUtils;
 import com.kitty.radar.util.RadarUtils;
 
 public class MainPanel extends JPanel implements Printable {
+	
+	private static Logger log = LoggerFactory.getLogger(MainPanel.class);
+	
+	private Gson gson = new Gson();
+	
     private  MapOverlay map;
 	
 	private RainOverlay rain;
@@ -54,7 +63,7 @@ public class MainPanel extends JPanel implements Printable {
     private int mX = 0;
     private int mY = 0;
 
-    //光标是否活动
+    //光标是否活动：判断标准是鼠标是否在当前MainPanel展示区域，如果设置了工具同步则进行同步
     private boolean mActive = false;
 
     //状态信息
@@ -207,8 +216,8 @@ public class MainPanel extends JPanel implements Printable {
 
     public void drawImage(Graphics g, int xoffset, int yoffset) {
         RadarBase RadarBase = this.radarBase;
-        int width = RadarBase.width;
-        int height = RadarBase.height;
+        int width = RadarBase.getWidth();
+        int height = RadarBase.getHeight();
         if (image == null) {
 //            image = new BufferedImage(width*10, height*10, BufferedImage.TYPE_INT_RGB);
             image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -230,7 +239,7 @@ public class MainPanel extends JPanel implements Printable {
                 image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
                 g2= (Graphics2D) image.createGraphics();
                 g2.setPaint(Color.BLACK);
-                g2.fillRect(0, 0, RadarBase.width, RadarBase.height);
+                g2.fillRect(0, 0, RadarBase.getWidth(), RadarBase.getHeight());
             }
           //  g2.setPaint(Color.BLACK);
           //  g2.fillRect(0, 0, RadarBase.width, RadarBase.height);
@@ -278,7 +287,7 @@ public class MainPanel extends JPanel implements Printable {
     }
 
     private void displayColorBar(Graphics2D g, int width, int height) {
-        RadarColor radarColor = RadarUtils.getRadarColor(this.radarBase.currentMoment);
+        RadarColor radarColor = RadarUtils.getRadarColor(this.radarBase.currentMoment, radarBase);
         Color[] colors = radarColor.getColors();
         float[] values = radarColor.getColorValues();
         g.setPaint(new Color(130, 130, 130));
@@ -317,14 +326,15 @@ public class MainPanel extends JPanel implements Printable {
 
     private void setBaseSize(int width, int height) {
         RadarBase RadarBase = this.radarBase;
-        if (width != RadarBase.width || height != RadarBase.height) {
-            RadarBase.width = width;
-            RadarBase.height = height;
+        if (width != RadarBase.getWidth() || height != RadarBase.getHeight()) {
+            RadarBase.setWidth(width);
+            RadarBase.setHeight(height);
             RadarBase.computeScale();
-            RadarBase.center_X = (width - CommonProps.COLOR_WIDTH) / 2;
-            RadarBase.center_Y = height / 2;
+            RadarBase.setCenter_X((width - CommonProps.COLOR_WIDTH) / 2);
+            RadarBase.setCenter_Y(height / 2);
            // MapOverlay.image = null;
             this.map.image = null;
+            this.rain.image = null;
             image = null;
         }
     }
@@ -333,7 +343,7 @@ public class MainPanel extends JPanel implements Printable {
         if (pageIndex > 0) {
             return Printable.NO_SUCH_PAGE;
         }
-        BufferedImage image = new BufferedImage(radarBase.width, radarBase.height,
+        BufferedImage image = new BufferedImage(radarBase.getWidth(), radarBase.getHeight(),
                 BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D) image.createGraphics();
         drawImage(g2, 0, 0);

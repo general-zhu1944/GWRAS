@@ -23,9 +23,6 @@ public class VIL extends RadarBase {
 	public static float gridWidth = 4f; // 单元格宽度，单位：km
 
 	public static float range = 230;
-	private static NavigableMap map_old;
-	private static NavigableMap map;
-	private static String filetime;//用于判断当前雷达文件是否一致，一致就不用重新读取数据计算
 
 	public static void display(Graphics2D g,RadarBase radarBase) {
 		RadarData l2 = radarBase.l2;
@@ -33,27 +30,16 @@ public class VIL extends RadarBase {
 		if (l2 == null) { // 没有选中的文件
 			return;
 		}
-		int w = PositionUtils.toLength(gridWidth,radarBase);//像素单元格宽度
+		int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());//????μ￥?a???í?è
 		int hw = w / 2;
 		GridValue[][] grids = RadarUtils.getGridsXY(w, range,radarBase);
 		RadarData rd = radarBase.l2;
 		int moment = radarBase.active_moment;
 		double binInterval = rd.getBinInterval(moment);
 		double rangeToFirst = rd.getRangeToFirstBin(moment);
-		if(!radarBase.l2.getFileTime().toString().equals(filetime))//避免同一文件多次读取数据
-		{
-			map = rd.readFile(moment);
-			map_old=map;
-			filetime=radarBase.l2.getFileTime().toString();
-			//   JOptionPane.showMessageDialog(null, "消息提示tjjjjt：");
-		}
-		else
-		{
-			map=map_old;
-		}
-//		NavigableMap map = rd.readFile(moment);
-//		GUIManager.toolBarLabel.setText(RadarBase.radarName + " 时间 " + RadarUtils.getFileTime()
-//				+ " - 文件 " + l2.getSrcFileName() + " - "
+		NavigableMap map = rd.readFile(moment);
+//		GUIManager.toolBarLabel.setText(RadarBase.radarName + " ê±?? " + RadarUtils.getFileTime()
+//				+ " - ???t " + l2.getSrcFileName() + " - "
 //				+ RadarUtils.getMomentLabel());
 		int size = map.size();
 		double halfSin = Math.sin(Math
@@ -83,7 +69,7 @@ public class VIL extends RadarBase {
 									.binaryToMoment(rd.getPointValue4I(
 											values[k], c.azimuth, range,
 											binInterval, rangeToFirst), moment,
-											RadarBase.resolution);
+											radarBase.resolution);
 							if (RadarData.isValid(f1)) {
 								value1 = Math.pow(10, f1 / 10.0);
 								v += Math.pow(value1, 4.0 / 7.0) * range
@@ -95,7 +81,7 @@ public class VIL extends RadarBase {
 						double range = PositionUtils.toRange2(c.r, cos[k + 1]);
 						float f2 = SA_SB.binaryToMoment(rd.getPointValue4I(
 								values[k + 1], c.azimuth, range, binInterval,
-								rangeToFirst), moment, RadarBase.resolution);
+								rangeToFirst), moment, radarBase.resolution);
 						if (RadarData.isValid(f2)) {
 							value2 = Math.pow(10, f2 / 10.0);
 							if (k == size - 1) {
@@ -116,8 +102,8 @@ public class VIL extends RadarBase {
 		}
 		radarBase.datas = grids;
 
-		// 画出格点
-		RadarColor radarColor = RadarUtils.getRadarColor(radarBase.currentMoment);
+		// ?-3???μ?
+		RadarColor radarColor = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase);
 		Color[] colors = radarColor.getColors();
 		float[] cvalues = radarColor.getColorValues();
 		for (int i = 0; i < grids.length; i++) {
@@ -147,13 +133,13 @@ public class VIL extends RadarBase {
 	public static double getPointValue(int x, int y,RadarBase radarBase) {
 		if (radarBase.datas != null) {
 			GridValue[][] grids = (GridValue[][]) radarBase.datas;
-			int w = PositionUtils.toLength(gridWidth,radarBase);
+			int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
 			int i = (int) Math
-					.floor((x + radarBase.xoffset - radarBase.center_X)
+					.floor((x + radarBase.getXoffset() - radarBase.getCenter_X())
 							/ (double) w)
 					+ grids.length / 2;
 			int j = (int) Math
-					.floor((y + radarBase.yoffset - radarBase.center_Y)
+					.floor((y + radarBase.getYoffset() - radarBase.getCenter_Y())
 							/ (double) w)
 					+ grids.length / 2;
 			if (i >= 0 && j >= 0 && i < grids.length && j < grids[i].length
@@ -189,8 +175,8 @@ public class VIL extends RadarBase {
 	public static String evaLabelText(RadarBase radarBase) {
 		if(radarBase.l2 == null)
 			return "";
-		String label = "时间 " + RadarUtils.getFileTime(radarBase)
-//				+ " - 文件 " + radarBase.l2.getSrcFileName()
+		String label = "ê±?? " + RadarUtils.getFileTime(radarBase)
+//				+ " - ???t " + radarBase.l2.getSrcFileName()
 				+ " - " + RadarUtils.getMomentLabel(radarBase);
 		return label;
 	}

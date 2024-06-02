@@ -7,11 +7,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.kitty.component.third.RandomAccessFile;
+import com.kitty.radar.RadarBase;
 
 /**
  * NEXRAD Level II(WSR-88D)格式雷达文件读取基类、SA、SB格式雷达文件读取类。
  */
 public class CA_CB extends RadarData {
+	public CA_CB(RadarBase radarBase) {
+		super(radarBase);
+	}
 
 	public static final byte RECORD_HEADER_SIZE = 12; // 单位：字节
 
@@ -21,7 +25,7 @@ public class CA_CB extends RadarData {
 	// 体扫文件的title（文件头）大小，CINRAD没有title，国外为24字节
 	public byte fileHeaderSize = 0;
 
-	public short recordSize = 4132;//注：2432为S波段每层仰角的数据大小  4132是CA/CB波段每层仰角的数据大小
+	public short recordSize = 4132;//注：2432为S波段每层仰角某径向块的数据大小  4132是CA/CB波段每层仰角某径向块的数据大小
 
 	public short messageSize = 0;
 

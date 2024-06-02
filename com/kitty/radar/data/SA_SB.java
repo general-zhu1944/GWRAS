@@ -7,11 +7,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.kitty.component.third.RandomAccessFile;
+import com.kitty.radar.RadarBase;
 
 /**
  * NEXRAD Level II(WSR-88D)格式雷达文件读取基类、SA、SB格式雷达文件读取类。
  */
 public class SA_SB extends RadarData {
+
+	public SA_SB(RadarBase radarBase) {
+		super(radarBase);
+	}
 
 	public static final byte RECORD_HEADER_SIZE = 12; // 单位：字节
 

@@ -86,7 +86,7 @@ public class MeasurePanel implements MouseListener, MouseWheelListener {
                 int[] v2 = (int[]) list.get(i);
                 length += Math.hypot(v2[0] - v1[0], v2[1] - v1[1]);
             }
-            length = length / radarBase.scale_X;
+            length = length / radarBase.getScale_X();
             JOptionPane.showMessageDialog(Radar.radar, "æ‡¿Î≤‚À„Ω·π˚£∫" + CommonUtils.format(length, 1)
                     + " " + RadarUtils.getDistanceUnitLabel(), "", JOptionPane.INFORMATION_MESSAGE);
             list.clear();

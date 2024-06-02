@@ -34,39 +34,26 @@ public class CAPPI extends RadarBase {
     
     private static float range = 230;
     private static double R = 6371.0 * 1000.0 * 4.0 / 3.0;     // effective radius of earth in meters.
-    private static float h= antennaHeight*1000;
+//    private static float h= antennaHeight*1000;
     private static float z=3*1000;
-    private static NavigableMap map_old;
-    private static NavigableMap map;
-    private static String filetime;//用于判断当前雷达文件是否一致，一致就不用重新读取数据计算
     
     public static List<Double> fixedElevation = new ArrayList<>();
     
-    public static void display(Graphics2D g,RadarBase radarBase) {
-        radarBase.datas = null;
-        if (radarBase.l2 == null) { // 没有选中的文件
+    public static void display(Graphics2D g,RadarBase radarBase) { 
+    	float h= radarBase.getAntennaHeight()*1000;
+    	radarBase.datas = null;
+        if (radarBase.l2 == null) { // ??óD???Dμ????t
             return;
         }
-        int w = PositionUtils.toLength(gridWidth,radarBase);
+        int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
         int hw = w / 2;
         GridValue[][] grids = RadarUtils.getGridsXY(w, range,radarBase);
         RadarData rd = radarBase.l2;
         int moment = radarBase.active_moment;
         double binInterval = rd.getBinInterval(moment);
         double rangeToFirst = rd.getRangeToFirstBin(moment);
-        Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();
-        if(!radarBase.l2.getFileTime().toString().equals(filetime))//避免同一文件多次读取数据
-        {
-            map = rd.readFile(moment);
-            map_old=map;
-            filetime=radarBase.l2.getFileTime().toString();
-            //   JOptionPane.showMessageDialog(null, "消息提示tjjjjt：");
-        }
-        else
-        {
-            map=map_old;
-        }
-    //    NavigableMap map = rd.readFile(moment);
+        Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase).getColorCache();
+        NavigableMap map = rd.readFile(moment);      
         Iterator it =map.keySet().iterator();
         while(it.hasNext()) {
         	 Object e =it.next(); //取出元素
@@ -144,14 +131,14 @@ public class CAPPI extends RadarBase {
     public static float getPointValue(int x, int y,RadarBase radarBase) {
         if (radarBase.datas != null) {
             GridValue[][] grids = (GridValue[][]) radarBase.datas;
-            int w = PositionUtils.toLength(gridWidth,radarBase);
-            int i = (int) Math.floor((x + radarBase.xoffset - radarBase.center_X) / (double) w)
+            int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
+            int i = (int) Math.floor((x + radarBase.getXoffset() - radarBase.getCenter_X()) / (double) w)
                     + grids.length / 2;
-            int j = (int) Math.floor((y + radarBase.yoffset - radarBase.center_Y) / (double) w)
+            int j = (int) Math.floor((y + radarBase.getYoffset() - radarBase.getCenter_Y()) / (double) w)
                     + grids.length / 2;
             if (i >= 0 && j >= 0 && i < grids.length && j < grids[i].length && grids[i][j] != null) {
                 return SA_SB.binaryToMoment(grids[i][j].getShortValue(), radarBase.active_moment,
-                        RadarBase.resolution);
+                		radarBase.resolution);
             }
         }
         return RadarData.NO_DATA;
@@ -203,8 +190,8 @@ public class CAPPI extends RadarBase {
     public static String evaLabelText(RadarBase radarBase) {
         if(radarBase.l2 == null)
             return "";
-        String labelText = "时间 " + RadarUtils.getFileTime(radarBase)
-//                + " - 文件 " + radarBase.l2.getSrcFileName()
+        String labelText = "ê±?? " + RadarUtils.getFileTime(radarBase)
+//                + " - ???t " + radarBase.l2.getSrcFileName()
                 + " - " + RadarUtils.getMomentLabel(radarBase);
         return labelText;
     }

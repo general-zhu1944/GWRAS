@@ -11,10 +11,13 @@ import java.util.Map;
 
 import com.kitty.component.third.RandomAccessFile;
 import com.kitty.radar.RadarBase;
-
-import javax.swing.*;
+import com.kitty.radar.gui.GUIManager;
 
 public class FMT extends RadarData {
+
+	public FMT(RadarBase radarBase) {
+		super(radarBase);
+	}
 
 	public static final byte[] MOMENT_INDEX = new byte[36];
 
@@ -364,11 +367,12 @@ public class FMT extends RadarData {
 			raf.skipBytes(72);
 		}
 		int antennaHeight = (int) commonMap.get("AntennaHeight");
-		RadarBase.antennaHeight = antennaHeight / 1000.0f;
-		RadarBase.latitude = (float) commonMap.get("Latitude");
-		RadarBase.longitude = (float) commonMap.get("Longitude");
-		RadarBase.radarName = (String) commonMap.get("SiteName");
-		RadarBase.siteCode = (String) commonMap.get("SiteCode");
+		radarBase.setAntennaHeight(antennaHeight / 1000.0f);
+
+		radarBase.setLatitude((float) commonMap.get("Latitude"));
+		radarBase.setLongitude((float) commonMap.get("Longitude"));
+		radarBase.radarName = (String) commonMap.get("SiteName");
+		radarBase.siteCode = (String) commonMap.get("SiteCode");
 		return true;
 	}
 

@@ -41,7 +41,7 @@ public class GUIManager {
 
     public static JRadioButton cappiButton = new JRadioButton("高度");;
 
-    public static JTextField cappiText = new JTextField(CommonUtils.defaultFormat(RadarBase.level), 11);;
+    public static JTextField cappiText = new JTextField(CommonUtils.defaultFormat(1), 11);;
 
     public static JPanel cutPanel;
 
@@ -182,7 +182,7 @@ public class GUIManager {
         //初始化主要显示区
         createMainPanel(1, 1, mainPanelContainer);
         GridBagLayout gbl = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();//封装了若干对组件的约束属性
         gbc.weightx = 0;// 当窗口放大时，长度不变
         gbc.weighty = 0; // 当窗口放大时，高度不变
         gbc.fill = GridBagConstraints.HORIZONTAL; // 当格子有剩余空间时，水平填充空间
@@ -190,9 +190,8 @@ public class GUIManager {
         // 初始化Cut按钮区
         cutPanel = new JPanel(gbl);
         vcpBorder = new TitledBorderExt(BorderFactory.createEtchedBorder(), "VCP" + activeMainPanel.getRadarBase().vcp);
-//        cutPanel.setBorder(BorderFactory.createCompoundBorder(vcpBorder, BorderFactory
-//                .createEmptyBorder(0, 0, 5, 0)));
-        cutPanel.setBorder(BorderFactory.createTitledBorder("VCP" + activeMainPanel.getRadarBase().vcp));
+        cutPanel.setBorder(BorderFactory.createCompoundBorder(vcpBorder, BorderFactory
+                .createEmptyBorder(0, 0, 5, 0)));
 
         // 初始化文件列表区
         JPanel filePanel = new JPanel(gbl);
@@ -241,15 +240,15 @@ public class GUIManager {
         previous.addActionListener(processor);
         next.addActionListener(processor);
         loop.addActionListener(processor);
-        gbc.insets.set(0, 0, 0, 0);
+        gbc.insets.set(0, 2, 0, 0);
         gbc.gridwidth = 1;
         gbc.gridy = 2;
         filePanel.add(previous, gbc);
-        gbc.insets.set(0, 8, 0, 0);
+        gbc.insets.set(0, 7, 0, 0);
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.CENTER;
         filePanel.add(loop, gbc);
-        gbc.insets.set(0, 0, 0, 0);
+        gbc.insets.set(0, 7, 0, 0);
         gbc.gridx = 2;
         filePanel.add(next, gbc);
 
@@ -391,7 +390,7 @@ public class GUIManager {
                 if (null == elem) {
                     base2.l2 = null;
                     jpanels.add(mainPanel);
-                    mainPanel.setDoubleBuffered(false);
+                    mainPanel.setDoubleBuffered(false);//是否启动双缓存
                     MouseHandler handler = new MouseHandler();
                     mainPanel.addMouseListener(handler);
                     mainPanel.addMouseMotionListener(handler);
@@ -399,7 +398,7 @@ public class GUIManager {
                     mainPanel.setCursor(GUIManager.currentToolCursor);
                     continue;
                 }
-                base2.l2 = RadarUtils.createRadarData();//实例化l2为哪类雷达基数据sc?FMT?SA
+                base2.l2 = RadarUtils.createRadarData(base2);//实例化l2为哪类雷达基数据sc?FMT?SA
                 if (elem != null) {
                     base2.l2.setSrcFileName(elem.getLabel());
                     File file = new File(RadarParams.filePath, elem.getLabel());
@@ -663,7 +662,7 @@ public class GUIManager {
         RadarData l2 = radarBase.l2;
         List values = new ArrayList();
         if (l2 == null || l2.raf == null) {
-            int number = RadarUtils.getCutNumberByVCP(RadarBase.vcp);
+            int number = RadarUtils.getCutNumberByVCP(radarBase.vcp);
             for (int i = 0; i < number; i++) {
                 values.add(new String[] { " 第" + (i + 1) + "层 ", "-1" });
             }
@@ -1268,6 +1267,7 @@ public class GUIManager {
         boolean enabled = true;
         if (activeMainPanel.getRadarBase().currentMoment == CommonProps.MOMENT_ET
                 || activeMainPanel.getRadarBase().currentMoment == CommonProps.MOMENT_HP
+                || activeMainPanel.getRadarBase().currentMoment == CommonProps.MOMENT_CAPPI
                 || activeMainPanel.getRadarBase().currentMoment == CommonProps.MOMENT_VIL) {
             enabled = false;
         }
@@ -1373,11 +1373,11 @@ public class GUIManager {
         for (MainPanel mainPanel : jpanels) {
             if(mainPanel != activeMainPanel) {
                 RadarBase radarBase = mainPanel.getRadarBase();
-                radarBase.xoffset -=dx;
-                radarBase.yoffset -=dy;
-                radarBase.zoom = base.zoom;
-                radarBase.scale_X = base.scale_X;
-                radarBase.scale_Y = base.scale_Y;
+                radarBase.setXoffset(radarBase.getXoffset() - dx);
+                radarBase.setYoffset(radarBase.getYoffset() - dy);
+                radarBase.setZoom(base.getZoom());
+                radarBase.setScale_X(base.getScale_X());
+                radarBase.setScale_Y(base.getScale_Y());
                 mainPanel.xoffset +=dx;
                 mainPanel.yoffset +=dy;
                 mainPanel.getMap().update = mapUpdate;
@@ -1398,11 +1398,11 @@ public class GUIManager {
         for (MainPanel mainPanel : jpanels) {
             if(mainPanel != activeMainPanel) {
                 RadarBase radarBase = mainPanel.getRadarBase();
-                radarBase.xoffset = base.xoffset;
-                radarBase.yoffset = base.yoffset;
-                radarBase.zoom = base.zoom;
-                radarBase.scale_X = base.scale_X;
-                radarBase.scale_Y = base.scale_Y;
+                radarBase.setXoffset(base.getXoffset());
+                radarBase.setYoffset(base.getYoffset());
+                radarBase.setZoom(base.getZoom());
+                radarBase.setScale_X(base.getScale_X());
+                radarBase.setScale_Y(base.getScale_Y());
                 mainPanel.xoffset = activeMainPanel.xoffset;
                 mainPanel.yoffset = activeMainPanel.yoffset;
                 mainPanel.getRain().update = true;
@@ -1458,9 +1458,8 @@ public class GUIManager {
         RadarBase base = activeMainPanel.getRadarBase();
         for (MainPanel mainPanel : jpanels) {
             if(mainPanel != activeMainPanel) {
-               RadarBase base2 = mainPanel.getRadarBase();
+                RadarBase base2 = mainPanel.getRadarBase();
                 base2.cutNum = base.cutNum;
-
 //    			base2.l2 = base.l2;
 
 //    			base2.vcp = base.l2.vcp;

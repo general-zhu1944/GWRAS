@@ -33,7 +33,7 @@ public class CR extends RadarBase {
         if (l2 == null) { // 没有选中的文件
             return;
         }
-        int w = PositionUtils.toLength(gridWidth,radarBase);
+        int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
         int hw = w / 2;
         GridValue[][] grids = RadarUtils.getGridsXY(w, range,radarBase);
         RadarData rd = radarBase.l2;
@@ -41,7 +41,7 @@ public class CR extends RadarBase {
         double binInterval = rd.getBinInterval(moment);
         double rangeToFirst = rd.getRangeToFirstBin(moment);
       //  JOptionPane.showMessageDialog(null, "消息提示tjjjjt：");
-        Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();
+        Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase).getColorCache();
         NavigableMap map = rd.readFile(moment);
 //        GUIManager.toolBarLabel.setText( " 站名 " +RadarBase.radarName + " - 时间 " + RadarUtils.getFileTime() + " - 文件 "
 //                + l2.getSrcFileName() + " - " + RadarUtils.getMomentLabel());
@@ -93,14 +93,14 @@ public class CR extends RadarBase {
     public static float getPointValue(int x, int y,RadarBase radarBase) {
         if (radarBase.datas != null) {
             GridValue[][] grids = (GridValue[][]) radarBase.datas;
-            int w = PositionUtils.toLength(gridWidth,radarBase);
-            int i = (int) Math.floor((x + radarBase.xoffset - radarBase.center_X) / (double) w)
+            int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
+            int i = (int) Math.floor((x + radarBase.getXoffset() - radarBase.getCenter_X()) / (double) w)
                     + grids.length / 2;
-            int j = (int) Math.floor((y + radarBase.yoffset - radarBase.center_Y) / (double) w)
+            int j = (int) Math.floor((y + radarBase.getYoffset() - radarBase.getCenter_Y()) / (double) w)
                     + grids.length / 2;
             if (i >= 0 && j >= 0 && i < grids.length && j < grids[i].length && grids[i][j] != null) {
                 return SA_SB.binaryToMoment(grids[i][j].getShortValue(), radarBase.active_moment,
-                        RadarBase.resolution);
+                		radarBase.resolution);
             }
         }
         return RadarData.NO_DATA;

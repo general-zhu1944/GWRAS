@@ -105,9 +105,9 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			double latitudeStart = this.getLinePosition().getLatitudeStart();
 			double longitudeEnd = this.getLinePosition().getLongitudeEnd();
 			double latitudeEnd = this.getLinePosition().getLatitudeEnd();
-			ARCoord arcStart = PositionUtils.toARCoord(longitudeStart,latitudeStart);
+			ARCoord arcStart = PositionUtils.toARCoord(longitudeStart,latitudeStart, radarBase.getLongitude(), radarBase.getLatitude());
 			XYCoord xyStart=PositionUtils.toXYCoord(arcStart.azimuth,arcStart.r, radarBase);
-			ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd,latitudeEnd);
+			ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd,latitudeEnd, radarBase.getLongitude(), radarBase.getLatitude());
 			XYCoord xyEnd=PositionUtils.toXYCoord(arcEnd.azimuth,arcEnd.r, radarBase);
 			Graphics2D g2 = (Graphics2D)g; //g是Graphics对象
 			g2.setStroke(new BasicStroke(3.0f));
@@ -142,7 +142,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			pointStart = e.getPoint();
 			ARCoord arcStart = PositionUtils.toARCoord(pointStart.x, pointStart.y,radarBase);
 			LLCoord llcStart = PositionUtils.toLLCoord(arcStart.azimuth, PositionUtils.toR(arcStart.r, radarBase.l2
-					.getElevation(radarBase.cutNum)));
+					.getElevation(radarBase.cutNum)), radarBase.getLongitude(), radarBase.getLatitude());
 			LinePosition p = linePostions.get(this);
 			p.longitudeStart=llcStart.longitude;
 			p.latitudeStart=llcStart.latitude;
@@ -162,12 +162,12 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			for (MainPanel panel : GUIManager.getJpanels()) {
 				for (VCS vcs : VCS.vcss) {
 					if (vcs.getRadarBase().equals(panel.getRadarBase())) {
-						int pixel = radarBase.center_X - radarBase.xoffset;//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
-						int scanl = radarBase.center_Y - radarBase.yoffset;
-						vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / vcs.getRadarBase().scale_X));
-						vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
-						vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / vcs.getRadarBase().scale_X));
-						vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / vcs.getRadarBase().scale_Y));
+						int pixel = radarBase.getCenter_X() - radarBase.getXoffset();//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
+						int scanl = radarBase.getCenter_Y() - radarBase.getYoffset();
+						vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / vcs.getRadarBase().getScale_X()));
+						vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / vcs.getRadarBase().getScale_Y()));
+						vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / vcs.getRadarBase().getScale_X()));
+						vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / vcs.getRadarBase().getScale_Y()));
 						vcs.update = true;
 						vcs.repaint();
 
@@ -177,12 +177,12 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 		} else {
 			for (VCS vcs : VCS.vcss) {
 				if (vcs.getRadarBase().equals(GUIManager.activeMainPanel.getRadarBase())) {
-					int pixel = radarBase.center_X - radarBase.xoffset;//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
-					int scanl = radarBase.center_Y - radarBase.yoffset;
-					vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / radarBase.scale_X));
-					vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / radarBase.scale_Y));
-					vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / radarBase.scale_X));
-					vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / radarBase.scale_Y));
+					int pixel = radarBase.getCenter_X() - radarBase.getXoffset();//pixel为雷达所在x坐标的位置，radarBase.center_X为图中心位置
+					int scanl = radarBase.getCenter_Y() - radarBase.getYoffset();
+					vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / radarBase.getScale_X()));
+					vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / radarBase.getScale_Y()));
+					vcs.pointEnd.x = (int) ((pointEnd2.x - pixel) * (1 / radarBase.getScale_X()));
+					vcs.pointEnd.y = (int) ((pointEnd2.y - scanl) * (1 / radarBase.getScale_Y()));
 					vcs.update = true;
 					vcs.repaint();
 
@@ -236,7 +236,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			pointEnd = e.getPoint();
 			ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y, radarBase);
 			LLCoord llcEnd = PositionUtils.toLLCoord(arcEnd.azimuth, PositionUtils.toR(arcEnd.r, radarBase.l2
-					.getElevation(radarBase.cutNum)));
+					.getElevation(radarBase.cutNum)), radarBase.getLongitude(), radarBase.getLatitude());
 			LinePosition p = linePostions.get(this);
 			p.longitudeEnd = llcEnd.longitude;
 			p.latitudeEnd = llcEnd.latitude;
@@ -253,7 +253,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 				pointEnd = e.getPoint();
 				ARCoord arcEnd = PositionUtils.toARCoord(pointEnd.x, pointEnd.y, radarBase);
 				LLCoord llcEnd = PositionUtils.toLLCoord(arcEnd.azimuth, PositionUtils.toR(arcEnd.r, radarBase.l2
-						.getElevation(radarBase.cutNum)));
+						.getElevation(radarBase.cutNum)), radarBase.getLongitude(), radarBase.getLatitude());
 				LinePosition p = linePostions.get(this);
 				p.longitudeEnd = llcEnd.longitude;
 				p.latitudeEnd = llcEnd.latitude;
@@ -322,7 +322,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 		if (num == 0) {
 			return;
 		} else if (num > 0) {
-			num = radarBase.zoom / 2;
+			num = radarBase.getZoom() / 2;
 			if (num < radarBase.MIN_ZOOM) {
 				return;
 			}
@@ -336,7 +336,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			}
 
 		} else {
-			num = radarBase.zoom * 2;
+			num = radarBase.getZoom() * 2;
 			if (num > radarBase.MAX_ZOOM) {
 				return;
 			}

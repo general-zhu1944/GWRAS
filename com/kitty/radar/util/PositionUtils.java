@@ -22,10 +22,13 @@ public class PositionUtils {
 	 * 
 	 * @param distance
 	 *            单位：km
+	 * 
+	 * @param scaleX
+	 *            缩放
 	 * @return
 	 */
-	public static int toLength(double distance, RadarBase RadarBase) {
-		return (int) Math.round(distance * RadarBase.scale_X);
+	public static int toLength(double distance, double scaleX) {
+		return (int) Math.round(distance * scaleX);
 	}
 
 	/**
@@ -35,8 +38,8 @@ public class PositionUtils {
 	 *            单位：像素
 	 * @return
 	 */
-	public static double toDistance(int length, RadarBase RadarBase) {
-		return length / RadarBase.scale_X;
+	public static double toDistance(int length, double scaleX) {
+		return length / scaleX;
 	}
 
 	/**
@@ -96,13 +99,13 @@ public class PositionUtils {
 	 *            极径，单位：km
 	 * @return
 	 */
-	public static LLCoord toLLCoord(double azimuth, double r) {
+	public static LLCoord toLLCoord(double azimuth, double r,double longitude, double latitude) {
 		double dx = r * 1000 * Math.sin(azimuth * Math.PI / 180.0);
 		double dy = r * 1000 * Math.cos(azimuth * Math.PI / 180.0);
-		double m_RadLo = RadarBase.longitude * Math.PI / 180.0;
-		double m_RadLa = RadarBase.latitude * Math.PI / 180.0;
+		double m_RadLo = longitude * Math.PI / 180.0;
+		double m_RadLa = latitude * Math.PI / 180.0;
 		double Ec = CommonProps.RJ + (CommonProps.RC - CommonProps.RJ)
-				* (90 - RadarBase.latitude) / 90.0;
+				* (90 - latitude) / 90.0;
 		double Ed = Ec * Math.cos(m_RadLa);
 		double lng = (dx / Ed + m_RadLo) * 180 / Math.PI;
 		double lat = (dy / Ec + m_RadLa) * 180 / Math.PI;
@@ -116,15 +119,19 @@ public class PositionUtils {
 	 *            单位：度
 	 * @param latitude
 	 *            单位：度
+	 * @param longitudeStart
+	 *            起点经度
+	 * @param latitudeStart
+	 *            起点维度
 	 * @return
 	 */
-	public static ARCoord toARCoord(double longitude, double latitude) {
+	public static ARCoord toARCoord(double longitude, double latitude, double longitudeStart, double latitudeStart) {
 		double m_RadLo = longitude * Math.PI / 180.0;
 		double m_RadLa = latitude * Math.PI / 180.0;
-		double am_RadLo = RadarBase.longitude * Math.PI / 180.0;
-		double am_RadLa = RadarBase.latitude * Math.PI / 180.0;
+		double am_RadLo = longitudeStart * Math.PI / 180.0;
+		double am_RadLa = latitudeStart * Math.PI / 180.0;
 		double aEc = CommonProps.RJ + (CommonProps.RC - CommonProps.RJ)
-				* (90 - RadarBase.latitude) / 90.0;
+				* (90 - latitudeStart) / 90.0;
 		double aEd = aEc * Math.cos(am_RadLa);
 
 		double dx = (m_RadLo - am_RadLo) * aEd;
@@ -133,8 +140,8 @@ public class PositionUtils {
 		double azimuth = Math.atan(Math.abs(dx / dy)) * 180 / Math.PI;
 
 		// 判断象限
-		double dLo = longitude - RadarBase.longitude;
-		double dLa = latitude - RadarBase.latitude;
+		double dLo = longitude - longitudeStart;
+		double dLa = latitude - latitudeStart;
 
 		if (dLo > 0 && dLa <= 0) {
 			azimuth = (90 - azimuth) + 90;
@@ -159,10 +166,10 @@ public class PositionUtils {
 	 * @return
 	 */
 	public static ARCoord toARCoord(int x, int y, RadarBase RadarBase) {
-		double dx = (x + RadarBase.xoffset - RadarBase.center_X)
-				/ RadarBase.scale_X;
-		double dy = (y + RadarBase.yoffset - RadarBase.center_Y)
-				/ RadarBase.scale_Y;
+		double dx = (x + RadarBase.getXoffset() - RadarBase.getCenter_X())
+				/ RadarBase.getScale_X();
+		double dy = (y + RadarBase.getYoffset() - RadarBase.getCenter_Y())
+				/ RadarBase.getScale_Y();
 		return toARCoord2(dx, dy);
 	}
 
@@ -215,10 +222,10 @@ public class PositionUtils {
 	public static XYCoord toXYCoord(double azimuth, double r, RadarBase RadarBase) {
 		int x = (int) Math.round(r
 				* Math.cos((azimuth - 90.0) * Math.PI / 180.0)
-				* RadarBase.scale_X - RadarBase.xoffset + RadarBase.center_X);
+				* RadarBase.getScale_X() - RadarBase.getXoffset() + RadarBase.getCenter_X());
 		int y = (int) Math.round(r
 				* Math.sin((azimuth + 90.0) * Math.PI / 180.0)
-				* RadarBase.scale_Y - RadarBase.yoffset + RadarBase.center_Y);
+				* RadarBase.getScale_Y() - RadarBase.getYoffset() + RadarBase.getCenter_Y());
 		return new XYCoord(x, y);
 	}
 
@@ -232,7 +239,11 @@ public class PositionUtils {
 	 * @return
 	 */
 	public static XYCoord toXYCoord2(double longitude, double latitude, RadarBase RadarBase) {
-		ARCoord c = PositionUtils.toARCoord(longitude, latitude);
+		ARCoord c = PositionUtils.toARCoord(longitude, latitude, RadarBase.getLongitude(), RadarBase.getLatitude());
+		return toXYCoord(c.azimuth, c.r, RadarBase);
+	}
+	public static XYCoord toXYCoord2(double longitude, double latitude, RadarBase RadarBase, double longitudeStart, double latitudeStart) {
+		ARCoord c = PositionUtils.toARCoord(longitude, latitude, longitudeStart, latitudeStart);
 		return toXYCoord(c.azimuth, c.r, RadarBase);
 	}
 
@@ -246,10 +257,10 @@ public class PositionUtils {
 	 * @return
 	 */
 	public static XYCoord toXYCoord3(double x, double y, RadarBase RadarBase) {
-		int x1 = (int) Math.round(x * RadarBase.scale_X - RadarBase.xoffset
-				+ RadarBase.center_X);
-		int y1 = (int) Math.round(y * RadarBase.scale_Y - RadarBase.yoffset
-				+ RadarBase.center_Y);
+		int x1 = (int) Math.round(x * RadarBase.getScale_X() - RadarBase.getXoffset()
+				+ RadarBase.getCenter_X());
+		int y1 = (int) Math.round(y * RadarBase.getScale_Y() - RadarBase.getYoffset()
+				+ RadarBase.getCenter_Y());
 		return new XYCoord(x1, y1);
 	}
 
@@ -263,10 +274,10 @@ public class PositionUtils {
 	 * @return
 	 */
 	public static XYDCoord toXYDCoord(int x, int y, RadarBase RadarBase) {
-		double dx = (x + RadarBase.xoffset - RadarBase.center_X)
-				/ RadarBase.scale_X;
-		double dy = (y + RadarBase.yoffset - RadarBase.center_Y)
-				/ RadarBase.scale_Y;
+		double dx = (x + RadarBase.getXoffset() - RadarBase.getCenter_X())
+				/ RadarBase.getScale_X();
+		double dy = (y + RadarBase.getYoffset() - RadarBase.getCenter_Y())
+				/ RadarBase.getScale_Y();
 		return new XYDCoord(dx, dy);
 	}
 
@@ -281,9 +292,9 @@ public class PositionUtils {
 	 *            仰角cos值
 	 * @return
 	 */
-	public static double getHeight(double range, double sin, double cos) {
+	public static double getHeight(double range, double sin, double cos, RadarBase radarBase) {
 		return range * sin + CommonProps.D * range * range * cos * cos
-				+ RadarBase.antennaHeight;
+				+ radarBase.getAntennaHeight();
 	}
 
 	/**
@@ -295,9 +306,9 @@ public class PositionUtils {
 	 *            仰角，单位：度
 	 * @return
 	 */
-	public static double getHeight(double range, double elevation) {
+	public static double getHeight(double range, double elevation, RadarBase radarBase) {
 		double ang = elevation * Math.PI / 180.0;
-		return getHeight(range, Math.sin(ang), Math.cos(ang));
+		return getHeight(range, Math.sin(ang), Math.cos(ang), radarBase);
 	}
 
 	/**

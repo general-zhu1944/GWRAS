@@ -24,7 +24,7 @@ import com.kitty.radar.util.ConfigInfo;
 
 public class Radar extends JFrame {
 
-	public static final String APP_NAME = "南充市天气雷达显示分析软件系统";
+	public static final String APP_NAME = "南充天气雷达显示分析系统";
 
 	public static final String APP_VERSION = "1.0";
 
@@ -36,7 +36,7 @@ public class Radar extends JFrame {
 
 	public static final String AUTHOR = "竹利";
 
-	public static final String COPYRIGHT_INFO = "版权所有 (C) 2020-2023";
+	public static final String COPYRIGHT_INFO = "川东北强天气研究南充市重点实验室 (C)2021";
 
 	public static RadarProcessor processor = new RadarProcessor();
 
@@ -44,11 +44,11 @@ public class Radar extends JFrame {
 
 	private static FilesystemAlterationMonitor fam;
 
-	public static byte updateRate = 30; // 自动更新间隔，单位：秒
+	public static byte updateRate = 30; // ×??ˉ?üD?????￡?μ￥??￡o??
 
-	public static boolean showToolBar = true;
+//	public static boolean showToolBar = true;
 
-	public static boolean showStatus = true;
+//	public static boolean showStatus = true;
 
 	public static boolean showRightPanel = true;
 
@@ -61,12 +61,12 @@ public class Radar extends JFrame {
 		}
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		addWindowListener(new BasicWindowHandler());
-		ConfigInfo.readConfigInfo();//读取配置文件
+		ConfigInfo.readConfigInfo();//?áè????????t
 		this.setTitle(APP_NAME);
-		this.setJMenuBar(GUIManager.createMenu(processor));//设置菜单栏
-		Container pane = this.getContentPane();//实例化容器对象
-//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);//向容器添加工具栏
-//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);//向容器添加状态栏
+		this.setJMenuBar(GUIManager.createMenu(processor));//éè??2?μ￥à?
+		Container pane = this.getContentPane();//êμày?ˉèY?÷???ó
+//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);//?òèY?÷ìí?ó1¤??à?
+//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);//?òèY?÷ìí?ó×′ì?à?
 		GUIManager.createPanels(processor, pane);	
 		startFileMonitor();
 		processor.startDeleteTimer();
@@ -92,13 +92,12 @@ public class Radar extends JFrame {
 			System.setOut(ps);
 			UIManager
 					.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
-			UIManager.getDefaults().put("FileChooser.cancelButtonText", "取消");
+			UIManager.getDefaults().put("FileChooser.cancelButtonText", "取锟斤拷");
 			UIManager.getDefaults().put("FileChooser.cancelButtonToolTipText",
-					"关闭对话框");
+					"锟截闭对伙拷锟斤拷");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//Font font = new Font("宋体", Font.PLAIN, 12);
 		Font font = new Font("锟斤拷锟斤拷", Font.PLAIN, 12);
 		Enumeration keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {

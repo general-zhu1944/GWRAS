@@ -44,9 +44,9 @@ public class RHI extends JPanel {
 
 	private byte height_max = 20;
 
-	public static float range_min = 0;
+	public float range_min = 0;
 
-	public  static float range_max = RadarBase.radius;
+	public  float range_max = 0;
 
 	private boolean update = true;
 
@@ -57,6 +57,7 @@ public class RHI extends JPanel {
 
 	public RHI(RadarBase radarBase) {
 		this.radarBase = radarBase;
+		range_max = radarBase.radius;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -95,7 +96,7 @@ public class RHI extends JPanel {
 		if (l2 == null || l2.getCutNumber() <= 0) {
 			return;
 		}
-		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment).getColorCache();
+		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase).getColorCache();
 		if (colorCache == null) {
 			return;
 		}
@@ -164,19 +165,19 @@ public class RHI extends JPanel {
 
 						y[0] = baseY
 								- (int) Math.round((PositionUtils.getHeight(
-										range1, sin1, cos1) - height_min)
+										range1, sin1, cos1, radarBase) - height_min)
 										* scaleY);
 						y[1] = baseY
 								- (int) Math.round((PositionUtils.getHeight(
-										range2, sin1, cos1) - height_min)
+										range2, sin1, cos1, radarBase) - height_min)
 										* scaleY);
 						y[2] = baseY
 								- (int) Math.round((PositionUtils.getHeight(
-										range2, sin2, cos2) - height_min)
+										range2, sin2, cos2, radarBase) - height_min)
 										* scaleY);
 						y[3] = baseY
 								- (int) Math.round((PositionUtils.getHeight(
-										range1, sin2, cos2) - height_min)
+										range1, sin2, cos2, radarBase) - height_min)
 										* scaleY);
 
 						g.fillPolygon(x, y, 4);
@@ -369,13 +370,13 @@ public class RHI extends JPanel {
 					}
 					double range = rangeToFirst + (bin + 1) * rangeStep;
 					double x = range * cos;
-					double h = PositionUtils.getHeight(range, sin, cos);
+					double h = PositionUtils.getHeight(range, sin, cos, radarBase);
 					if (ExportSetDialog.coordType == 0) {
 						RadarUtils.writeValues(w,
 								new String[] { CommonUtils.format(x, 1),
 										CommonUtils.format(h, 1), svalue });
 					} else {
-						LLCoord c = PositionUtils.toLLCoord(azimuth, x);
+						LLCoord c = PositionUtils.toLLCoord(azimuth, x, radarBase.getLongitude(), radarBase.getLatitude());
 						RadarUtils.writeValues(
 								w,
 								new String[] {

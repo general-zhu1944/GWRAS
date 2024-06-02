@@ -58,7 +58,7 @@ public class CircleArea extends Area {
             g.setColor(Color.RED);
             g.setStroke(new BasicStroke(2));
             XYCoord c = PositionUtils.toXYCoord2(lx, ly, this.getRadarBase());
-            int cr = PositionUtils.toLength(r,this.getRadarBase());
+            int cr = PositionUtils.toLength(r,this.getRadarBase().getScale_X());
             g.drawOval(c.x - cr, c.y - cr, 2 * cr, 2 * cr);
         }
     }
@@ -80,7 +80,7 @@ public class CircleArea extends Area {
     @Override
     public Shape toShape() {
         XYCoord c = PositionUtils.toXYCoord2(lx, ly, this.getRadarBase());
-        int cr = PositionUtils.toLength(r,this.getRadarBase());
+        int cr = PositionUtils.toLength(r,this.getRadarBase().getScale_X());
         return new Ellipse2D.Double(c.x - cr, c.y - cr, 2 * cr, 2 * cr);
     }
 
