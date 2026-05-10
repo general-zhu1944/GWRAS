@@ -71,7 +71,7 @@ public class PropsDialog extends JDialog {
             public void stateChanged(ChangeEvent e) {
                 Problem p = vpanel.getProblem();
                 boolean enable = p == null ? true : p.severity() != Severity.FATAL;
-                enableMap.put(name, new Boolean(enable));
+                enableMap.put(name, Boolean.valueOf(enable));
                 enable = getValidationEnable();
                 confirm.setEnabled(enable);
                 if (applyEnable) {

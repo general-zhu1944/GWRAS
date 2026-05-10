@@ -21,6 +21,7 @@ public abstract class RadarData {
 	protected RadarBase radarBase;
 
 	// ============================ 支持的雷达格式 ============================
+	public static final Option RADAR_FORMAT_PARD = new Option("PARD", 4);
 	public static final Option RADAR_FORMAT_CA_CB = new Option("CA/CB", 3);
 
 	public static final Option RADAR_FORMAT_SA_SB = new Option("SA/SB", 2);
@@ -53,7 +54,7 @@ public abstract class RadarData {
 
 	public static final byte DOPPLER_RESOLUTION_HIGH = 2; // 多普勒速度分辨率，0.5米/秒
 
-	public static final short MAX_FILE_RECORDS = 10000; // 文件中的最大记录数
+	public static final short MAX_FILE_RECORDS = 30000; // 文件中的最大记录数
 
 	public static final byte MAX_FILE_CUTS = 20; // 文件中的最大仰角数
 

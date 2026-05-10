@@ -1,6 +1,6 @@
 package com.kitty.radar;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.io.File;
@@ -8,7 +8,6 @@ import java.io.PrintStream;
 import java.util.Enumeration;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
@@ -24,9 +23,9 @@ import com.kitty.radar.util.ConfigInfo;
 
 public class Radar extends JFrame {
 
-	public static final String APP_NAME = "南充天气雷达显示分析系统";
+	public static final String APP_NAME = "GWRAS";
 
-	public static final String APP_VERSION = "1.0";
+	public static final String APP_VERSION = "1.2";
 
 	public static final String PHONE = "15680302675";
 
@@ -34,9 +33,9 @@ public class Radar extends JFrame {
 
 	public static final String E_MAIL = "275551265@qq.com";
 
-	public static final String AUTHOR = "竹利";
+	public static final String AUTHOR = "竹 利";
 
-	public static final String COPYRIGHT_INFO = "川东北强天气研究南充市重点实验室 (C)2021";
+	public static final String COPYRIGHT_INFO = "川东北强天气研究南充市重点实验室(C)2020-2026";
 
 	public static RadarProcessor processor = new RadarProcessor();
 
@@ -44,7 +43,7 @@ public class Radar extends JFrame {
 
 	private static FilesystemAlterationMonitor fam;
 
-	public static byte updateRate = 30; // ×??ˉ?üD?????￡?μ￥??￡o??
+	public static byte updateRate = 30; // ?????????D???????????????o??
 
 //	public static boolean showToolBar = true;
 
@@ -61,13 +60,13 @@ public class Radar extends JFrame {
 		}
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		addWindowListener(new BasicWindowHandler());
-		ConfigInfo.readConfigInfo();//?áè????????t
+		ConfigInfo.readConfigInfo();//?????????????t
 		this.setTitle(APP_NAME);
-		this.setJMenuBar(GUIManager.createMenu(processor));//éè??2?μ￥à?
-		Container pane = this.getContentPane();//êμày?ˉèY?÷???ó
-//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);//?òèY?÷ìí?ó1¤??à?
-//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);//?òèY?÷ìí?ó×′ì?à?
-		GUIManager.createPanels(processor, pane);	
+		this.setJMenuBar(GUIManager.createMenu(processor));//??????2???????
+		Container pane = this.getContentPane();//?????y?????Y????????
+//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);//?????Y??¨??????1???????
+//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);//?????Y??¨??????????????
+		GUIManager.createPanels(processor, pane);
 		startFileMonitor();
 		processor.startDeleteTimer();
 	}
@@ -84,33 +83,58 @@ public class Radar extends JFrame {
 		fam.start();
 	}
 
-	public static void main(String args[]) {
+	public static void main(String[] args) {
+		// FlatLaf theme setup before any UI
+		UIManager.put("FlatLaf.ownWindowDecorations", false);
+		UIManager.put("FlatLaf.useWindowDecorations", false);
+
 		File file = new File(CommonUtils.getUserHomeDir(), "output.log");
 		try {
 			PrintStream ps = new PrintStream(file);
 			System.setErr(ps);
 			System.setOut(ps);
-			UIManager
-					.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
-			UIManager.getDefaults().put("FileChooser.cancelButtonText", "取锟斤拷");
-			UIManager.getDefaults().put("FileChooser.cancelButtonToolTipText",
-					"锟截闭对伙拷锟斤拷");
+			UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Font font = new Font("锟斤拷锟斤拷", Font.PLAIN, 12);
-		Enumeration keys = UIManager.getDefaults().keys();
+
+		// Accent color
+		UIManager.put("Component.accentColor", 0x357EC0);
+		UIManager.put("Component.focusColor", 0x357EC040);
+		// Rounder corners
+		UIManager.put("TabbedPane.tabHeight", 28);
+		UIManager.put("Button.arc", 6);
+		UIManager.put("Component.arc", 6);
+		UIManager.put("ProgressBar.arc", 6);
+		UIManager.put("TextComponent.arc", 6);
+		UIManager.put("TabbedPane.selectedBackground", new Color(0xF5F5F5));
+		// Menus
+		UIManager.put("MenuBar.underlineSelectionColor", 0x357EC0);
+		UIManager.put("Menu.selectionBackground", new Color(0xE8F0FE));
+		UIManager.put("Menu.selectionForeground", 0x1A1A1A);
+		UIManager.put("MenuItem.selectionBackground", new Color(0xE8F0FE));
+		UIManager.put("MenuItem.selectionForeground", 0x1A1A1A);
+		UIManager.put("PopupMenu.borderColor", new Color(0xD0D0D0));
+		// Checkbox in menus
+		UIManager.put("CheckBoxMenuItem.selectionBackground", new Color(0xE8F0FE));
+		UIManager.put("CheckBoxMenuItem.icon.checkmarkColor", 0x357EC0);
+		UIManager.put("CheckBoxMenuItem.acceleratorForeground", 0x808080);
+		// Table headers
+		UIManager.put("TableHeader.background", new Color(0xF0F0F0));
+
+		// Unified font
+		Font uiFont = new Font("Microsoft YaHei UI", Font.PLAIN, 13);
+		Enumeration<?> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
 			Object key = keys.nextElement();
 			if (UIManager.get(key) instanceof FontUIResource) {
-				UIManager.put(key, font);
+				UIManager.put(key, uiFont);
 			}
 		}
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				radar = new Radar();
-				radar.setVisible(true);
-			}
+
+		SwingUtilities.invokeLater(() -> {
+			radar = new Radar();
+			radar.setVisible(true);
 		});
 	}
 

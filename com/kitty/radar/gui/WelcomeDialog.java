@@ -23,11 +23,11 @@ public class WelcomeDialog extends BasicDialog {
         this.setCenterSize(400, 255);
         this.mainPanel.addImage("resource/about.gif", 0, 0, 400, 43);
         this.mainPanel.addLabel("软件版本: " + Radar.APP_VERSION, 23, 59);
-        this.mainPanel.addLabel(Radar.COPYRIGHT_INFO, 100, 59);
+        this.mainPanel.addLabel(Radar.COPYRIGHT_INFO, 104, 59);
         this.mainPanel.addLabel("软件设计: " + Radar.AUTHOR + "  " + Radar.PHONE + "  " + Radar.E_MAIL,
                 23, 89);
         this.mainPanel.addLabel("特别感谢: 康岚  四川省气象台、王亚强  中国气象科学研究院", 23, 119);
-        this.mainPanel.addLabel("欢迎来电联系", 23, 149);
+        this.mainPanel.addLabel("", 23, 149);
         this.buttonPanel.remove(this.cancelButton);
         this.confirmButton.setText("    确定    ");
         cb = new JCheckBox("下次启动不再显示");

@@ -46,8 +46,7 @@ public class PropsActionHandler extends AbstractAction {
                 RadarBase.radarName = d.getTextRadarName().getText();
                 RadarBase.setLongitude(Double.parseDouble(d.getTextLongitude().getText()));
                 RadarBase.setLatitude(Double.parseDouble(d.getTextLatitude().getText()));
-                RadarBase
-                        .setRadarFormat(((Option) d.getComboFormat().getSelectedItem()).getValue());
+                RadarBase.setRadarFormat(((Option) d.getComboFormat().getSelectedItem()).getValue());
                 RadarParams.timerRate = Float.parseFloat(d.getTextTimerRate().getText());
                 RadarParams.enableDelete = d.getEnableDelete().isSelected();
                 RadarParams.deleteDays = Integer.parseInt(d.getTextDeleteDays().getText());

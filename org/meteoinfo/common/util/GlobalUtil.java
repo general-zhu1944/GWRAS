@@ -34,6 +34,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
@@ -184,7 +185,7 @@ import java.util.zip.ZipInputStream;
          String pluginClassName = null;
          try {
              List<String> classNames = getClassNames(jarFileName);
-             URL url = new URL("file:" + jarFileName);
+             URL url = URI.create("file:" + jarFileName).toURL();
              URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url});
              for (String name : classNames) {
                  Class<?> clazz = urlClassLoader.loadClass(name);

@@ -1,6 +1,7 @@
 package com.kitty.radar.map.shp;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -29,7 +30,7 @@ public class ShpRecord<T extends IShape> {
 		this.recordContent = recordContent;
 	}
 	
-	public static <T extends IShape> ShpRecord<T> parse(Class<T> shapeClass, InputStream ins) throws IOException, InstantiationException, IllegalAccessException {
+	public static <T extends IShape> ShpRecord<T> parse(Class<T> shapeClass, InputStream ins) throws IOException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		ShpRecord<T> shpRecord = new ShpRecord<T>();
 		shpRecord.recordHeader = ShpRecordHeader.parse(ins);
 		byte[] shapeTypeBytes = new byte[4];
@@ -37,7 +38,7 @@ public class ShpRecord<T extends IShape> {
 		ByteBuffer buf = ByteBuffer.wrap(shapeTypeBytes);
 		buf.order(ByteOrder.LITTLE_ENDIAN);
 		int shapeType = buf.getInt();
-		T shape = shapeClass.newInstance();
+		T shape = shapeClass.getDeclaredConstructor().newInstance();
 		shape.parse(ins);
 		shpRecord.recordContent = shape;
 		return shpRecord;

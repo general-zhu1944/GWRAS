@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ShpMap {
 	
 	private List<ShpRecord> shpRecords;
 
-	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
+	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		String shpFilePath = "D:\\PythonProject\\shapefiles_china_sichuan\\sichuan_full";
 		File file = new File(shpFilePath+".shp");
 		try {
@@ -27,7 +28,7 @@ public class ShpMap {
 		}
 	}
 	
-	public static ShpMap load(File file) throws IOException, InstantiationException, IllegalAccessException {
+	public static ShpMap load(File file) throws IOException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		byte[] fileBytes = FileUtils.readFileToByteArray(file);
 		ByteArrayInputStream ins = new ByteArrayInputStream(fileBytes);
 		ShpMap shpMap = new ShpMap();
@@ -35,7 +36,7 @@ public class ShpMap {
 		return shpMap;
 	}
 	
-	public void parse(InputStream ins) throws IOException, InstantiationException, IllegalAccessException {
+	public void parse(InputStream ins) throws IOException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		shpFileHeader = ShpFileHeader.parse(ins);
 		shpRecords = new ArrayList<ShpRecord>();
 		int shpType = shpFileHeader.getShapeType();

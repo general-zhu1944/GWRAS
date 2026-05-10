@@ -41,14 +41,14 @@ public class AboutDialog extends JDialog {
         label.setBounds(23, 53, 100, 30);
         label = new JLabel(Radar.COPYRIGHT_INFO);
         this.add(label);
-        label.setBounds(131, 53, 250, 30);
+        label.setBounds(120, 53, 250, 30);
         label = new JLabel("软件设计: " + Radar.AUTHOR + "  " + Radar.PHONE + "  " + Radar.E_MAIL);
         this.add(label);
         label.setBounds(23, 83, 350, 30);
         label = new JLabel("特别感谢: 康岚  四川省气象台， 王亚强 中国气象科学研究院");
         this.add(label);
         label.setBounds(23, 113, 350, 30);
-        label = new JLabel("资助：川东北强天气南充市重点实验室、");
+        label = new JLabel("资助：川东北强天气南充市重点实验室、复盘专项");
         this.add(label);
         label.setBounds(23, 143, 350, 30);
         label = new JLabel("四川省强对流创新团队、南充市气象局强对流创新团队");

@@ -8,6 +8,7 @@ package org.meteoinfo.common.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -41,7 +42,7 @@ public class EncodingDetect extends Encoding {
         for (i = 0; i < argc.length; i++) {
             if (argc[i].startsWith("http://") == true) {
                 try {
-                    result = sinodetector.detectEncoding(new URL(argc[i]));
+                    result = sinodetector.detectEncoding(URI.create(argc[i]).toURL());
                 } catch (Exception e) {
                     System.err.println("Bad URL " + e.toString());
                 }

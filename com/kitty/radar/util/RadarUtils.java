@@ -24,11 +24,7 @@ import com.kitty.radar.color.VelHighColor;
 import com.kitty.radar.color.VelLowColor;
 import com.kitty.radar.color.VilColor;
 import com.kitty.radar.color.ZDRColor;
-import com.kitty.radar.data.FMT;
-import com.kitty.radar.data.RadarData;
-import com.kitty.radar.data.SA_SB;
-import com.kitty.radar.data.SC;
-import com.kitty.radar.data.CA_CB;
+import com.kitty.radar.data.*;
 import com.kitty.radar.domain.ARCoord;
 import com.kitty.radar.domain.GridValue;
 import com.kitty.radar.domain.LLCoord;
@@ -124,6 +120,10 @@ public class RadarUtils {
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_FMT.getValue()) {
 			return new FMT(radarBase);
 		}
+		else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_PARD.getValue()) {
+		    return new PARD(radarBase);
+	    }
+
 		return new FMT(radarBase);
 	}
 
@@ -138,7 +138,10 @@ public class RadarUtils {
 			return RadarData.RADAR_FORMAT_CA_CB.getName();
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_FMT.getValue()) {
 			return RadarData.RADAR_FORMAT_FMT.getName();
+		}else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_PARD.getValue()) {
+			return RadarData.RADAR_FORMAT_PARD.getName();
 		}
+
 		return RadarData.RADAR_FORMAT_SC.getName();
 	}
 

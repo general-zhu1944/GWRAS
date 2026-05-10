@@ -78,7 +78,7 @@ public class TOPS extends RadarBase {
                         Double e = (Double) keys.next();
                         Double cos = (Double) cache.get(e);
                         if (cos == null) {
-                            cos = new Double(Math.cos(e.doubleValue() * Math.PI / 180.0));
+                            cos = Double.valueOf(Math.cos(e.doubleValue() * Math.PI / 180.0));
                             cache.put(e, cos);
                         }
                         double range = PositionUtils.toRange2(c.r, cos.doubleValue());

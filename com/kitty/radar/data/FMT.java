@@ -293,6 +293,9 @@ public class FMT extends RadarData {
 		if (radarType < 1 || radarType > 100) {
 			return false;
 		}
+		if (radarType == 7 || radarType ==8||radarType == 44 || radarType ==43||radarType == 69 || radarType ==70 || radarType ==27) {
+			return false;
+		}
 		commonMap.put("AntennaGain", raf.readShort());
 		commonMap.put("TransmittingFeederLoss", raf.readShort());
 		commonMap.put("ReceivingFeederLoss", raf.readShort());

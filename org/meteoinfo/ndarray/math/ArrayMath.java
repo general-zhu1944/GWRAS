@@ -8718,7 +8718,7 @@ public class ArrayMath {
      * @return Number
      */
     public static Number doubleToNumber(double v, DataType dt) {
-        Number n = new Double(v);
+        Number n = Double.valueOf(v);
         switch (dt) {
             case INT:
             case BOOLEAN:
