@@ -36,11 +36,11 @@ public interface CommonProps {
 
     public static final double D = 0.000058869;
 
-    public static final double RC = 6378137; // ³àµÀ°ë¾¶£¨µ¥Î»£ºÃ×£©
+    public static final double RC = 6378137; // èµ¤é“åŠå¾„ï¼ˆå•ä½ï¼šç±³ï¼‰
 
-    public static final double RJ = 6356725; // ¼«°ë¾¶£¨µ¥Î»£ºÃ×£©
+    public static final double RJ = 6356725; // æåŠå¾„ï¼ˆå•ä½ï¼šç±³ï¼‰
 
-    public static final double RE = 6371.229; // µØÇò°ë¾¶£¨µ¥Î»£ºkm£©
+    public static final double RE = 6371.229; // åœ°çƒåŠå¾„ï¼ˆå•ä½ï¼škmï¼‰
 
     public static final String FILE_SEPARATOR = "     ";
 
@@ -87,9 +87,9 @@ public interface CommonProps {
     public static final String AC_GRID = "Grid";
     public static final String AC_SURFACE="Surface";
 
-    public static final String AC_DOWNLOAD_RADAR="Download Radar";//µ¯³öÏÂÔØ¶Ô»°¿ò
+    public static final String AC_DOWNLOAD_RADAR="Download Radar";//å¼¹å‡ºä¸‹è½½å¯¹è¯æ¡†
 
-    public static final String AC_QUERY_RDAR="QUERY Radar";//Ö´ĞĞÏÂÔØ
+    public static final String AC_QUERY_RDAR="QUERY Radar";//æ‰§è¡Œä¸‹è½½
 
     public static final String AC_QUERY_RAIN = "Query Rain";
 

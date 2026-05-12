@@ -17,14 +17,14 @@ public class ExportSetDialog extends BasicDialog {
 	private JRadioButton b1;
 
     public ExportSetDialog() {
-        super("µ¼³ö¸ñÊ½ÉèÖÃ", true);
+        super("å¯¼å‡ºæ ¼å¼è®¾ç½®", true);
         this.setCenterSize(300, 150);
-        JLabel label = this.mainPanel.addLabel("¸ñµã×ø±ê   ", 50, 32);
+        JLabel label = this.mainPanel.addLabel("æ ¼ç‚¹åæ ‡   ", 50, 32);
         ButtonGroup bgroup = new ButtonGroup();
-        b0 = this.mainPanel.addRadioButton("·½Î»", label);
+        b0 = this.mainPanel.addRadioButton("æ–¹ä½", label);
         b0.setSelected(coordType == 0);
         bgroup.add(b0);
-        b1 = this.mainPanel.addRadioButton("¾­Î³¶È", b0);
+        b1 = this.mainPanel.addRadioButton("ç»çº¬åº¦", b0);
         b1.setSelected(coordType == 1);
         bgroup.add(b1);
         this.setVisible(true);

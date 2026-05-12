@@ -29,7 +29,7 @@ public class ShpFileHeader {
 		byte[] headerBytes = new byte[100];
 		int readLen = ins.read(headerBytes);
 		if(readLen != 100) {
-			throw new IOException("ShpFileHeader��ȡʧ�ܣ���Ҫ��ȡ100�ֽڣ�ʵ�ʶ�ȡ"+readLen+"�ֽ�");
+			throw new IOException("ShpFileHeader读取失败，需要读取100字节，实际读取"+readLen+"字节");
 		}
 		ShpFileHeader shpFileHeader = new ShpFileHeader();
 		System.arraycopy(headerBytes, 0, shpFileHeader.fileHeaderBytes, 0, 100);

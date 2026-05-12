@@ -53,7 +53,7 @@ import cma.music.RetFilesInfo;
 import cma.music.client.DataQueryClient;
 
 /**
- * ÏÂÔØÀ×´ï»ùÊı¾İ¶Ô»°¿ò¡£
+ * ä¸‹è½½é›·è¾¾åŸºæ•°æ®å¯¹è¯æ¡†ã€‚
  */
 
 public class RadarDialog extends JDialog {
@@ -66,16 +66,16 @@ public class RadarDialog extends JDialog {
 	    public static JButton querywindmax;
 	    public static JComboBox<String> jcb;
 	    public static JTextField rada_id;
-	    JLabel label1 = new JLabel("ÆğÊ¼£º");
-        JLabel label2 = new JLabel("½áÊø£º");
-        JLabel label3 = new JLabel("À×´ïÕ¾ºÅ£º");
-        JLabel label4 = new JLabel("À×´ï»ùÊı¾İ±àÂë£º");
+	    JLabel label1 = new JLabel("èµ·å§‹ï¼š");
+        JLabel label2 = new JLabel("ç»“æŸï¼š");
+        JLabel label3 = new JLabel("é›·è¾¾ç«™å·ï¼š");
+        JLabel label4 = new JLabel("é›·è¾¾åŸºæ•°æ®ç¼–ç ï¼š");
 
 
 
 
     public RadarDialog(ActionListener processor) {      
-        super(Radar.radar, "À×´ï»ùÊı¾İ×ÊÁÏÏÂÔØ");
+        super(Radar.radar, "é›·è¾¾åŸºæ•°æ®èµ„æ–™ä¸‹è½½");
         Dimension d = new Dimension(380, 150);
         this.setSize(d);
         this.setLocation(CommonUtils.getCenterLocation(this.getSize()));
@@ -96,12 +96,12 @@ public class RadarDialog extends JDialog {
         elePanel1.add(label4);
         String[] listData = new String[]{"RADA_L2_FMT", "RADA_L2_X_FMT"};
         
-        //ÓÃcount¼ÇÂ¼ItemListenerÔËĞĞµÄ´ÎÊı
+        //ç”¨countè®°å½•ItemListenerè¿è¡Œçš„æ¬¡æ•°
         int count=0;
         jcb = new JComboBox<String>(listData);
 
         elePanel1.add(jcb);
-        download = new JButton("ÏÂÔØÀ×´ï»ùÊı¾İ");
+        download = new JButton("ä¸‹è½½é›·è¾¾åŸºæ•°æ®");
         download.setActionCommand(CommonProps.AC_QUERY_RDAR);
         download.addActionListener(processor);       
         elePanel1.add(download);
@@ -120,84 +120,84 @@ public class RadarDialog extends JDialog {
        });
     }
     public static DatePicker getDatePicker() {
-        // ÏÔÊ¾¸ñÊ½
+        // æ˜¾ç¤ºæ ¼å¼
         String DefaultFormat = "yyyy-MM-dd HH:mm";
-        // µ±Ç°Ê±¼ä
+        // å½“å‰æ—¶é—´
         Date date = new Date();
-        // ÉèÖÃ×ÖÌå
+        // è®¾ç½®å­—ä½“
         Font font = new Font("Times New Roman", Font.BOLD, 14);
         Dimension dimension = new Dimension(130, 24);
-        // ¸ßÁÁÏÔÊ¾µÄÈÕÆÚ
+        // é«˜äº®æ˜¾ç¤ºçš„æ—¥æœŸ
         int[] hilightDays = { 1, 3, 5, 7 };
-        // »ÒÉ«ÏÔÊ¾µÄÈÕÆÚ
+        // ç°è‰²æ˜¾ç¤ºçš„æ—¥æœŸ
         //int[] disabledDays = { 4, 6, 5, 9 };        
-        //¹¹Ôì·½·¨£¨³õÊ¼Ê±¼ä£¬Ê±¼äÏÔÊ¾¸ñÊ½£¬×ÖÌå£¬¿Ø¼ş´óĞ¡£©
+        //æ„é€ æ–¹æ³•ï¼ˆåˆå§‹æ—¶é—´ï¼Œæ—¶é—´æ˜¾ç¤ºæ ¼å¼ï¼Œå­—ä½“ï¼Œæ§ä»¶å¤§å°ï¼‰
         DatePicker datepick = new DatePicker(date, DefaultFormat, font, dimension);
-        //ÉèÖÃÆğÊ¼Î»ÖÃ
+        //è®¾ç½®èµ·å§‹ä½ç½®
         datepick.setLocation(137, 83);
-        // ÉèÖÃÒ»¸öÔÂ·İÖĞĞèÒª¸ßÁÁÏÔÊ¾µÄÈÕ×Ó
+        // è®¾ç½®ä¸€ä¸ªæœˆä»½ä¸­éœ€è¦é«˜äº®æ˜¾ç¤ºçš„æ—¥å­
         datepick.setHightlightdays(hilightDays, Color.red);
-        // ÉèÖÃÒ»¸öÔÂ·İÖĞ²»ĞèÒªµÄÈÕ×Ó£¬³Ê»ÒÉ«ÏÔÊ¾
+        // è®¾ç½®ä¸€ä¸ªæœˆä»½ä¸­ä¸éœ€è¦çš„æ—¥å­ï¼Œå‘ˆç°è‰²æ˜¾ç¤º
        // datepick.setDisableddays(disabledDays);
-        // ÉèÖÃ¹ú¼Ò
+        // è®¾ç½®å›½å®¶
         datepick.setLocale(Locale.CANADA);
-        // ÉèÖÃÊ±ÖÓÃæ°å¿É¼û
+        // è®¾ç½®æ—¶é’Ÿé¢æ¿å¯è§
         datepick.setTimePanleVisible(true);       
         return datepick;
     }
     
 	public static void downradar(String startTime,String endTime,String radardatatype,String id,String cn,String pw,String savedir) {
-		RadarParams.downloadradarstationid= rada_id.getText();	//´æ´¢À×´ïÕ¾ºÅµ½ÅäÖÃÎÄ¼ş
-		/* 1. ¶¨Òåclient¶ÔÏó */
+		RadarParams.downloadradarstationid= rada_id.getText();	//å­˜å‚¨é›·è¾¾ç«™å·åˆ°é…ç½®æ–‡ä»¶
+		/* 1. å®šä¹‰clientå¯¹è±¡ */
 		DataQueryClient client = new DataQueryClient() ;
 		
-		/* 2. µ÷ÓÃ·½·¨µÄ²ÎÊı¶¨Òå£¬²¢¸³Öµ */
-		/* 2.1 ÓÃ»§Ãû&ÃÜÂë */
+		/* 2. è°ƒç”¨æ–¹æ³•çš„å‚æ•°å®šä¹‰ï¼Œå¹¶èµ‹å€¼ */
+		/* 2.1 ç”¨æˆ·å&å¯†ç  */
 		String userId = cn ;
 		String pwd = pw ;
-		/* 2.2  ½Ó¿ÚID */
+		/* 2.2  æ¥å£ID */
 		String interfaceId = "getRadaFileByTimeRangeAndStaId" ;
-		/* 2.3  ½Ó¿Ú²ÎÊı£¬¶à¸ö²ÎÊı¼äÎŞË³Ğò */
+		/* 2.3  æ¥å£å‚æ•°ï¼Œå¤šä¸ªå‚æ•°é—´æ— é¡ºåº */
 		HashMap<String, String> params = new HashMap<String, String>();
-		//±ØÑ¡²ÎÊı
-	    params.put("dataCode", String.format("%s" , radardatatype)); //×ÊÁÏ£ºÖÊ¿ØÇ°Ô­Ê¼¸ñÊ½¶àÆÕÀÕÀ×´ï»ùÊı¾İRADA_L2_X_FMT  RADA_L2_FMT
-	    params.put("timeRange", String.format("(%s,%s]" ,startTime, endTime)); //Ê±¼ä¶Î£¬Ç°±Õºó¿ª
-		params.put("staIds", String.format("%s" , id)); //À×´ïÕ¾
-		//¿ÉÑ¡²ÎÊı
-		/* 2.4 ·µ»Ø¶ÔÏó */
+		//å¿…é€‰å‚æ•°
+	    params.put("dataCode", String.format("%s" , radardatatype)); //èµ„æ–™ï¼šè´¨æ§å‰åŸå§‹æ ¼å¼å¤šæ™®å‹’é›·è¾¾åŸºæ•°æ®RADA_L2_X_FMT  RADA_L2_FMT
+	    params.put("timeRange", String.format("(%s,%s]" ,startTime, endTime)); //æ—¶é—´æ®µï¼Œå‰é—­åå¼€
+		params.put("staIds", String.format("%s" , id)); //é›·è¾¾ç«™
+		//å¯é€‰å‚æ•°
+		/* 2.4 è¿”å›å¯¹è±¡ */
 		String saveDir = savedir ;
 		RetFilesInfo retFilesInfo = new RetFilesInfo() ;
 
 
-		/* 3. µ÷ÓÃ½Ó¿Ú */
+		/* 3. è°ƒç”¨æ¥å£ */
 		try {
-			//³õÊ¼»¯½Ó¿Ú·şÎñÁ¬½Ó×ÊÔ´
+			//åˆå§‹åŒ–æ¥å£æœåŠ¡è¿æ¥èµ„æº
 			client.initResources() ;
-			//µ÷ÓÃ½Ó¿Ú
+			//è°ƒç”¨æ¥å£
 			StringBuffer retStr=null;
 			 File file = new File(saveDir);
 			if(!file.isDirectory())
 			{
-				JOptionPane.showMessageDialog(null, "ÇëÉèÖÃ´æ´¢Â·¾¶£¡" );	
+				JOptionPane.showMessageDialog(null, "è¯·è®¾ç½®å­˜å‚¨è·¯å¾„ï¼" );	
 				return;
 			}
 			
 			int rst = client.callAPI_to_downFile(userId, pwd, interfaceId, params, saveDir, retFilesInfo);
-			//Êä³ö½á¹û
-			JOptionPane.showMessageDialog(null, " ·µ»ØÂë£º"+ rst );	
-			if(rst == 0) { //Õı³£·µ»Ø	
-				JOptionPane.showMessageDialog(null, retFilesInfo.fileInfos[0].fileName +".....,ÏÂÔØ³É¹¦£¡");	
+			//è¾“å‡ºç»“æœ
+			JOptionPane.showMessageDialog(null, " è¿”å›ç ï¼š"+ rst );	
+			if(rst == 0) { //æ­£å¸¸è¿”å›	
+				JOptionPane.showMessageDialog(null, retFilesInfo.fileInfos[0].fileName +".....,ä¸‹è½½æˆåŠŸï¼");	
 				//System.out.printf( retFilesInfo.fileInfos[0].fileName ) ;
 			
-			} else { //Òì³£·µ»Ø
-				JOptionPane.showMessageDialog(null, "ÏÂÔØÊ§°Ü£¡");				
+			} else { //å¼‚å¸¸è¿”å›
+				JOptionPane.showMessageDialog(null, "ä¸‹è½½å¤±è´¥ï¼");				
 
 			}
 		} catch (Exception e) {
-			//Òì³£Êä³ö
+			//å¼‚å¸¸è¾“å‡º
 			e.printStackTrace() ;
 		} finally {
-			//ÊÍ·Å½Ó¿Ú·şÎñÁ¬½Ó×ÊÔ´
+			//é‡Šæ”¾æ¥å£æœåŠ¡è¿æ¥èµ„æº
 			client.destroyResources() ;
 		}
 	}
@@ -206,7 +206,7 @@ public class RadarDialog extends JDialog {
 
     public void actionPerformed(ActionEvent e) {
         
-                CommonUtils.alert("ÇëÑ¡ÔñÒªÉ¾³ıµÄÇøÓò", null);
+                CommonUtils.alert("è¯·é€‰æ‹©è¦åˆ é™¤çš„åŒºåŸŸ", null);
       
     }
 

@@ -13,7 +13,7 @@ import com.kitty.radar.util.PositionUtils;
 import com.kitty.radar.util.RadarUtils;
 
 /**
- * ¾ØĞÎÇøÓò¡£
+ * çŸ©å½¢åŒºåŸŸã€‚
  */
 public class RectangleArea extends Area {
 
@@ -54,8 +54,8 @@ public class RectangleArea extends Area {
     }
 
     public String toString() {
-        return "¾­¶È:" + CommonUtils.format(lx, 6) + "¡ã; Î³¶È:" + CommonUtils.format(ly, 6) + "¡ã; ³¤¶È:"
-                + CommonUtils.format(width, 1) + RadarUtils.getDistanceUnitLabel() + "; ¿í¶È:"
+        return "ç»åº¦:" + CommonUtils.format(lx, 6) + "Â°; çº¬åº¦:" + CommonUtils.format(ly, 6) + "Â°; é•¿åº¦:"
+                + CommonUtils.format(width, 1) + RadarUtils.getDistanceUnitLabel() + "; å®½åº¦:"
                 + CommonUtils.format(height, 1) + RadarUtils.getDistanceUnitLabel();
     }
 

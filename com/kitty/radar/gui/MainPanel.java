@@ -46,32 +46,32 @@ public class MainPanel extends JPanel implements Printable {
 		this.rain = rain;
 	}
 
-	//Ãæ°å»ù±¾²ÎÊı
+	//é¢æ¿åŸºæœ¬å‚æ•°
     private RadarBase radarBase;
 
     public int xoffset = 0;
 
     public int yoffset = 0;
 
-    //´æ´¢µÄÊÇ»­ºÃµÄÍ¼Ïñ£¬MainPanelÖ»ÊÇ½«¸ÃÍ¼ÏñÔÚ»­ÔÚ×Ô¼ºµÄ½çÃæÉÏ£¬ÓÉÓÚÃ¿¸öMainPanel²»Ò»Ñù£¬ËùÒÔÃ¿¸öMainPanelÓ¦¸ÃÓĞÒ»¸ö
+    //å­˜å‚¨çš„æ˜¯ç”»å¥½çš„å›¾åƒï¼ŒMainPanelåªæ˜¯å°†è¯¥å›¾åƒåœ¨ç”»åœ¨è‡ªå·±çš„ç•Œé¢ä¸Šï¼Œç”±äºæ¯ä¸ªMainPanelä¸ä¸€æ ·ï¼Œæ‰€ä»¥æ¯ä¸ªMainPanelåº”è¯¥æœ‰ä¸€ä¸ª
     public BufferedImage image;
 
-    //Í¼ÏñÊÇ·ñ¸üĞÂ
+    //å›¾åƒæ˜¯å¦æ›´æ–°
     public boolean update = true;
 
-    //¹â±êÎ»ÖÃ
+    //å…‰æ ‡ä½ç½®
     private int mX = 0;
     private int mY = 0;
 
-    //¹â±êÊÇ·ñ»î¶¯£ºÅĞ¶Ï±ê×¼ÊÇÊó±êÊÇ·ñÔÚµ±Ç°MainPanelÕ¹Ê¾ÇøÓò£¬Èç¹ûÉèÖÃÁË¹¤¾ßÍ¬²½Ôò½øĞĞÍ¬²½
+    //å…‰æ ‡æ˜¯å¦æ´»åŠ¨ï¼šåˆ¤æ–­æ ‡å‡†æ˜¯é¼ æ ‡æ˜¯å¦åœ¨å½“å‰MainPanelå±•ç¤ºåŒºåŸŸï¼Œå¦‚æœè®¾ç½®äº†å·¥å…·åŒæ­¥åˆ™è¿›è¡ŒåŒæ­¥
     private boolean mActive = false;
 
-    //×´Ì¬ĞÅÏ¢
+    //çŠ¶æ€ä¿¡æ¯
     private String statusText = "";
-    //ÊÇ·ñÕ¹Ê¾×´Ì¬ĞÅÏ¢
+    //æ˜¯å¦å±•ç¤ºçŠ¶æ€ä¿¡æ¯
     private boolean showStatusText = false;
 
-    //±êÌâĞÅÏ¢
+    //æ ‡é¢˜ä¿¡æ¯
     private String labelText = "";
 
     public Dimension initSize = new Dimension(-10, -10);
@@ -138,11 +138,11 @@ public class MainPanel extends JPanel implements Printable {
         }
         drawImage(g, xoffset, yoffset);
         {
-            //»æÖÆ±êÌâ
+            //ç»˜åˆ¶æ ‡é¢˜
      //       evaLabelText();
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(Color.white);
-            g2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 16));//Î¢ÈíÑÅºÚ
+            g2.setFont(new Font("å¾®è½¯é›…é»‘", Font.BOLD, 16));//å¾®è½¯é›…é»‘
             g2.drawString(labelText, width/2-200, 20);
             g2.dispose();
         }
@@ -151,7 +151,7 @@ public class MainPanel extends JPanel implements Printable {
                 String command = GUIManager.activeToolButton.getActionCommand();
                 if (CommonProps.AC_T_CURSOR.equals(command)||CommonProps.AC_T_MEASURE.equals(command)
                 ) {
-            //»æÖÆÊ®×Ö¹â±ê
+            //ç»˜åˆ¶åå­—å…‰æ ‡
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(Color.white);
             g2.setStroke(new BasicStroke(2));
@@ -163,15 +163,15 @@ public class MainPanel extends JPanel implements Printable {
         }
 
         if (showStatusText) {
-            //»æÖÆ×´Ì¬ĞÅÏ¢
+            //ç»˜åˆ¶çŠ¶æ€ä¿¡æ¯
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(Color.white);
-            g2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 12));
+            g2.setFont(new Font("å¾®è½¯é›…é»‘", Font.PLAIN, 12));
             g2.drawString(statusText, width/2-210, height-10);
             g2.dispose();
         }
 
-        //»æÖÆ¼¤»îºìÉ«±ß¿ò
+        //ç»˜åˆ¶æ¿€æ´»çº¢è‰²è¾¹æ¡†
         if(GUIManager.activeMainPanel == this&&GUIManager.mainPanelContainer.getComponents().length!=1) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setStroke(new BasicStroke(3));
@@ -196,7 +196,7 @@ public class MainPanel extends JPanel implements Printable {
     private String evaLabelText() {
         if(this.radarBase.l2 != null) {
             labelText =  RadarUtils.getFileTime(radarBase) +
-                    " - " + CommonUtils.format(radarBase.l2.getElevation(radarBase.cutNum), 1)+"¡ã"+
+                    " - " + CommonUtils.format(radarBase.l2.getElevation(radarBase.cutNum), 1)+"Â°"+
                     //				"- " + radarBase.l2.getSrcFileName() +
                     " - " + RadarUtils.getMomentLabel(radarBase);
         }
@@ -230,7 +230,7 @@ public class MainPanel extends JPanel implements Printable {
             Graphics2D g2 = (Graphics2D) image.createGraphics();
             if(MapOverlay.elevation_on)
             {
-                //JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+MapOverlay.elevation_on);
+                //JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+MapOverlay.elevation_on);
                 image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
                 image=map.drawTerrain(image);
                 g2= (Graphics2D) image.createGraphics();
@@ -293,11 +293,11 @@ public class MainPanel extends JPanel implements Printable {
         g.setPaint(new Color(130, 130, 130));
         g.fillRect((width - CommonProps.COLOR_WIDTH), 0, CommonProps.COLOR_WIDTH, height);
 
-        int boxHeight = height / 18; // É«±ê¿é¸ß¶È
-        int boxWidth = 40; // É«±ê¿é¿í¶È
-        int x = width - (boxWidth + CommonProps.COLOR_WIDTH) / 2; // É«±ê¿é×ó±ßÔµX×ø±ê
-        int textX = width - 25 + radarColor.getScale() * 3; // É«±êÖµÓÒ±ßÔµX×ø±ê
-        int textY = boxHeight / 2 + 4; // É«±êÖµÏà¶ÔÉ«±ê¿é¶¥²¿µÄ¾àÀë
+        int boxHeight = height / 18; // è‰²æ ‡å—é«˜åº¦
+        int boxWidth = 40; // è‰²æ ‡å—å®½åº¦
+        int x = width - (boxWidth + CommonProps.COLOR_WIDTH) / 2; // è‰²æ ‡å—å·¦è¾¹ç¼˜Xåæ ‡
+        int textX = width - 25 + radarColor.getScale() * 3; // è‰²æ ‡å€¼å³è¾¹ç¼˜Xåæ ‡
+        int textY = boxHeight / 2 + 4; // è‰²æ ‡å€¼ç›¸å¯¹è‰²æ ‡å—é¡¶éƒ¨çš„è·ç¦»
 
         g.setPaint(new Color(0, 0, 0));
         g.drawString(RadarUtils.getMomentUnitLabel(this.radarBase.currentMoment), x + 4, textY);
@@ -305,7 +305,7 @@ public class MainPanel extends JPanel implements Printable {
         Color c1 = new Color(90, 90, 90);
         Color c2 = Color.WHITE;
         String svalue;
-        g.setFont(new Font("ËÎÌå", Font.PLAIN, 13));
+        g.setFont(new Font("å®‹ä½“", Font.PLAIN, 13));
         for (int i = 0; i < colors.length; i++) {
             int y = (i + 1) * boxHeight;
             g.setPaint(colors[i]);

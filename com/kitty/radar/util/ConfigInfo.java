@@ -62,6 +62,10 @@ public class ConfigInfo {
                 RadarBase.setRadarFormat(Byte.parseByte(props.getProperty("radar.format")));
                 MapOverlay.grid_on = Boolean.parseBoolean(props.getProperty("grid.on"));
                 RainOverlay.rain_on = Boolean.parseBoolean(props.getProperty("rain.on"));
+                String mapDir = props.getProperty("map.data.dir");
+                if (mapDir != null) RadarParams.mapDataDir = mapDir;
+                String terrainFile = props.getProperty("terrain.file");
+                if (terrainFile != null) MapOverlay.elevationFile = terrainFile;
                 MapOverlay.map_on = Boolean.parseBoolean(props.getProperty("map.on"));
                 MapOverlay.elevation_on = Boolean.parseBoolean(props.getProperty("elevation.on"));
                 MapOverlay.point_on = Boolean.parseBoolean(props.getProperty("point.on"));
@@ -177,6 +181,8 @@ public class ConfigInfo {
             props.setProperty("rain.on", String.valueOf(RainOverlay.rain_on));
             props.setProperty("map.on", String.valueOf(MapOverlay.map_on));
             props.setProperty("elevation.on", String.valueOf(MapOverlay.elevation_on));
+            props.setProperty("map.data.dir", RadarParams.mapDataDir);
+            props.setProperty("terrain.file", MapOverlay.elevationFile);
             props.setProperty("point.on", String.valueOf(MapOverlay.point_on));
             props.setProperty("track.on", String.valueOf(MapOverlay.track_on));
             props.setProperty("timer.rate", String.valueOf(RadarParams.timerRate));

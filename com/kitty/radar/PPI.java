@@ -27,13 +27,13 @@ import com.kitty.radar.util.RadarUtils;
 public class PPI extends RadarBase {
 
 	/**
-	 * ÏÔÊ¾PPI£¬¿ÉÖ§³Ö·´ÉäÂÊ¡¢ËÙ¶È¡¢Æ×¿í¡¢ÒºË®º¬Á¿¡£
+	 * æ˜¾ç¤ºPPIï¼Œå¯æ”¯æŒåå°„ç‡ã€é€Ÿåº¦ã€è°±å®½ã€æ¶²æ°´å«é‡ã€‚
 	 * 
 	 * @param g
 	 */
 	public static void displayPPI(Graphics2D g, RadarBase radarBase) {
 		RadarData l2 = radarBase.l2;
-		if (l2 == null) { // Ã»ÓĞÑ¡ÖĞµÄÎÄ¼ş
+		if (l2 == null) { // æ²¡æœ‰é€‰ä¸­çš„æ–‡ä»¶
 			return;
 		}
 		Date queueDate = new Date();
@@ -45,26 +45,26 @@ public class PPI extends RadarBase {
 		int[] y = new int[4];
 		int pixel = radarBase.getCenter_X() - radarBase.getXoffset();
 		int scanl = radarBase.getCenter_Y() - radarBase.getYoffset();
-		double dd2 = Math.sqrt(radarBase.getXoffset() * radarBase.getXoffset() + radarBase.getYoffset() * radarBase.getYoffset());//ÓëÀ×´ïµãµÄ¾àÀë£¨ÏñËØ£©
+		double dd2 = Math.sqrt(radarBase.getXoffset() * radarBase.getXoffset() + radarBase.getYoffset() * radarBase.getYoffset());//ä¸é›·è¾¾ç‚¹çš„è·ç¦»ï¼ˆåƒç´ ï¼‰
 		double dd3 = Math.sqrt(radarBase.getCenter_X() * radarBase.getCenter_X()+ radarBase.getCenter_Y() * radarBase.getCenter_Y());
 		int d = (int) ((dd2 + dd3) / radarBase.getScale_X());
 		double halfWidth = l2.beamWidth / 2.0;
 		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment,radarBase).getColorCache();
 		int recordNum =  l2.getCutStart(radarBase.cutNum);;
 
-		//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjggggggggggggjjt£º" +radarBase.active_moment+"£»£»"+ radarBase.cutNum+"ll"+recordNum+"[["+l2.getBinCount(radarBase.active_moment));
-		//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjtttttjjt£º" +radarBase.active_moment+"£»£»"+ l2.getBinCount(radarBase.active_moment));
+		//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjggggggggggggjjtï¼š" +radarBase.active_moment+"ï¼›ï¼›"+ radarBase.cutNum+"ll"+recordNum+"[["+l2.getBinCount(radarBase.active_moment));
+		//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjtttttjjtï¼š" +radarBase.active_moment+"ï¼›ï¼›"+ l2.getBinCount(radarBase.active_moment));
 
 		if (radarBase.radarFormat == 0) {
 			//FMT l3=(FMT) l2;
 			l2.readRcecordnum(recordNum);
-			//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌávvvÊ¾£º" +radarBase.active_moment+"£»£»"+ radarBase.cutNum+"ll"+recordNum+"[["+l3.getBinCount(radarBase.active_moment));
+			//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯ævvvç¤ºï¼š" +radarBase.active_moment+"ï¼›ï¼›"+ radarBase.cutNum+"ll"+recordNum+"[["+l3.getBinCount(radarBase.active_moment));
 			if (!(l2.getBinCount(radarBase.active_moment) > 0)) {
-			//	JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjggghhhgggggjjt£º");
+			//	JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjggghhhgggggjjtï¼š");
 				if ((radarBase.active_moment == RadarData.V)||(radarBase.active_moment == RadarData.W)) {
 					if (radarBase.cutNum == 0||radarBase.cutNum == 2) {
 						recordNum = l2.getCutStart(radarBase.cutNum + 1);
-					//	JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjbpppppjjjt£º" +radarBase.active_moment+"£»£»"+ radarBase.cutNum+"ll"+recordNum);
+					//	JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjbpppppjjjtï¼š" +radarBase.active_moment+"ï¼›ï¼›"+ radarBase.cutNum+"ll"+recordNum);
 
 						//
 					}
@@ -74,9 +74,9 @@ public class PPI extends RadarBase {
 				}
 				else  {
 					if (radarBase.cutNum == 1||radarBase.cutNum == 3) {
-					//	JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjmmmm£º");
+					//	JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjmmmmï¼š");
 						recordNum = l2.getCutStart(radarBase.cutNum - 1);
-					//	JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjbbbbbbjjt£º" +radarBase.active_moment+"£»£»"+ radarBase.cutNum+"ll"+recordNum);
+					//	JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjbbbbbbjjtï¼š" +radarBase.active_moment+"ï¼›ï¼›"+ radarBase.cutNum+"ll"+recordNum);
 
 					}
 //					if (radarBase.cutNum == 3) {
@@ -95,7 +95,7 @@ public class PPI extends RadarBase {
 				}
 				else  {
 					if (radarBase.cutNum == 1||radarBase.cutNum == 3) {
-						//	JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjmmmm£º");
+						//	JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjmmmmï¼š");
 						recordNum = l2.getCutStart(radarBase.cutNum - 1);
 
 					}
@@ -106,19 +106,19 @@ public class PPI extends RadarBase {
 
 		int number = l2.readCut(recordNum);
 //		GUIManager.toolBarLabel
-//				.setText("Ê±¼ä " + RadarUtils.getFileTime() + " - Ñö½Ç " + CommonUtils.format(l2.getElevation(cutNum), 6)
-//						+ "¡ã - ÎÄ¼ş " + l2.getSrcFileName() + " - " + RadarUtils.getMomentLabel(radarBase));
+//				.setText("æ—¶é—´ " + RadarUtils.getFileTime() + " - ä»°è§’ " + CommonUtils.format(l2.getElevation(cutNum), 6)
+//						+ "Â° - æ–‡ä»¶ " + l2.getSrcFileName() + " - " + RadarUtils.getMomentLabel(radarBase));
 		int active_moment = radarBase.active_moment;
 
 		int bins = l2.getBinCount(active_moment);
-		//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+bins+active_moment);
+		//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+bins+active_moment);
 		double rangeStep = l2.getBinInterval(active_moment);
-		int bins2=(int)(d/rangeStep);//¼ÆËãÏÔÊ¾·¶Î§ÄÚ×î´ó¾¶Ïò³¤¶È£¨ÖĞĞÄµ½¾ØĞÎ¶¨µãµÄ¾àÀë£©¶ÔÓ¦¿âÊı
+		int bins2=(int)(d/rangeStep);//è®¡ç®—æ˜¾ç¤ºèŒƒå›´å†…æœ€å¤§å¾„å‘é•¿åº¦ï¼ˆä¸­å¿ƒåˆ°çŸ©å½¢å®šç‚¹çš„è·ç¦»ï¼‰å¯¹åº”åº“æ•°
 		if(bins2<bins)
 		{
 			bins=bins2;
 		}
-		//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+bins);
+		//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+bins);
 		int dt=1;
 		if(radarBase.getZoom()==4)
 		{
@@ -133,8 +133,8 @@ public class PPI extends RadarBase {
 			dt=3;
 		}
 		double halfStep = rangeStep / 2.0;
-		double[] range = new double[bins + 1]; // ¼Ó1ÓÃÓÚ»æÖÆ×îºóÒ»¸öbinµÄÍ¼Ïñ
-		range[0] = l2.getRangeToFirstBin(active_moment) + halfStep; // rangeToFirstBinÍ¨³£Îª0
+		double[] range = new double[bins + 1]; // åŠ 1ç”¨äºç»˜åˆ¶æœ€åä¸€ä¸ªbinçš„å›¾åƒ
+		range[0] = l2.getRangeToFirstBin(active_moment) + halfStep; // rangeToFirstBiné€šå¸¸ä¸º0
 		for (int i = 1; i < range.length; i++) {
 			range[i] = range[i - 1] + rangeStep;
 		}
@@ -144,12 +144,12 @@ public class PPI extends RadarBase {
 				continue;
 			}
 			double ang1 = azimuth - halfWidth;
-			double ang2 = azimuth + halfWidth + 0.5; // ¼Ó0.5·ÀÖ¹²úÉúbeam¼äÏ¶£¬¶à»­µÄ²¿·Ö»á±»ºóÃæµÄbeam¸²¸Ç
+			double ang2 = azimuth + halfWidth + 0.5; // åŠ 0.5é˜²æ­¢äº§ç”Ÿbeamé—´éš™ï¼Œå¤šç”»çš„éƒ¨åˆ†ä¼šè¢«åé¢çš„beamè¦†ç›–
 			oldColor = null;
 			for (int j = 0; j < bins; j=j+dt) {
 				color = colorCache[l2.getBinaryValue(active_moment, i, j)];
 				if((active_moment==3)) {
-					//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º" + l2.getBinaryValue(active_moment, i, j));
+					//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š" + l2.getBinaryValue(active_moment, i, j));
 				}
 				if (oldColor == null) {
 					if (color != null) {
@@ -209,11 +209,11 @@ public class PPI extends RadarBase {
 		}
 	//	Date queueDate1 = new Date();
 	//	String now3 = queueDateFormat.format(queueDate1);
-		//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+now2+"--"+now3+": "+(queueDate1.getTime()-queueDate.getTime()));
+		//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+now2+"--"+now3+": "+(queueDate1.getTime()-queueDate.getTime()));
 	}
 
 	/**
-	 * µ¼³öPPIÊı¾İ¡£
+	 * å¯¼å‡ºPPIæ•°æ®ã€‚
 	 * 
 	 * @param w
 	 * @param inArea
@@ -222,14 +222,14 @@ public class PPI extends RadarBase {
 	public static void exportPPI(Writer w, boolean inArea, RadarBase radarBase) throws IOException {
 		int moment = radarBase.currentMoment;
 		if (ExportSetDialog.coordType == 0) {
-			RadarUtils.writeValues(w, new String[] { "A(¡ã)", "R(km)",
+			RadarUtils.writeValues(w, new String[] { "A(Â°)", "R(km)",
 					"V(" + RadarUtils.getMomentUnitLabel(moment) + ")" });
 		} else {
-			RadarUtils.writeValues(w, new String[] { "LNG(¡ã)", "LAT(¡ã)",
+			RadarUtils.writeValues(w, new String[] { "LNG(Â°)", "LAT(Â°)",
 					"V(" + RadarUtils.getMomentUnitLabel(moment) + ")" });
 		}
 		RadarData l2 = radarBase.l2;
-		if (l2 == null) { // Ã»ÓĞÑ¡ÖĞµÄÎÄ¼ş
+		if (l2 == null) { // æ²¡æœ‰é€‰ä¸­çš„æ–‡ä»¶
 			return;
 		}
 
@@ -239,7 +239,7 @@ public class PPI extends RadarBase {
 		int bins = l2.getBinCount(radarBase.active_moment);
 		double rangeStep = l2.getBinInterval(radarBase.active_moment);
 		double[] range = new double[bins];
-		range[0] = l2.getRangeToFirstBin(radarBase.active_moment) + rangeStep; // rangeToFirstBinÍ¨³£Îª0
+		range[0] = l2.getRangeToFirstBin(radarBase.active_moment) + rangeStep; // rangeToFirstBiné€šå¸¸ä¸º0
 		for (int i = 1; i < range.length; i++) {
 			range[i] = range[i - 1] + rangeStep;
 		}
@@ -289,7 +289,7 @@ public class PPI extends RadarBase {
 		if(radarBase.l2 == null)
 			return "";
 		String label = RadarUtils.getFileTime(radarBase) +
-				" - " + CommonUtils.format(radarBase.l2.getElevation(radarBase.cutNum), 1)+"¡ã"+
+				" - " + CommonUtils.format(radarBase.l2.getElevation(radarBase.cutNum), 1)+"Â°"+
 				//				"- " + radarBase.l2.getSrcFileName() +
 				" - " + RadarUtils.getMomentLabel(radarBase);
 		return label;

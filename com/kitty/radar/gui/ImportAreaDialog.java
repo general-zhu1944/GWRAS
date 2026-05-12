@@ -30,19 +30,19 @@ public class ImportAreaDialog extends BasicDialog {
     private AreaDialog dialog;
 
     public ImportAreaDialog(AreaDialog dialog) {
-        super("µ¼ÈëÇøÓò", true);
+        super("å¯¼å…¥åŒºåŸŸ", true);
         this.dialog = dialog;
         this.setCenterSize(411, 170);
 
-        JLabel label = this.mainPanel.addLabel("ÎÄ¼þÂ·¾¶", 20, 42);
+        JLabel label = this.mainPanel.addLabel("æ–‡ä»¶è·¯å¾„", 20, 42);
         textSrcFile = this.mainPanel.addTextField(236, label);
-        JButton button = this.mainPanel.addButton("ä¯ÀÀ...", textSrcFile);
+        JButton button = this.mainPanel.addButton("æµè§ˆ...", textSrcFile);
         button.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 FileChooser fc = FileChooser.getFileChooser();
                 fc.setFileFilter("*.*, *.xls");
-                fc.setDialogTitle("Ñ¡Ôñµ¼ÈëÎÄ¼þ");
+                fc.setDialogTitle("é€‰æ‹©å¯¼å…¥æ–‡ä»¶");
                 int rtn = fc.showDialog(ImportAreaDialog.this);
                 File file = fc.getSelectedFile();
                 if (file != null && rtn == FileChooser.APPROVE_OPTION) {
@@ -57,12 +57,12 @@ public class ImportAreaDialog extends BasicDialog {
     public void actionPerformed(ActionEvent e) {
         String path = textSrcFile.getText();
         if (path.trim().equals("")) {
-            CommonUtils.alert("ÇëÑ¡Ôñµ¼ÈëÎÄ¼þ", textSrcFile);
+            CommonUtils.alert("è¯·é€‰æ‹©å¯¼å…¥æ–‡ä»¶", textSrcFile);
             return;
         }
         File file = new File(path);
         if (!file.exists()) {
-            CommonUtils.alert("ÎÄ¼þ²»´æÔÚ£¬ÇëÈ·ÈÏÂ·¾¶ÊÇ·ñÕýÈ·", textSrcFile);
+            CommonUtils.alert("æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·ç¡®è®¤è·¯å¾„æ˜¯å¦æ­£ç¡®", textSrcFile);
             return;
         }
         this.dispose();
@@ -96,7 +96,7 @@ public class ImportAreaDialog extends BasicDialog {
                             } else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
                                 t = cell.getNumericCellValue();
                             }
-                            if (t > -1) { // ÓÐÖµ
+                            if (t > -1) { // æœ‰å€¼
                                 if (n1 < 0) {
                                     n1 = t;
                                 } else if (n2 < 0) {
@@ -119,7 +119,7 @@ public class ImportAreaDialog extends BasicDialog {
             //MapOverlay.update = true;
             GUIManager.repaintAll();
             CommonUtils.hideWait();
-            CommonUtils.alert("µ¼ÈëÇøÓò³É¹¦", null, dialog);
+            CommonUtils.alert("å¯¼å…¥åŒºåŸŸæˆåŠŸ", null, dialog);
         } catch (Exception e) {
             CommonUtils.hideWait();
             e.printStackTrace();

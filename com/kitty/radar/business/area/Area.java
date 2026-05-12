@@ -6,7 +6,7 @@ import java.awt.Shape;
 import com.kitty.radar.RadarBase;
 
 /**
- * ÇøÓò»ùÀà¡£
+ * åŒºåŸŸåŸºç±»ã€‚
  */
 public abstract class Area {
 	
@@ -18,7 +18,7 @@ public abstract class Area {
     protected boolean visible = true;
 
     /**
-     * È¡µÃÇøÓòÃû³Æ£¬Èç£ºÔ²ĞÎ¡¢¾ØĞÎ¡¢ÍÖÔ²ĞÎ
+     * å–å¾—åŒºåŸŸåç§°ï¼Œå¦‚ï¼šåœ†å½¢ã€çŸ©å½¢ã€æ¤­åœ†å½¢
      * 
      * @return
      */
@@ -30,7 +30,7 @@ public abstract class Area {
 	}
 
     /**
-     * ÇøÓòÊÇ·ñÏÔÊ¾
+     * åŒºåŸŸæ˜¯å¦æ˜¾ç¤º
      * 
      * @return
      */
@@ -39,7 +39,7 @@ public abstract class Area {
     }
 
     /**
-     * ÉèÖÃÇøÓòÊÇ·ñÏÔÊ¾
+     * è®¾ç½®åŒºåŸŸæ˜¯å¦æ˜¾ç¤º
      * 
      * @param visible
      */
@@ -48,29 +48,29 @@ public abstract class Area {
     }
 
     /**
-     * ÏòGraphics»­³öÇøÓò
+     * å‘Graphicsç”»å‡ºåŒºåŸŸ
      * 
      * @param g
      */
     public abstract void display(Graphics2D g);
 
     /**
-     * ½«ÇøÓò×ª»»ÎªShape¶ÔÏó¡£
-     * Í¨¹ıShape.contains(double x, double y)·½·¨¿ÉÒÔÅĞ¶¨Ö¸¶¨µÄ(x, y)µãÊÇ·ñÔÚÇøÓòÄÚ
+     * å°†åŒºåŸŸè½¬æ¢ä¸ºShapeå¯¹è±¡ã€‚
+     * é€šè¿‡Shape.contains(double x, double y)æ–¹æ³•å¯ä»¥åˆ¤å®šæŒ‡å®šçš„(x, y)ç‚¹æ˜¯å¦åœ¨åŒºåŸŸå†…
      * 
      * @return
      */
     public abstract Shape toShape();
 
     /**
-     * ½«ÇøÓò¶ÔÏóĞòÁĞ»¯Îª×Ö·û´®£¬ÓÃÓÚ±£´æµ½ÅäÖÃÎÄ¼ş
+     * å°†åŒºåŸŸå¯¹è±¡åºåˆ—åŒ–ä¸ºå­—ç¬¦ä¸²ï¼Œç”¨äºä¿å­˜åˆ°é…ç½®æ–‡ä»¶
      * 
      * @return
      */
     public abstract String serialize();
 
     /**
-     * ´Ó×Ö·û´®·´ĞòÁĞ»¯ÇøÓò¶ÔÏó
+     * ä»å­—ç¬¦ä¸²ååºåˆ—åŒ–åŒºåŸŸå¯¹è±¡
      * 
      * @param value
      */

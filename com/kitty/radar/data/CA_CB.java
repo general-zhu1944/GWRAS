@@ -10,22 +10,22 @@ import com.kitty.component.third.RandomAccessFile;
 import com.kitty.radar.RadarBase;
 
 /**
- * NEXRAD Level II(WSR-88D)¸ñÊ½À×´ïÎÄ¼þ¶ÁÈ¡»ùÀà¡¢SA¡¢SB¸ñÊ½À×´ïÎÄ¼þ¶ÁÈ¡Àà¡£
+ * NEXRAD Level II(WSR-88D)æ ¼å¼é›·è¾¾æ–‡ä»¶è¯»å–åŸºç±»ã€SAã€SBæ ¼å¼é›·è¾¾æ–‡ä»¶è¯»å–ç±»ã€‚
  */
 public class CA_CB extends RadarData {
 	public CA_CB(RadarBase radarBase) {
 		super(radarBase);
 	}
 
-	public static final byte RECORD_HEADER_SIZE = 12; // µ¥Î»£º×Ö½Ú
+	public static final byte RECORD_HEADER_SIZE = 12; // å•ä½ï¼šå­—èŠ‚
 
-	// ¹úÍâÎÄ¼þÎªRandomAccessFile.BIG_ENDIAN
+	// å›½å¤–æ–‡ä»¶ä¸ºRandomAccessFile.BIG_ENDIAN
 	public int endianMode = RandomAccessFile.LITTLE_ENDIAN;
 
-	// ÌåÉ¨ÎÄ¼þµÄtitle£¨ÎÄ¼þÍ·£©´óÐ¡£¬CINRADÃ»ÓÐtitle£¬¹úÍâÎª24×Ö½Ú
+	// ä½“æ‰«æ–‡ä»¶çš„titleï¼ˆæ–‡ä»¶å¤´ï¼‰å¤§å°ï¼ŒCINRADæ²¡æœ‰titleï¼Œå›½å¤–ä¸º24å­—èŠ‚
 	public byte fileHeaderSize = 0;
 
-	public short recordSize = 4132;//×¢£º2432ÎªS²¨¶ÎÃ¿²ãÑö½ÇÄ³¾¶Ïò¿éµÄÊý¾Ý´óÐ¡  4132ÊÇCA/CB²¨¶ÎÃ¿²ãÑö½ÇÄ³¾¶Ïò¿éµÄÊý¾Ý´óÐ¡
+	public short recordSize = 4132;//æ³¨ï¼š2432ä¸ºSæ³¢æ®µæ¯å±‚ä»°è§’æŸå¾„å‘å—çš„æ•°æ®å¤§å°  4132æ˜¯CA/CBæ³¢æ®µæ¯å±‚ä»°è§’æŸå¾„å‘å—çš„æ•°æ®å¤§å°
 
 	public short messageSize = 0;
 
@@ -35,9 +35,9 @@ public class CA_CB extends RadarData {
 
 	public short idSequence = 0;
 
-	public short julianDate = 0; // Êý¾ÝÊÕ¼¯ÈåÂÔÈÕ ×Ô1970Äê1ÔÂ1ÈÕ¿ªÊ¼
+	public short julianDate = 0; // æ•°æ®æ”¶é›†å„’ç•¥æ—¥ è‡ª1970å¹´1æœˆ1æ—¥å¼€å§‹
 
-	public int milliseconds = 0; // Êý¾ÝÊÕ¼¯Ê±¼ä (ºÁÃë,×Ô00:00¿ªÊ¼)
+	public int milliseconds = 0; // æ•°æ®æ”¶é›†æ—¶é—´ (æ¯«ç§’,è‡ª00:00å¼€å§‹)
 
 	public short numberSegments = 0;
 
@@ -51,7 +51,7 @@ public class CA_CB extends RadarData {
 
 	public int azimuthAngle = 0;
 
-	public short radialNumber = 0; // µ±Ç°Ñö½ÇÄÚ¾¶ÏòÊý¾ÝÐòºÅ
+	public short radialNumber = 0; // å½“å‰ä»°è§’å†…å¾„å‘æ•°æ®åºå·
 
 	public short radialStatus = 0;
 
@@ -77,18 +77,18 @@ public class CA_CB extends RadarData {
 
 	public short spotBlanking = 0;
 
-	// ±£´æÑö½ÇÄÚµÄËùÓÐÊý¾Ý(readCut)£¬»ò½öÊ¹ÓÃbyte[0]±£´æÒ»ÌõÊý¾Ý(readRecord)
+	// ä¿å­˜ä»°è§’å†…çš„æ‰€æœ‰æ•°æ®(readCut)ï¼Œæˆ–ä»…ä½¿ç”¨byte[0]ä¿å­˜ä¸€æ¡æ•°æ®(readRecord)
 	public byte[][] bins;
 
-	private double[] elevations = new double[MAX_FILE_CUTS]; // »º´æËùÓÐÑö½ÇµÄ¶ÈÊý
+	private double[] elevations = new double[MAX_FILE_CUTS]; // ç¼“å­˜æ‰€æœ‰ä»°è§’çš„åº¦æ•°
 
 	/**
-	 * Ô­Ê¼»ùÊý¾Ý×ª»»Îª±äÁ¿Öµ
+	 * åŽŸå§‹åŸºæ•°æ®è½¬æ¢ä¸ºå˜é‡å€¼
 	 * 
 	 * @param value
 	 * @param moment
 	 * @param resolution
-	 * @return Èç¹ûÃ»ÓÐÏàÓ¦µÄÊý¾Ý£¬·µ»ØRadarData.NO_DATA
+	 * @return å¦‚æžœæ²¡æœ‰ç›¸åº”çš„æ•°æ®ï¼Œè¿”å›žRadarData.NO_DATA
 	 */
 	public static float binaryToMoment(int value, int moment, int resolution) {
 		if (value == 0) {
@@ -115,7 +115,7 @@ public class CA_CB extends RadarData {
 		} else if (moment == SNRH) {
 			return (float) (value / 2.0 - 10);
 		}
-		throw new RuntimeException("ÎÞ´ËÊý¾ÝÀàÐÍ");
+		throw new RuntimeException("æ— æ­¤æ•°æ®ç±»åž‹");
 	}
 
 	public static int momentToBinary(float value, int moment, int resolution) {
@@ -140,11 +140,11 @@ public class CA_CB extends RadarData {
 		} else if (moment == SNRH) {
 			return (int) Math.round((value + 10) * 2);
 		}
-		throw new RuntimeException("ÎÞ´ËÊý¾ÝÀàÐÍ");
+		throw new RuntimeException("æ— æ­¤æ•°æ®ç±»åž‹");
 	}
 
 	/**
-	 * ´ò¿ªÀ×´ïÎÄ¼þ¡£ ¶ÔsrcFileName¡¢azimuths[]¡¢cutStarts[]¡¢elevations[]¡¢cutNumber¸³Öµ
+	 * æ‰“å¼€é›·è¾¾æ–‡ä»¶ã€‚ å¯¹srcFileNameã€azimuths[]ã€cutStarts[]ã€elevations[]ã€cutNumberèµ‹å€¼
 	 */
 	public boolean open(File file) {
 		try {
@@ -160,11 +160,11 @@ public class CA_CB extends RadarData {
 				if (!readHeader(i)) {
 					break;
 				}
-				if (messageType == 1) { // ±íÊ¾À×´ïÊý¾Ý
+				if (messageType == 1) { // è¡¨ç¤ºé›·è¾¾æ•°æ®
 					azimuths[i] = getAzimuth();
 					if (oldCut != elevationNumber) {
 
-						// i > 0ÓÃÓÚÇø·ÖSAºÍCB
+						// i > 0ç”¨äºŽåŒºåˆ†SAå’ŒCB
 						if (i > 0 && ("21".equals(vcp) || "11".equals(vcp) || "31".equals(vcp) || "32".equals(vcp))) {
 							flag = true;
 						}
@@ -215,7 +215,7 @@ public class CA_CB extends RadarData {
 		return false;
 	}
 
-	private void readHeaderOnly(int recordNum) throws IOException {//recordNumÑö½ÇÊý
+	private void readHeaderOnly(int recordNum) throws IOException {//recordNumä»°è§’æ•°
 		raf.seek(recordNum * recordSize + fileHeaderSize);
 		raf.skipBytes(RECORD_HEADER_SIZE);
 		messageSize = raf.readShort();

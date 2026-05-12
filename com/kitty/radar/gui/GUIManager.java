@@ -39,7 +39,7 @@ public class GUIManager {
 
     public static JButton toolCross;
 
-    public static JRadioButton cappiButton = new JRadioButton("¸ß¶È");;
+    public static JRadioButton cappiButton = new JRadioButton("é«˜åº¦");;
 
     public static JTextField cappiText = new JTextField(CommonUtils.defaultFormat(1), 11);;
 
@@ -52,20 +52,20 @@ public class GUIManager {
 //    public static JLabel statusCenter;
 
 //    public static MainPanel mainPanel;
-    //µ±Ç°±»¼¤»îµÄMainPanel
+    //å½“å‰è¢«æ¿€æ´»çš„MainPanel
     public static MainPanel activeMainPanel;
-    //¹¤¾ßÏäÍ¬²½ÊÇ·ñÑ¡ÖĞ
+    //å·¥å…·ç®±åŒæ­¥æ˜¯å¦é€‰ä¸­
     public static boolean syncTool = false;
-    //Í¬²½Ê±¼ä(ÎÄ¼ş)
+    //åŒæ­¥æ—¶é—´(æ–‡ä»¶)
     public static boolean syncTime = false;
-    //Í¬²½²ã´Î
+    //åŒæ­¥å±‚æ¬¡
     public static boolean syncCut = false;
     public static List<JLayer<MainPanel>> jlayers = new LinkedList<JLayer<MainPanel>>();
 
     public static boolean isSyncTool() {
         return syncTool;
     }
-    //ÉèÖÃ°´Å¥×´Ì¬
+    //è®¾ç½®æŒ‰é’®çŠ¶æ€
 /*	public static void setSyncTool(boolean syncTool) {
 		GUIManager.syncTool = syncTool;
 		GUIManager.itemSyncTool.setState(syncTool);
@@ -88,7 +88,7 @@ public class GUIManager {
 		GUIManager.itemSyncCut.setState(syncCut);
 		GUIManager.syncCut = syncCut;
 	}*/
-    //È«²¿MainPanel
+    //å…¨éƒ¨MainPanel
     private static List<MainPanel> jpanels = new ArrayList<MainPanel>();
     public static List<MainPanel> getJpanels() {
         return jpanels;
@@ -98,18 +98,18 @@ public class GUIManager {
         GUIManager.jpanels = jpanels;
     }
 
-    //ÖØ»æÈ«²¿MainPanel
+    //é‡ç»˜å…¨éƒ¨MainPanel
     public static void repaintAll() {
         for (MainPanel jPanel : jpanels) {
             jPanel.getMap().update = true;
             jPanel.repaint();
         }
     }
-    //ÖØ»æµ±Ç°MainPanel
+    //é‡ç»˜å½“å‰MainPanel
     public static void repaintCurrent() {
         activeMainPanel.repaint();
     }
-    //ÓÒ²àĞÂÔöµÄÑ¡Ôñ±äÁ¿Panel
+    //å³ä¾§æ–°å¢çš„é€‰æ‹©å˜é‡Panel
     private static JPanel varPanel;
     public static JPanel getVarPanel() {
         return varPanel;
@@ -170,37 +170,37 @@ public class GUIManager {
 
         }
         createMainPanel(rows, cols, mainPanelContainer);
-        SwingUtilities.updateComponentTreeUI(Radar.radar);//·½·¨Á¢¿Ì¸üĞÂÓ¦ÓÃ
+        SwingUtilities.updateComponentTreeUI(Radar.radar);//æ–¹æ³•ç«‹åˆ»æ›´æ–°åº”ç”¨
     }
 
-//¹¹½¨ÏµÍ³Ö÷½çÃæ
+//æ„å»ºç³»ç»Ÿä¸»ç•Œé¢
     public static void createPanels(ActionListener processor, Container pane) {
         mainPanelContainer = new JPanel();
         mainPanelContainer.setBackground(Color.BLACK);
         mainPanelContainer.setBorder(BorderFactory.createLineBorder(Color.gray));
         pane.add(mainPanelContainer, BorderLayout.CENTER);
-        //³õÊ¼»¯Ö÷ÒªÏÔÊ¾Çø
+        //åˆå§‹åŒ–ä¸»è¦æ˜¾ç¤ºåŒº
         createMainPanel(1, 1, mainPanelContainer);
         GridBagLayout gbl = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();//·â×°ÁËÈô¸É¶Ô×é¼şµÄÔ¼ÊøÊôĞÔ
-        gbc.weightx = 0;// µ±´°¿Ú·Å´óÊ±£¬³¤¶È²»±ä
-        gbc.weighty = 0; // µ±´°¿Ú·Å´óÊ±£¬¸ß¶È²»±ä
-        gbc.fill = GridBagConstraints.HORIZONTAL; // µ±¸ñ×ÓÓĞÊ£Óà¿Õ¼äÊ±£¬Ë®Æ½Ìî³ä¿Õ¼ä
+        GridBagConstraints gbc = new GridBagConstraints();//å°è£…äº†è‹¥å¹²å¯¹ç»„ä»¶çš„çº¦æŸå±æ€§
+        gbc.weightx = 0;// å½“çª—å£æ”¾å¤§æ—¶ï¼Œé•¿åº¦ä¸å˜
+        gbc.weighty = 0; // å½“çª—å£æ”¾å¤§æ—¶ï¼Œé«˜åº¦ä¸å˜
+        gbc.fill = GridBagConstraints.HORIZONTAL; // å½“æ ¼å­æœ‰å‰©ä½™ç©ºé—´æ—¶ï¼Œæ°´å¹³å¡«å……ç©ºé—´
 
-        // ³õÊ¼»¯Cut°´Å¥Çø
+        // åˆå§‹åŒ–CutæŒ‰é’®åŒº
         cutPanel = new JPanel(gbl);
         vcpBorder = new TitledBorderExt(BorderFactory.createEtchedBorder(), "VCP" + activeMainPanel.getRadarBase().vcp);
         cutPanel.setBorder(BorderFactory.createCompoundBorder(vcpBorder, BorderFactory
                 .createEmptyBorder(0, 0, 5, 0)));
 
-        // ³õÊ¼»¯ÎÄ¼şÁĞ±íÇø
+        // åˆå§‹åŒ–æ–‡ä»¶åˆ—è¡¨åŒº
         JPanel filePanel = new JPanel(gbl);
-        JLabel llist = new JLabel("ÎÄ¼şÁĞ±í");
+        JLabel llist = new JLabel("æ–‡ä»¶åˆ—è¡¨");
         llist.setForeground(vcpBorder.getTitleColor());
-        gbc.insets.set(0, 0, 5, 0);// ×é¼ş±Ë´ËµÄ¼ä¾à
-        gbc.gridx = 0;//ÉèÖÃ×é¼şËù´¦ĞĞÓëÁĞµÄÆğÊ¼×ø±ê¡£ÀıÈçgridx=0,gridy=0±íÊ¾½«×é¼ş·ÅÖÃÔÚ0ĞĞ0ÁĞµ¥Ôª¸ñÄÚ¡£
+        gbc.insets.set(0, 0, 5, 0);// ç»„ä»¶å½¼æ­¤çš„é—´è·
+        gbc.gridx = 0;//è®¾ç½®ç»„ä»¶æ‰€å¤„è¡Œä¸åˆ—çš„èµ·å§‹åæ ‡ã€‚ä¾‹å¦‚gridx=0,gridy=0è¡¨ç¤ºå°†ç»„ä»¶æ”¾ç½®åœ¨0è¡Œ0åˆ—å•å…ƒæ ¼å†…ã€‚
         gbc.gridy = 0;
-        gbc.gridwidth = 2;//ÉèÖÃ×é¼şºáÏòÓë×İÏòµÄµ¥Ôª¸ñ¿çÔ½¸öÊı¡£
+        gbc.gridwidth = 2;//è®¾ç½®ç»„ä»¶æ¨ªå‘ä¸çºµå‘çš„å•å…ƒæ ¼è·¨è¶Šä¸ªæ•°ã€‚
         filePanel.add(llist, gbc);
         dirImage = new ImagePanel("resource/folder_page.gif");
         setDirToolTip(RadarParams.filePath);
@@ -211,7 +211,7 @@ public class GUIManager {
         gbc.ipadx = 6;
         gbc.ipady = 7;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.EAST;//ÉèÖÃ×é¼şÔÚµ¥Ôª¸ñÖĞµÄ¶ÔÆë·½Ê½
+        gbc.anchor = GridBagConstraints.EAST;//è®¾ç½®ç»„ä»¶åœ¨å•å…ƒæ ¼ä¸­çš„å¯¹é½æ–¹å¼
         filePanel.add(dirImage, gbc);
         list = new JList(new DefaultListModel());
         list.addListSelectionListener(new ListSelectHandler());
@@ -231,9 +231,9 @@ public class GUIManager {
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.NONE;
-        previous = new JButton("ÉÏÒ»¸ö");
-        next = new JButton("ÏÂÒ»¸ö");
-        loop = new JButton("Ñ­»·¶¯»­");
+        previous = new JButton("ä¸Šä¸€ä¸ª");
+        next = new JButton("ä¸‹ä¸€ä¸ª");
+        loop = new JButton("å¾ªç¯åŠ¨ç”»");
         previous.setActionCommand(CommonProps.AC_PREVIOUS_FILE);
         next.setActionCommand(CommonProps.AC_NEXT_FILE);
         loop.setActionCommand(CommonProps.AC_LOOP_FILE);
@@ -286,7 +286,7 @@ public class GUIManager {
     }
     private static Component createNumPanel(GridBagLayout gbl) {
         JPanel numPanel = new JPanel(gbl);
-        numPanel.setBorder(BorderFactory.createTitledBorder("ÊÓÍ¼´°¿ÚÊıÁ¿"));
+        numPanel.setBorder(BorderFactory.createTitledBorder("è§†å›¾çª—å£æ•°é‡"));
         ActionListener listener = new ActionListener() {
 
             private int curNum = 1;
@@ -315,7 +315,7 @@ public class GUIManager {
                     VCS.createVcsDialog(Radar.radar);
                 }
                 GUIManager.mainPanelContainer.repaint();
-                //CommonUtils.alert("ÇëÏÈÑ¡ÔñÀ×´ï»ùÊı¾İÎÄ¼ş£¡",Radar.radar);
+                //CommonUtils.alert("è¯·å…ˆé€‰æ‹©é›·è¾¾åŸºæ•°æ®æ–‡ä»¶ï¼",Radar.radar);
 
             }
         };
@@ -384,13 +384,13 @@ public class GUIManager {
             mainPanelContainer.add(jlayer);
             if( activeMainPanel!=null) {
                 RadarBase base = activeMainPanel.getRadarBase();
-                //JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º");
+                //JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š");
                 RadarBase base2 = mainPanel.getRadarBase();
                 ListElement elem = (ListElement) GUIManager.list.getSelectedValue();
                 if (null == elem) {
                     base2.l2 = null;
                     jpanels.add(mainPanel);
-                    mainPanel.setDoubleBuffered(false);//ÊÇ·ñÆô¶¯Ë«»º´æ
+                    mainPanel.setDoubleBuffered(false);//æ˜¯å¦å¯åŠ¨åŒç¼“å­˜
                     MouseHandler handler = new MouseHandler();
                     mainPanel.addMouseListener(handler);
                     mainPanel.addMouseMotionListener(handler);
@@ -398,7 +398,7 @@ public class GUIManager {
                     mainPanel.setCursor(GUIManager.currentToolCursor);
                     continue;
                 }
-                base2.l2 = RadarUtils.createRadarData(base2);//ÊµÀı»¯l2ÎªÄÄÀàÀ×´ï»ùÊı¾İsc?FMT?SA
+                base2.l2 = RadarUtils.createRadarData(base2);//å®ä¾‹åŒ–l2ä¸ºå“ªç±»é›·è¾¾åŸºæ•°æ®sc?FMT?SA
                 if (elem != null) {
                     base2.l2.setSrcFileName(elem.getLabel());
                     File file = new File(RadarParams.filePath, elem.getLabel());
@@ -504,11 +504,11 @@ public class GUIManager {
     private static JPanel createMomentPanel(GridBagLayout gbl) {
         JPanel momentPanel = new JPanel(gbl);
         momentPanel.setLayout(new GridLayout(4, 4));
-        momentPanel.setBorder(BorderFactory.createTitledBorder("²úÆ·"));
+        momentPanel.setBorder(BorderFactory.createTitledBorder("äº§å“"));
         ActionListener listener = new MomentActionListener();
 
         ButtonGroup moment = new ButtonGroup();
-//    	JRadioButton item = new JRadioButton("·´ÉäÂÊ(R)");
+//    	JRadioButton item = new JRadioButton("åå°„ç‡(R)");
         JRadioButton item = new JRadioButton("REF");
         item.setActionCommand(CommonProps.AC_REFLECTIVITY);
         item.addActionListener(listener);
@@ -517,7 +517,7 @@ public class GUIManager {
 
 
 
-//    	JRadioButton item2 = new JRadioButton("ËÙ¶È(V)");
+//    	JRadioButton item2 = new JRadioButton("é€Ÿåº¦(V)");
         JRadioButton item2 = new JRadioButton("VEL");
         item2.setActionCommand(CommonProps.AC_VELOCITY);
         item2.addActionListener(listener);
@@ -525,7 +525,7 @@ public class GUIManager {
         momentPanel.add(item2);
 
 
-//    	JRadioButton item3 = new JRadioButton("Æ×¿í(W)");
+//    	JRadioButton item3 = new JRadioButton("è°±å®½(W)");
         JRadioButton item3 = new JRadioButton("SW");
         item3.setActionCommand(CommonProps.AC_SPECTRUM_WIDTH);
         item3.addActionListener(listener);
@@ -533,7 +533,7 @@ public class GUIManager {
         momentPanel.add(item3);
 
 
-//    	JRadioButton item4 = new JRadioButton("´¹Ö±ÀÛ»ıÒºË®º¬Á¿(I)");
+//    	JRadioButton item4 = new JRadioButton("å‚ç›´ç´¯ç§¯æ¶²æ°´å«é‡(I)");
         JRadioButton item4 = new JRadioButton("VIL");
         item4.setActionCommand(CommonProps.AC_VERTICAL_LIQUID_WATER);
         item4.addActionListener(listener);
@@ -576,7 +576,7 @@ public class GUIManager {
         moment.add(item7);
         momentPanel.add(item7);
 
-        JRadioButton item8 = new JRadioButton("¦ÕDP");
+        JRadioButton item8 = new JRadioButton("Ï†DP");
         item8.setActionCommand(CommonProps.AC_DP);
         item8.addActionListener(listener);
         item8.setEnabled(false);
@@ -607,7 +607,7 @@ public class GUIManager {
         return momentPanel;
     }
     public static void setDirToolTip(String path) {
-        dirImage.setToolTipText("Ñ¡ÔñÊı¾İÄ¿Â¼(" + path + ")");
+        dirImage.setToolTipText("é€‰æ‹©æ•°æ®ç›®å½•(" + path + ")");
     }
 
     private static class CutButtonActionListner implements ActionListener {
@@ -617,7 +617,7 @@ public class GUIManager {
             try {
                 int value = Integer.parseInt(ae.getActionCommand());
                 if (value == -1) { // Cut index
-                    CommonUtils.alert("ÇëÑ¡ÔñÒªÏÔÊ¾µÄÊı¾İÎÄ¼ş", GUIManager.list);
+                    CommonUtils.alert("è¯·é€‰æ‹©è¦æ˜¾ç¤ºçš„æ•°æ®æ–‡ä»¶", GUIManager.list);
                 } else {
                     GUIManager.cappiButton.setSelected(false);
                     GUIManager.selectCutButton((JRadioButton) ae.getSource());
@@ -664,15 +664,15 @@ public class GUIManager {
         if (l2 == null || l2.raf == null) {
             int number = RadarUtils.getCutNumberByVCP(radarBase.vcp);
             for (int i = 0; i < number; i++) {
-                values.add(new String[] { " µÚ" + (i + 1) + "²ã ", "-1" });
+                values.add(new String[] { " ç¬¬" + (i + 1) + "å±‚ ", "-1" });
             }
         } else {
             int cutNum = 0;
-          //  JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+l2.getCutNumber());
+          //  JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+l2.getCutNumber());
             for (int i = 0; i < l2.getCutNumber(); i++) {
-                l2.readHeader(l2.getCutStart(i));//»ñÈ¡×î½ü¶ÁÈ¡µÄrecordNum£¬»ñµÃ¸Ã²ãµÄ²»Í¬ÒªËØµÄ¾àÀë¿âÊı¡¢¿â³¤
+                l2.readHeader(l2.getCutStart(i));//è·å–æœ€è¿‘è¯»å–çš„recordNumï¼Œè·å¾—è¯¥å±‚çš„ä¸åŒè¦ç´ çš„è·ç¦»åº“æ•°ã€åº“é•¿
                 if (l2.getBinCount(radarBase.active_moment) > 0) {
-                    values.add(new String[] { " µÚ" + (cutNum + 1) + "²ã ", String.valueOf(i) });
+                    values.add(new String[] { " ç¬¬" + (cutNum + 1) + "å±‚ ", String.valueOf(i) });
                     cutNum++;
                 }
             }
@@ -713,7 +713,7 @@ public class GUIManager {
             cut.setText(value[0]);
             cut.setActionCommand(value[1]);
             if (cr.equals(value[1])) {
-                cut.setToolTipText("×éºÏ·´ÉäÂÊ");
+                cut.setToolTipText("ç»„åˆåå°„ç‡");
             } else {
                 cut.setToolTipText(null);
             }
@@ -722,7 +722,7 @@ public class GUIManager {
             }
             if (!cappiButton.isSelected() && activeCutButton != null
                     && activeCutButton.getText().equals(cut.getText())) {
-               // JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+activeCutButton.getActionCommand()+activeCutButton.getText() );
+               // JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+activeCutButton.getActionCommand()+activeCutButton.getText() );
                 selectCutButton(cut);
                 btn1 = null;
             }
@@ -781,10 +781,10 @@ public class GUIManager {
 
 //    	JPanel tooBarPanel = new JPanel(gbl);
 //
-//    	tooBarPanel.setBorder(new TitledBorderExt("¹¤¾ßÏä"));
+//    	tooBarPanel.setBorder(new TitledBorderExt("å·¥å…·ç®±"));
 
         JToolBar  toolBar = new JToolBar();
-        toolBar.setBorder(BorderFactory.createTitledBorder("¹¤¾ßÏä"));
+        toolBar.setBorder(BorderFactory.createTitledBorder("å·¥å…·ç®±"));
         toolBar.setLayout(new GridLayout(2, 5));
 //    	toolBar.setMargin(new Insets(5, 0, 0, 0));
         try {
@@ -792,7 +792,7 @@ public class GUIManager {
             JButton button = new JButton(new ImageIcon(CommonUtils
                     .getResImage("resource/cursor.png")));
             putComponent("tool_cursor", button);
-            button.setToolTipText("Ö¸Õë");
+            button.setToolTipText("æŒ‡é’ˆ");
             button.setSelected(true);
             button.setFocusable(false);
             button.setMargin(insets);
@@ -801,21 +801,21 @@ public class GUIManager {
             button.addActionListener(processor);
             toolBar.add(button);
             button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/hand.gif")));
-            button.setToolTipText("ÒÆ¶¯");
+            button.setToolTipText("ç§»åŠ¨");
             button.setFocusable(false);
             button.setActionCommand(CommonProps.AC_T_HAND);
             button.addActionListener(processor);
             button.setMargin(insets);
             toolBar.add(button);
             button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/reset.png")));
-            button.setToolTipText("¸´Î»");
+            button.setToolTipText("å¤ä½");
             button.setFocusable(false);
             button.setMargin(insets);
             button.setActionCommand(CommonProps.AC_T_RESET);
             button.addActionListener(processor);
             toolBar.add(button);
             button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/zoom_in.png")));
-            button.setToolTipText("·Å´ó");
+            button.setToolTipText("æ”¾å¤§");
             button.setFocusable(false);
             button.setMargin(insets);
             button.setActionCommand(CommonProps.AC_T_ZOOM_IN);
@@ -824,21 +824,21 @@ public class GUIManager {
             button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/zoom_out.png")));
             button.setActionCommand(CommonProps.AC_T_ZOOM_OUT);
             button.addActionListener(processor);
-            button.setToolTipText("ËõĞ¡");
+            button.setToolTipText("ç¼©å°");
             button.setMargin(insets);
             button.setFocusable(false);
             toolBar.add(button);
             button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/d3.png")));
             button.setActionCommand(CommonProps.AC_T_VCS);
             button.addActionListener(processor);
-            button.setToolTipText("»­Ïß");
+            button.setToolTipText("ç”»çº¿");
             button.setMargin(insets);
             button.setFocusable(false);
             toolBar.add(button);
             button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/measure.gif")));
             button.setActionCommand(CommonProps.AC_T_MEASURE);
             button.addActionListener(processor);
-            button.setToolTipText("²â¾à");
+            button.setToolTipText("æµ‹è·");
             button.setFocusable(false);
             button.setMargin(insets);
             toolBar.add(button);
@@ -877,30 +877,30 @@ public class GUIManager {
     public static void setToolCrossIcon() throws IOException {
         if (RadarParams.auto_update) {
             toolCross.setIcon(new ImageIcon(CommonUtils.getResImage("resource/tick.gif")));
-            toolCross.setToolTipText("Í£Ö¹(»Ø·Å×ÊÁÏ)");
+            toolCross.setToolTipText("åœæ­¢(å›æ”¾èµ„æ–™)");
         } else {
             toolCross.setIcon(new ImageIcon(CommonUtils.getResImage("resource/cross.gif")));
-            toolCross.setToolTipText("¸üĞÂ(ÊµÊ±¼à¿Ø)");
+            toolCross.setToolTipText("æ›´æ–°(å®æ—¶ç›‘æ§)");
         }
     }
 
     public static void setToolGridIcon() throws IOException {
         if (MapOverlay.grid_on) {
             toolGrid.setIcon(new ImageIcon(CommonUtils.getResImage("resource/grid_delete.png")));
-            toolGrid.setToolTipText("Òş²ØÍø¸ñ");
+            toolGrid.setToolTipText("éšè—ç½‘æ ¼");
         } else {
             toolGrid.setIcon(new ImageIcon(CommonUtils.getResImage("resource/grid_add.png")));
-            toolGrid.setToolTipText("ÏÔÊ¾Íø¸ñ");
+            toolGrid.setToolTipText("æ˜¾ç¤ºç½‘æ ¼");
         }
     }
 
     public static void setToolMapIcon() throws IOException {
         if (MapOverlay.map_on) {
             toolMap.setIcon(new ImageIcon(CommonUtils.getResImage("resource/map_delete.png")));
-            toolMap.setToolTipText("Òş²ØµØÍ¼");
+            toolMap.setToolTipText("éšè—åœ°å›¾");
         } else {
             toolMap.setIcon(new ImageIcon(CommonUtils.getResImage("resource/map_add.png")));
-            toolMap.setToolTipText("ÏÔÊ¾µØÍ¼");
+            toolMap.setToolTipText("æ˜¾ç¤ºåœ°å›¾");
         }
     }
 
@@ -912,9 +912,9 @@ public class GUIManager {
                 .createMatteBorder(0, 0, 0, 1, new Color(132, 132, 132)));
         statusBar.add(statusCenter, BorderLayout.CENTER);
         LabelOption[] options = new LabelOption[3];
-        options[0] = new LabelOption("Èí¼şÉè¼Æ: " + Radar.AUTHOR + "  " + Radar.PHONE);
+        options[0] = new LabelOption("è½¯ä»¶è®¾è®¡: " + Radar.AUTHOR + "  " + Radar.PHONE);
         options[1] = new LabelOption("E-mail: " + Radar.E_MAIL, "mailto:" + Radar.E_MAIL);
-        options[2] = new LabelOption("Ö÷Ò³: " + Radar.HOME_PAGE, Radar.HOME_PAGE);
+        options[2] = new LabelOption("ä¸»é¡µ: " + Radar.HOME_PAGE, Radar.HOME_PAGE);
         statusBar.add(new ScrollLabel(options), BorderLayout.EAST);
         statusBar.setVisible(Radar.showStatus);
         return statusBar;
@@ -925,21 +925,21 @@ public class GUIManager {
         menuBar.setBorder(BorderFactory.createCompoundBorder(menuBar.getBorder(), BorderFactory
                 .createEmptyBorder(3, 0, 3, 0)));
 
-        JMenu rootMenu = new JMenu("ÎÄ¼ş(F)");
+        JMenu rootMenu = new JMenu("æ–‡ä»¶(F)");
         rootMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(rootMenu);
-        menuUpdate = new JCheckBoxMenuItem("¸üĞÂ(N)", RadarParams.auto_update);
+        menuUpdate = new JCheckBoxMenuItem("æ›´æ–°(N)", RadarParams.auto_update);
         menuUpdate.setMnemonic(KeyEvent.VK_N);
         menuUpdate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
         menuUpdate.addActionListener(processor);
         menuUpdate.setActionCommand(CommonProps.AC_NEW);
         rootMenu.add(menuUpdate);
-        JMenuItem item = new JMenuItem("Áí´æÎª(A)...", KeyEvent.VK_A);
+        JMenuItem item = new JMenuItem("å¦å­˜ä¸º(A)...", KeyEvent.VK_A);
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_SAVE_AS);
         rootMenu.add(item);
-        JMenu menu = new JMenu("µ¼³ö(E)");
+        JMenu menu = new JMenu("å¯¼å‡º(E)");
         menu.setMnemonic(KeyEvent.VK_E);
         rootMenu.add(menu);
         item = new JMenuItem("PPI(P)...", KeyEvent.VK_P);
@@ -955,61 +955,61 @@ public class GUIManager {
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_EXPORT_RHI);
         menu.add(item);
-        item = new JMenuItem("µ±Ç°²úÆ·(S)...", KeyEvent.VK_S);
+        item = new JMenuItem("å½“å‰äº§å“(S)...", KeyEvent.VK_S);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_EXPORT_CURRENT);
         menu.add(item);
-        item = new JMenuItem("¸ñÊ½ÉèÖÃ(F)...", KeyEvent.VK_F);
+        item = new JMenuItem("æ ¼å¼è®¾ç½®(F)...", KeyEvent.VK_F);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_EXPORT_SET);
         menu.add(item);
-        //        item = new JMenuItem("É¢µãÊı¾İ(S)...", KeyEvent.VK_S);
+        //        item = new JMenuItem("æ•£ç‚¹æ•°æ®(S)...", KeyEvent.VK_S);
         //        item.addActionListener(processor);
         //        item.setActionCommand(CommonProps.AC_EXPORT_POINTS);
         //        menu.add(item);
         rootMenu.addSeparator();
-        item = new JMenuItem("Ò³ÃæÉèÖÃ(U)...", KeyEvent.VK_U);
+        item = new JMenuItem("é¡µé¢è®¾ç½®(U)...", KeyEvent.VK_U);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_PAGE_SETUP);
         rootMenu.add(item);
-        item = new JMenuItem("´òÓ¡Ô¤ÀÀ(V)...", KeyEvent.VK_V);
+        item = new JMenuItem("æ‰“å°é¢„è§ˆ(V)...", KeyEvent.VK_V);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_PRINT_PREVIEW);
         rootMenu.add(item);
-        item = new JMenuItem("´òÓ¡(P)...", KeyEvent.VK_P);
+        item = new JMenuItem("æ‰“å°(P)...", KeyEvent.VK_P);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_PRINT);
         rootMenu.add(item);
         rootMenu.addSeparator();
-        item = new JMenuItem("ÍË³ö(X)", KeyEvent.VK_X);
+        item = new JMenuItem("é€€å‡º(X)", KeyEvent.VK_X);
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_EXIT_APP);
         rootMenu.add(item);
 
-        rootMenu = new JMenu("²é¿´(V)");
+        rootMenu = new JMenu("æŸ¥çœ‹(V)");
         rootMenu.setMnemonic(KeyEvent.VK_V);
         menuBar.add(rootMenu);
-/*        item = new JCheckBoxMenuItem("¹¤¾ßÀ¸(T)", Radar.showToolBar);
+/*        item = new JCheckBoxMenuItem("å·¥å…·æ (T)", Radar.showToolBar);
         item.setMnemonic(KeyEvent.VK_T);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_SHOW_TOOL_BAR);
         rootMenu.add(item);
-        item = new JCheckBoxMenuItem("×´Ì¬À¸(B)", Radar.showStatus);
+        item = new JCheckBoxMenuItem("çŠ¶æ€æ (B)", Radar.showStatus);
         item.setMnemonic(KeyEvent.VK_B);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_SHOW_STATUS);
         rootMenu.add(item);*/
-        item = new JCheckBoxMenuItem("¿ØÖÆÀ¸(C)", Radar.showRightPanel);
+        item = new JCheckBoxMenuItem("æ§åˆ¶æ (C)", Radar.showRightPanel);
         item.setMnemonic(KeyEvent.VK_T);
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_SHOW_RIGHT_PANEL);
         rootMenu.add(item);
 
-        rootMenu = new JMenu("Í¬²½(S)");
+        rootMenu = new JMenu("åŒæ­¥(S)");
         rootMenu.setMnemonic(KeyEvent.VK_S);
         menuBar.add(rootMenu);
-        itemSyncTool = new JCheckBoxMenuItem("¹¤¾ßÏä²Ù×÷Í¬²½(T)",syncTool);
+        itemSyncTool = new JCheckBoxMenuItem("å·¥å…·ç®±æ“ä½œåŒæ­¥(T)",syncTool);
         itemSyncTool.setMnemonic(KeyEvent.VK_T);
         itemSyncTool.addActionListener(new ActionListener() {
             @Override
@@ -1019,7 +1019,7 @@ public class GUIManager {
         });
         itemSyncTool.setActionCommand(CommonProps.AC_SYNC_TOOL);
         rootMenu.add(itemSyncTool);
-        itemSyncTime = new JCheckBoxMenuItem("ÎÄ¼şÊ±¼äÍ¬²½(B)", syncTime);
+        itemSyncTime = new JCheckBoxMenuItem("æ–‡ä»¶æ—¶é—´åŒæ­¥(B)", syncTime);
         itemSyncTime.setMnemonic(KeyEvent.VK_B);
         itemSyncTime.addActionListener(new ActionListener() {
             @Override
@@ -1038,7 +1038,7 @@ public class GUIManager {
         });
         itemSyncTime.setActionCommand(CommonProps.AC_SYNC_TIME);
         rootMenu.add(itemSyncTime);
-        itemSyncCut = new JCheckBoxMenuItem("Ñö½ÇÍ¬²½(C)", syncCut);
+        itemSyncCut = new JCheckBoxMenuItem("ä»°è§’åŒæ­¥(C)", syncCut);
         itemSyncCut.setMnemonic(KeyEvent.VK_T);
         itemSyncCut.addActionListener(new ActionListener() {
             @Override
@@ -1053,12 +1053,12 @@ public class GUIManager {
         rootMenu.add(itemSyncCut);
         ActionListener listener = new MomentActionListener();
 //        ButtonGroup moment = new ButtonGroup();
-//        rootMenu = new JMenu("±äÁ¿(M)");
+//        rootMenu = new JMenu("å˜é‡(M)");
 //        rootMenu.setMnemonic(KeyEvent.VK_M);
 //        menuBar.add(rootMenu);
-//        item = new JMenuItem("      »ù±¾²úÆ·");
+//        item = new JMenuItem("      åŸºæœ¬äº§å“");
 //        rootMenu.add(item);
-//        item = new JRadioButtonMenuItem("·´ÉäÂÊ(R)", true);
+//        item = new JRadioButtonMenuItem("åå°„ç‡(R)", true);
 //        item.setMnemonic(KeyEvent.VK_R);
 //        item.setActionCommand(CommonProps.AC_REFLECTIVITY);
 //        item.addActionListener(processor);
@@ -1066,7 +1066,7 @@ public class GUIManager {
 //        putComponent("menu_moment" + RadarData.DBZ, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("ËÙ¶È(V)");
+//        item = new JRadioButtonMenuItem("é€Ÿåº¦(V)");
 //        item.setActionCommand(CommonProps.AC_VELOCITY);
 //        item.setMnemonic(KeyEvent.VK_V);
 //        item.addActionListener(processor);
@@ -1074,7 +1074,7 @@ public class GUIManager {
 //        putComponent("menu_moment" + RadarData.V, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("Æ×¿í(W)");
+//        item = new JRadioButtonMenuItem("è°±å®½(W)");
 //        item.setActionCommand(CommonProps.AC_SPECTRUM_WIDTH);
 //        item.setMnemonic(KeyEvent.VK_W);
 //        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
@@ -1082,42 +1082,42 @@ public class GUIManager {
 //        putComponent("menu_moment" + RadarData.W, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("ÂË²¨Ç°·´ÉäÂÊ(DBT)");
+//        item = new JRadioButtonMenuItem("æ»¤æ³¢å‰åå°„ç‡(DBT)");
 //        item.setActionCommand(CommonProps.AC_DBT);
 //        item.addActionListener(processor);
 //        item.setVisible(false);
 //        putComponent("menu_moment" + RadarData.DBT, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("²î·Ö·´ÉäÂÊ(ZDR)");
+//        item = new JRadioButtonMenuItem("å·®åˆ†åå°„ç‡(ZDR)");
 //        item.setActionCommand(CommonProps.AC_ZDR);
 //        item.addActionListener(processor);
 //        item.setVisible(false);
 //        putComponent("menu_moment" + RadarData.ZDR, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("²î·ÖÏàÒÆÂÊ(KDP)");
+//        item = new JRadioButtonMenuItem("å·®åˆ†ç›¸ç§»ç‡(KDP)");
 //        item.setActionCommand(CommonProps.AC_KDP);
 //        item.addActionListener(processor);
 //        item.setVisible(false);
 //        putComponent("menu_moment" + RadarData.KDP, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("²î·ÖÏàÒÆ(¦ÕDP)");
+//        item = new JRadioButtonMenuItem("å·®åˆ†ç›¸ç§»(Ï†DP)");
 //        item.setActionCommand(CommonProps.AC_DP);
 //        item.addActionListener(processor);
 //        item.setVisible(false);
 //        putComponent("menu_moment" + RadarData.DP, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("Ğ­Ïà¹ØÏµÊı(CC)");
+//        item = new JRadioButtonMenuItem("åç›¸å…³ç³»æ•°(CC)");
 //        item.setActionCommand(CommonProps.AC_CC);
 //        item.addActionListener(processor);
 //        item.setVisible(false);
 //        putComponent("menu_moment" + RadarData.CC, item);
 //        rootMenu.add(item);
 //        moment.add(item);
-//        item = new JRadioButtonMenuItem("Ë®Æ½Í¨µÀĞÅÔë±È(SNRH)");
+//        item = new JRadioButtonMenuItem("æ°´å¹³é€šé“ä¿¡å™ªæ¯”(SNRH)");
 //        item.setActionCommand(CommonProps.AC_SNRH);
 //        item.addActionListener(processor);
 //        item.setVisible(false);
@@ -1125,9 +1125,9 @@ public class GUIManager {
 //        rootMenu.add(item);
 //        moment.add(item);
 //        rootMenu.addSeparator();
-//        item = new JMenuItem("      ¼ÆËã²úÆ·");
+//        item = new JMenuItem("      è®¡ç®—äº§å“");
 //        rootMenu.add(item);
-//        item = new JRadioButtonMenuItem("´¹Ö±ÀÛ»ıÒºË®º¬Á¿(I)");
+//        item = new JRadioButtonMenuItem("å‚ç›´ç´¯ç§¯æ¶²æ°´å«é‡(I)");
 //        item.setMnemonic(KeyEvent.VK_I);
 //        item.setActionCommand(CommonProps.AC_VERTICAL_LIQUID_WATER);
 //        item.addActionListener(listener);
@@ -1145,102 +1145,102 @@ public class GUIManager {
 //        item.addActionListener(listener);
 //        rootMenu.add(item);
 //        moment.add(item);
-        //·ÖÎö
-        rootMenu = new JMenu("·ÖÎö(A)");
+        //åˆ†æ
+        rootMenu = new JMenu("åˆ†æ(A)");
         rootMenu.setMnemonic(KeyEvent.VK_A);
         menuBar.add(rootMenu);
-        item = new JMenuItem("RHI¾àÀë¸ß¶ÈÏÔÊ¾(H)", KeyEvent.VK_H);
+        item = new JMenuItem("RHIè·ç¦»é«˜åº¦æ˜¾ç¤º(H)", KeyEvent.VK_H);
         //item.setDisplayedMnemonicIndex(10);
         item.setActionCommand(CommonProps.AC_RHI);
         item.addActionListener(processor);
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
         rootMenu.add(item);
-        item = new JMenuItem("ÈÎÒâÁ½µãÆÊÃæÍ¼(H)", KeyEvent.VK_L);
+        item = new JMenuItem("ä»»æ„ä¸¤ç‚¹å‰–é¢å›¾(H)", KeyEvent.VK_L);
         //item.setDisplayedMnemonicIndex(10);
         item.setActionCommand(CommonProps.AC_T_VCS_MENU);
         item.addActionListener(processor);
-        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));//ÊÇµ±Êó±ê½¹µãÔÚÄãËùÔÚµÄ³ÌĞò½çÃæÉÏ£¬Äã°´ÏÂALTºÍD¼ü¾ÍÄÜ´ò¿ªÏàÓ¦µÄmenuItem
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));//æ˜¯å½“é¼ æ ‡ç„¦ç‚¹åœ¨ä½ æ‰€åœ¨çš„ç¨‹åºç•Œé¢ä¸Šï¼Œä½ æŒ‰ä¸‹ALTå’ŒDé”®å°±èƒ½æ‰“å¼€ç›¸åº”çš„menuItem
         rootMenu.add(item);
         menuBar.add(rootMenu);
 
 
-        rootMenu = new JMenu("ÉèÖÃ(P)");
+        rootMenu = new JMenu("è®¾ç½®(P)");
         rootMenu.setMnemonic(KeyEvent.VK_P);
         menuBar.add(rootMenu);
-        item = new JMenuItem("ÌìÇæÅäÖÃ(C)...");
+        item = new JMenuItem("å¤©æ“é…ç½®(C)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_TQ_INFO);
         item.setMnemonic(KeyEvent.VK_C);
         rootMenu.add(item);
-        item = new JMenuItem("Õ¾µãĞÅÏ¢(I)...");
+        item = new JMenuItem("ç«™ç‚¹ä¿¡æ¯(I)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_SITE_INFO);
         item.setMnemonic(KeyEvent.VK_I);
         rootMenu.add(item);
-        item = new JMenuItem("µØÀí±³¾°(B)...");
+        item = new JMenuItem("åœ°ç†èƒŒæ™¯(B)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_BACKGROUND);
         item.setMnemonic(KeyEvent.VK_B);
         rootMenu.add(item);
-        item = new JMenuItem("·Ö±æÂÊ(R)...");
+        item = new JMenuItem("åˆ†è¾¨ç‡(R)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_RESOLUTION);
         item.setMnemonic(KeyEvent.VK_R);
         rootMenu.add(item);
 
-        rootMenu = new JMenu("Êı¾İ(D)");
+        rootMenu = new JMenu("æ•°æ®(D)");
         rootMenu.setMnemonic(KeyEvent.VK_D);
         menuBar.add(rootMenu);
-        item = new JMenuItem("µØÃæÊµ¿öÊı¾İ(S)");
+        item = new JMenuItem("åœ°é¢å®å†µæ•°æ®(S)");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_SURFACE);
         item.setMnemonic(KeyEvent.VK_S);
         rootMenu.add(item);
-        item = new JMenuItem("À×´ï»ùÊı¾İ(R)");
+        item = new JMenuItem("é›·è¾¾åŸºæ•°æ®(R)");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_DOWNLOAD_RADAR);
         item.setMnemonic(KeyEvent.VK_R);
         rootMenu.add(item);
 
-        rootMenu = new JMenu("µş¼Ó(O)");
+        rootMenu = new JMenu("å åŠ (O)");
         rootMenu.setMnemonic(KeyEvent.VK_O);
         menuBar.add(rootMenu);
-        menuGrid = new JCheckBoxMenuItem("Íø¸ñ(G)", MapOverlay.grid_on);
+        menuGrid = new JCheckBoxMenuItem("ç½‘æ ¼(G)", MapOverlay.grid_on);
         menuGrid.setActionCommand(CommonProps.AC_GRID);
         menuGrid.setMnemonic(KeyEvent.VK_G);
         menuGrid.addActionListener(processor);
         menuGrid.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
         rootMenu.add(menuGrid);
-        menuMap = new JCheckBoxMenuItem("µØÍ¼(M)", MapOverlay.map_on);
+        menuMap = new JCheckBoxMenuItem("åœ°å›¾(M)", MapOverlay.map_on);
         menuMap.setMnemonic(KeyEvent.VK_M);
         menuMap.setActionCommand(CommonProps.AC_MAP);
         menuMap.addActionListener(processor);
         menuMap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
         rootMenu.add(menuMap);
 
-        menuTerrain = new JCheckBoxMenuItem("µØĞÎ(T)", MapOverlay.elevation_on);
+        menuTerrain = new JCheckBoxMenuItem("åœ°å½¢(T)", MapOverlay.elevation_on);
         menuTerrain.setMnemonic(KeyEvent.VK_T);
         menuTerrain.setActionCommand(CommonProps.AC_TERRAIN);
         menuTerrain.addActionListener(processor);
         menuTerrain.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
         rootMenu.add(menuTerrain);
 
-        item = new JMenuItem("ÇøÓò(C)...");
+        item = new JMenuItem("åŒºåŸŸ(C)...");
         item.addActionListener(processor);
         item.setActionCommand(CommonProps.AC_AREA);
         item.setMnemonic(KeyEvent.VK_C);
         rootMenu.add(item);
 
-        rootMenu = new JMenu("°ïÖú(H)");
+        rootMenu = new JMenu("å¸®åŠ©(H)");
         rootMenu.setMnemonic(KeyEvent.VK_H);
         menuBar.add(rootMenu);
-        item = new JMenuItem("ÔÚÏß°ïÖú(H)");
+        item = new JMenuItem("åœ¨çº¿å¸®åŠ©(H)");
         item.setActionCommand(CommonProps.AC_HELP);
         item.addActionListener(processor);
         item.setMnemonic(KeyEvent.VK_H);
         item.setAccelerator(KeyStroke.getKeyStroke("F1"));
         rootMenu.add(item);
-        item = new JMenuItem("¹ØÓÚ " + Radar.APP_NAME + "(A)");
+        item = new JMenuItem("å…³äº " + Radar.APP_NAME + "(A)");
         item.setActionCommand(CommonProps.AC_ABOUT);
         item.addActionListener(processor);
         item.setMnemonic(KeyEvent.VK_A);

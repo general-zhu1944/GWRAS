@@ -794,7 +794,7 @@ public class TreeMapExt<K, V> extends AbstractMapExt<K, V> implements NavigableM
     }
 
     /**
-     * È¡µÃ×î½Ó½ükeyµÄEntry£¬×¢Òâ£º´Ë·½·¨ÒªÇókeyµÄÀàĞÍ±ØĞëÊÇDouble
+     * å–å¾—æœ€æ¥è¿‘keyçš„Entryï¼Œæ³¨æ„ï¼šæ­¤æ–¹æ³•è¦æ±‚keyçš„ç±»å‹å¿…é¡»æ˜¯Double
      * 
      * @param key
      * @return
@@ -804,10 +804,10 @@ public class TreeMapExt<K, V> extends AbstractMapExt<K, V> implements NavigableM
     }
 
     /**
-     * È¡µÃ×î½Ó½ükeyµÄ2¸öEntry£¬×¢Òâ£º´Ë·½·¨ÒªÇókeyµÄÀàĞÍ±ØĞëÊÇDouble
+     * å–å¾—æœ€æ¥è¿‘keyçš„2ä¸ªEntryï¼Œæ³¨æ„ï¼šæ­¤æ–¹æ³•è¦æ±‚keyçš„ç±»å‹å¿…é¡»æ˜¯Double
      * 
      * @param key
-     * @return null£ºÎŞ¶ÔÓ¦µÄEntry£»Èç¹ûkeyµÈÓÚÄ³¸öentry£¬·µ»Ønew Map.Entry[]{ entry, entry }£¬¿ÉÍ¨¹ı[0] == [1]ÅĞ¶Ï
+     * @return nullï¼šæ— å¯¹åº”çš„Entryï¼›å¦‚æœkeyç­‰äºæŸä¸ªentryï¼Œè¿”å›new Map.Entry[]{ entry, entry }ï¼Œå¯é€šè¿‡[0] == [1]åˆ¤æ–­
      */
     public Map.Entry[] closest2Entry(K key) {
         Map.Entry[] e = getClosest2Entry(key);

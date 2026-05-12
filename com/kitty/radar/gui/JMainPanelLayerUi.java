@@ -15,7 +15,7 @@ public class JMainPanelLayerUi extends LayerUI<MainPanel> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//1 ª≠œﬂ, 2 ≤‚æ‡
+	//1 ÁîªÁ∫ø, 2 ÊµãË∑ù
 	public static int active = 0;
 	
     private RadarBase radarBase;

@@ -13,7 +13,7 @@ import com.kitty.radar.util.PositionUtils;
 import com.kitty.radar.util.RadarUtils;
 
 /**
- * ÍÖÔ²ĞÎÇøÓò¡£
+ * æ¤­åœ†å½¢åŒºåŸŸã€‚
  */
 public class EllipseArea extends Area {
 
@@ -54,8 +54,8 @@ public class EllipseArea extends Area {
     }
 
     public String toString() {
-        return "¾­¶È:" + CommonUtils.format(lx, 6) + "¡ã; Î³¶È:" + CommonUtils.format(ly, 6) + "¡ã; ³¤Öá:"
-                + CommonUtils.format(width, 1) + RadarUtils.getDistanceUnitLabel() + "; ¶ÌÖá:"
+        return "ç»åº¦:" + CommonUtils.format(lx, 6) + "Â°; çº¬åº¦:" + CommonUtils.format(ly, 6) + "Â°; é•¿è½´:"
+                + CommonUtils.format(width, 1) + RadarUtils.getDistanceUnitLabel() + "; çŸ­è½´:"
                 + CommonUtils.format(height, 1) + RadarUtils.getDistanceUnitLabel();
     }
 

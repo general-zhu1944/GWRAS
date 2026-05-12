@@ -59,7 +59,7 @@ import com.kitty.radar.util.CommonUtils;
 import com.kitty.radar.util.ConfigInfo;
 import com.kitty.radar.util.RadarUtils;
 
-//ÈİÆ÷Àà¼àÌı
+//å®¹å™¨ç±»ç›‘å¬
 public class RadarProcessor extends RadarParams implements ActionListener {
 
 	public void actionPerformed(ActionEvent ae) {
@@ -162,7 +162,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		} else if (CommonProps.AC_T_VCS_MENU.equals(command)) {
 				VCS.createVcsDialog(Radar.radar);
 		} else if (CommonProps.AC_T_VCS.equals(command)) {
-			JMainPanelLayerUi.active = 1;//1 »­Ïß, 2 ²â¾à
+			JMainPanelLayerUi.active = 1;//1 ç”»çº¿, 2 æµ‹è·
 			t_drawline(ae);
 
 		//} else if (CommonProps.AC_T_WIND.equals(command)) {
@@ -217,7 +217,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		} else if (CommonProps.AC_EXPORT_CURRENT.equals(command)) {
 			exportCurrent();
 		} else {
-//			switchCut(ae);//²ã´ÎÑ¡ÔñÊÂ¼ş
+//			switchCut(ae);//å±‚æ¬¡é€‰æ‹©äº‹ä»¶
 		}
 		Radar.radar.setCursor(oldCursor);
 	}
@@ -226,9 +226,9 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 	private void queryrain() {		
 		  Date str1= (Date)(SurfaceDialog.datePicker1.getValue());
       	Date str2=(Date)(SurfaceDialog.datePicker2.getValue());
-      	if((str2.getTime()-str1.getTime())<60000)//ºÁÃë
+      	if((str2.getTime()-str1.getTime())<60000)//æ¯«ç§’
       	{
-      		JOptionPane.showMessageDialog(null, "ÄãÑ¡ÔñÊ±¼ä¶ÎÌ«¶Ì£¬ÇëÖØĞÂÑ¡ÔñÊ±¼ä¶Î £¡"); 
+      		JOptionPane.showMessageDialog(null, "ä½ é€‰æ‹©æ—¶é—´æ®µå¤ªçŸ­ï¼Œè¯·é‡æ–°é€‰æ‹©æ—¶é—´æ®µ ï¼"); 
       	}
       	else
       	{
@@ -257,9 +257,9 @@ public class RadarProcessor extends RadarParams implements ActionListener {
     	 Date str2=(Date)(RadarDialog.datePicker2.getValue());
     	 String datatype=RadarDialog.jcb.getSelectedItem().toString();
     	 String radarid=RadarDialog.rada_id.getText().toString();
-    	if((str2.getTime()-str1.getTime())<60000)//ºÁÃë
+    	if((str2.getTime()-str1.getTime())<60000)//æ¯«ç§’
     	{
-    		JOptionPane.showMessageDialog(null, "ÄãÑ¡ÔñÊ±¼ä¶ÎÌ«¶Ì£¬ÇëÖØĞÂÑ¡ÔñÊ±¼ä¶Î £¡"); 
+    		JOptionPane.showMessageDialog(null, "ä½ é€‰æ‹©æ—¶é—´æ®µå¤ªçŸ­ï¼Œè¯·é‡æ–°é€‰æ‹©æ—¶é—´æ®µ ï¼"); 
     	}
     	else
     	{
@@ -304,7 +304,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		if (radarBase.l2 != null && radarBase.l2.raf != null) {
 			fileName = FileHandler.getTime(radarBase.l2.getSrcFileName());
 		} else {
-			CommonUtils.alert("Ã»ÓĞ¿ÉÒÔµ¼³öµÄÊı¾İ", null);
+			CommonUtils.alert("æ²¡æœ‰å¯ä»¥å¯¼å‡ºçš„æ•°æ®", null);
 			return;
 		}
 		if (radarBase.currentMoment == CommonProps.MOMENT_ET) {
@@ -330,7 +330,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		boolean inArea = false;
 		if (AreaDialog.tableModel.isAreaVisible()) {
 			int flag = JOptionPane.showConfirmDialog(Radar.radar,
-					"ÊÇ·ñ½öµ¼³öÇøÓòÄÚµÄÊı¾İ£¿", "", JOptionPane.YES_NO_OPTION);
+					"æ˜¯å¦ä»…å¯¼å‡ºåŒºåŸŸå†…çš„æ•°æ®ï¼Ÿ", "", JOptionPane.YES_NO_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
 				inArea = true;
 			}
@@ -342,7 +342,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		fc.setFileFilter("*.txt");
 		fc.setApproveButtonMnemonic(KeyEvent.VK_S);
 		fc.setAcceptAllFileFilterUsed(false);
-		fc.setDialogTitle("µ¼³öµ±Ç°²úÆ·");
+		fc.setDialogTitle("å¯¼å‡ºå½“å‰äº§å“");
 		int rtn = fc.showDialog(Radar.radar);
 		File file = fc.getSelectedFile();
 		if (file != null && rtn == FileChooser.APPROVE_OPTION) {
@@ -384,12 +384,12 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		if (radarBase.l2 != null && radarBase.l2.raf != null) {
 			fileName = FileHandler.getTime(radarBase.l2.getSrcFileName());
 		} else {
-			CommonUtils.alert("Ã»ÓĞ¿ÉÒÔµ¼³öµÄÊı¾İ", null);
+			CommonUtils.alert("æ²¡æœ‰å¯ä»¥å¯¼å‡ºçš„æ•°æ®", null);
 			return;
 		}
 		if (type == CommonProps.VIEW_PPI
 				&& radarBase.cutNum == CommonProps.MOMENT_CR) {
-			CommonUtils.alert("ÇëÑ¡ÔñÒªµ¼³öµÄÑö½Ç²ã", null);
+			CommonUtils.alert("è¯·é€‰æ‹©è¦å¯¼å‡ºçš„ä»°è§’å±‚", null);
 			return;
 		}
 		String typeDesc;
@@ -408,21 +408,21 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		}
 		String label = null;
 		if (radarBase.currentMoment == CommonProps.MOMENT_ET) {
-			label = "ÔÆ¶¥¸ß¶È";
+			label = "äº‘é¡¶é«˜åº¦";
 		} else if (radarBase.currentMoment == CommonProps.MOMENT_HP) {
-			label = "±ù±¢¸ÅÂÊ";
+			label = "å†°é›¹æ¦‚ç‡";
 		} else if (radarBase.currentMoment == CommonProps.MOMENT_VIL) {
-			label = "´¹Ö±ÀÛ»ıÒºË®º¬Á¿";
+			label = "å‚ç›´ç´¯ç§¯æ¶²æ°´å«é‡";
 		}
 		if (label != null) {
-			CommonUtils.alert(label + "²»ÄÜµ¼³ö" + typeDesc, null);
+			CommonUtils.alert(label + "ä¸èƒ½å¯¼å‡º" + typeDesc, null);
 			return;
 		}
 		boolean inArea = false;
 		if (type == CommonProps.VIEW_PPI || type == CommonProps.VIEW_CAPPI) {
 			if (AreaDialog.tableModel.isAreaVisible()) {
 				int flag = JOptionPane.showConfirmDialog(Radar.radar,
-						"ÊÇ·ñ½öµ¼³öÇøÓòÄÚµÄÊı¾İ£¿", "", JOptionPane.YES_NO_OPTION);
+						"æ˜¯å¦ä»…å¯¼å‡ºåŒºåŸŸå†…çš„æ•°æ®ï¼Ÿ", "", JOptionPane.YES_NO_OPTION);
 				if (flag == JOptionPane.OK_OPTION) {
 					inArea = true;
 				}
@@ -435,7 +435,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		fc.setFileFilter("*.txt");
 		fc.setApproveButtonMnemonic(KeyEvent.VK_S);
 		fc.setAcceptAllFileFilterUsed(false);
-		fc.setDialogTitle("µ¼³ö" + typeDesc);
+		fc.setDialogTitle("å¯¼å‡º" + typeDesc);
 		int rtn = fc.showDialog(Radar.radar);
 		File file = fc.getSelectedFile();
 		if (file != null && rtn == FileChooser.APPROVE_OPTION) {
@@ -539,11 +539,11 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 
 		//javax.swing.JOptionPane.showMessageDialog(this, RadarBase.active_moment, "R", JOptionPane.ERROR_MESSAGE);
 	    	 try {
-	    			String path ="D:\\python´úÂë\\PythonProject\\pycwr\\cheshi9.py ";//»ñÈ¡µ½ÏîÄ¿Ä¿Â¼ºó£¬²¹³äÍêÕûpythonÎÄ¼şËùÔÚÄ¿Â¼
+	    			String path ="D:\\pythonä»£ç \\PythonProject\\pycwr\\cheshi9.py ";//è·å–åˆ°é¡¹ç›®ç›®å½•åï¼Œè¡¥å……å®Œæ•´pythonæ–‡ä»¶æ‰€åœ¨ç›®å½•
 	    			path =path.replace("\\","\\\\");
-	    			String condaPath = "D:\\anconda\\Scripts";//»ñÈ¡condaµÄÏµÍ³±äÁ¿	    			
+	    			String condaPath = "D:\\anconda\\Scripts";//è·å–condaçš„ç³»ç»Ÿå˜é‡	    			
 	    			Process process = Runtime.getRuntime().exec(condaPath+"\\activate.bat &&  C: && conda activate pycwrnc && python "+path+list);
-	    			//JOptionPane.showMessageDialog(Radar.radar, "ÇëÄÍĞÄµÈµÈ£¡", "",
+	    			//JOptionPane.showMessageDialog(Radar.radar, "è¯·è€å¿ƒç­‰ç­‰ï¼", "",
 	    					//JOptionPane.WARNING_MESSAGE);
 	    			Radar.radar.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 	    			 final InputStream is1 = process.getInputStream();
@@ -576,7 +576,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 	private void stopLoop() {
 		GUIManager.setFileEnabled(true, false);
 		GUIManager.loop.setActionCommand(CommonProps.AC_LOOP_FILE);
-		GUIManager.loop.setText(" Ñ­»·¶¯»­ ");
+		GUIManager.loop.setText(" å¾ªç¯åŠ¨ç”» ");
 		if (timer != null) {
 			timer.cancel();
 			timer = null;
@@ -586,15 +586,15 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 	private void loopFile() {
 		int index = GUIManager.list.getSelectedIndex();
 		if (index == -1) {
-			JOptionPane.showMessageDialog(Radar.radar, "ÇëÑ¡ÔñÒªÑ­»·ÏÔÊ¾µÄÎÄ¼ş", "",
+			JOptionPane.showMessageDialog(Radar.radar, "è¯·é€‰æ‹©è¦å¾ªç¯æ˜¾ç¤ºçš„æ–‡ä»¶", "",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		GUIManager.setFileEnabled(false, false);
 		GUIManager.loop.setActionCommand(CommonProps.AC_STOP_LOOP);
-		GUIManager.loop.setText(" Í£Ö¹ ");
+		GUIManager.loop.setText(" åœæ­¢ ");
 		timer = new Timer();
-		timer.schedule(new LoopHandler(), 200, Math.round(timerRate * 1000)); // ÑÓ³Ù200ºÁÃë£¬ÔöÇ¿ÓÃ»§ÌåÑé
+		timer.schedule(new LoopHandler(), 200, Math.round(timerRate * 1000)); // å»¶è¿Ÿ200æ¯«ç§’ï¼Œå¢å¼ºç”¨æˆ·ä½“éªŒ
 	}
 
 	private void browserFile(int i) {
@@ -611,7 +611,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 			//long aTime=System.currentTimeMillis();
 			displayFile(null);			
 			//long bTime=System.currentTimeMillis();
-			//JOptionPane.showMessageDialog(null, "ÌåÉ¨ÇĞ»»ËùĞèÊ±¼ä"+(bTime-aTime)+"ºÁÃë","²âÊÔÊ±²î",JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "ä½“æ‰«åˆ‡æ¢æ‰€éœ€æ—¶é—´"+(bTime-aTime)+"æ¯«ç§’","æµ‹è¯•æ—¶å·®",JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -814,7 +814,7 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 		fc.setFileFilter("*.jpg");
 		fc.setApproveButtonMnemonic(KeyEvent.VK_S);
 		fc.setAcceptAllFileFilterUsed(false);
-		fc.setDialogTitle("Áí´æÎª");
+		fc.setDialogTitle("å¦å­˜ä¸º");
 		int rtn = fc.showDialog(Radar.radar);
 		File file = fc.getSelectedFile();
 		if (file != null && rtn == FileChooser.APPROVE_OPTION) {
@@ -888,9 +888,9 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 					}
 				} else {
 					CommonUtils
-							.alert(radarBase.l2.getSrcFileName() + "²»ÊÇ"
+							.alert(radarBase.l2.getSrcFileName() + "ä¸æ˜¯"
 									+ RadarUtils.getRadarFormatLabel()
-									+ "À×´ïÊı¾İÎÄ¼ş", null);
+									+ "é›·è¾¾æ•°æ®æ–‡ä»¶", null);
 					radarBase.l2.close();
 					radarBase.l2 = null;
 				}

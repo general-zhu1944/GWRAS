@@ -43,7 +43,7 @@ public class ShpRecordHeader {
 		byte[] shpRecordsBytes = new byte[8];
 		int readLen = ins.read(shpRecordsBytes);
 		if(8 != readLen) {
-			throw new IOException("��ȡRecordHeaderʧ�ܣ���Ҫ��ȡ8�ֽڣ�ʵ�ʶ�ȡ"+readLen+"�ֽ�");
+			throw new IOException("读取RecordHeader失败，需要读取8字节，实际读取"+readLen+"字节");
 		}
 		ByteBuffer buf = ByteBuffer.wrap(shpRecordsBytes);
 		buf.order(ByteOrder.BIG_ENDIAN);

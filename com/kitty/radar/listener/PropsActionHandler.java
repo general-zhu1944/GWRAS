@@ -79,6 +79,8 @@ public class PropsActionHandler extends AbstractAction {
                     mode += MapOverlay.MAP_DETAILNAME;
                 }
                 MapOverlay.mapMode = mode;
+                RadarParams.mapDataDir = d.getTextMapDir().getText();
+                MapOverlay.elevationFile = d.getTextTerrainFile().getText();
                 GUIManager.updateComponentsAll();;
             } else if (dialog instanceof ResolutionDialog) {
                 ResolutionDialog d = (ResolutionDialog) dialog;

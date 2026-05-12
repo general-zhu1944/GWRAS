@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CutValue¡¢RadialValue¡¢BinValueÓÃÓÚ±£´æÀ×´ïÊı¾İ£¬ÈçCAPPI¡£
- * Ä¿Ç°µÄÓÃÀı£º
- * 1¡¢±£´æCAPPIÍ¼ÏñÊı¾İ£¬ÓÃÓÚÊó±êµã»÷²éÕÒ
- * 2¡¢µ¼³öCAPPIÊı¾İ
- * 3¡¢RadarData.readFile·µ»ØµÄÎÄ¼şÊı¾İ
+ * CutValueã€RadialValueã€BinValueç”¨äºä¿å­˜é›·è¾¾æ•°æ®ï¼Œå¦‚CAPPIã€‚
+ * ç›®å‰çš„ç”¨ä¾‹ï¼š
+ * 1ã€ä¿å­˜CAPPIå›¾åƒæ•°æ®ï¼Œç”¨äºé¼ æ ‡ç‚¹å‡»æŸ¥æ‰¾
+ * 2ã€å¯¼å‡ºCAPPIæ•°æ®
+ * 3ã€RadarData.readFileè¿”å›çš„æ–‡ä»¶æ•°æ®
  */
 public class CutValue {
 

@@ -39,9 +39,9 @@ import com.kitty.radar.util.RadarUtils;
 
 public class VCS extends JPanel {
 
-	public static final byte LEFT_WIDTH = 40; // ×ó±ß¾à£¬µ¥Î»£ºÏñËØ
+	public static final byte LEFT_WIDTH = 40; // å·¦è¾¹è·ï¼Œå•ä½ï¼šåƒç´ 
 
-	public static final byte TOP_WIDTH = 22; // ÉÏ±ß¾à¡¢ÏÂ±ß¾à£¬µ¥Î»£ºÏñËØ
+	public static final byte TOP_WIDTH = 22; // ä¸Šè¾¹è·ã€ä¸‹è¾¹è·ï¼Œå•ä½ï¼šåƒç´ 
 
 	public static VCS vcs;
 
@@ -54,9 +54,9 @@ public class VCS extends JPanel {
 	private int width;
 	public static int changepanel=0;
 
-	private byte height_min = 0;//ÆÊÃæ»Ø²¨ÆğÊ¼¸ß¶È
+	private byte height_min = 0;//å‰–é¢å›æ³¢èµ·å§‹é«˜åº¦
 
-	private byte height_max = 16;//ÆÊÃæ»Ø²¨¶¥²¿¸ß¶È
+	private byte height_max = 16;//å‰–é¢å›æ³¢é¡¶éƒ¨é«˜åº¦
 
 	public static float range_min = 0;
 
@@ -69,8 +69,8 @@ public class VCS extends JPanel {
 	public static List<VCS> vcss = new LinkedList<VCS>();
 	public static List<JDialog> vcsDialogs = new LinkedList<JDialog>();
 	private RadarBase radarBase;
-	public Point pointStart = new Point(0,0);//ÆÊÃæÆğÊ¼µã
-	public Point pointEnd   = new Point(60,0);//ÆÊÃæÆğÖÕµã
+	public Point pointStart = new Point(0,0);//å‰–é¢èµ·å§‹ç‚¹
+	public Point pointEnd   = new Point(60,0);//å‰–é¢èµ·ç»ˆç‚¹
 
 	public VCS(RadarBase radarBase) {
 		this.radarBase = radarBase;
@@ -113,7 +113,7 @@ public class VCS extends JPanel {
 			return;
 		}
 
-		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase).getColorCache();//¸ù¾İRadarBase.currentMoment»ñÈ¡ÏàÓ¦µÄÑÕÉ«Êı×é
+		Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase).getColorCache();//æ ¹æ®RadarBase.currentMomentè·å–ç›¸åº”çš„é¢œè‰²æ•°ç»„
 		if (colorCache == null) {
 			return;
 		}
@@ -135,10 +135,10 @@ public class VCS extends JPanel {
 							double latitudeEnd = dp.getLinePosition().getLatitudeEnd();
 							ARCoord arcStart = PositionUtils.toARCoord(longitudeStart, latitudeStart, radarBase.getLongitude(), radarBase.getLatitude());
 							XYCoord xyStart = PositionUtils.toXYCoord(arcStart.azimuth, arcStart.r, radarBase);
-							XYDCoord startpoint = PositionUtils.toXYDCoord(xyStart.x, xyStart.y, radarBase);//×óÉÏ×ø±ê×ªÀ×´ïÖĞĞÄ×ø±ê
+							XYDCoord startpoint = PositionUtils.toXYDCoord(xyStart.x, xyStart.y, radarBase);//å·¦ä¸Šåæ ‡è½¬é›·è¾¾ä¸­å¿ƒåæ ‡
 							ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd, latitudeEnd, radarBase.getLongitude(), radarBase.getLatitude());
 							XYCoord xyEnd = PositionUtils.toXYCoord(arcEnd.azimuth, arcEnd.r, radarBase);
-							XYDCoord endpoint = PositionUtils.toXYDCoord(xyEnd.x, xyEnd.y, radarBase);//×óÉÏ×ø±ê×ªÀ×´ïÖĞĞÄ×ø±ê
+							XYDCoord endpoint = PositionUtils.toXYDCoord(xyEnd.x, xyEnd.y, radarBase);//å·¦ä¸Šåæ ‡è½¬é›·è¾¾ä¸­å¿ƒåæ ‡
 							pointStart.x = (int) startpoint.x;
 							pointStart.y = (int) startpoint.y;
 							pointEnd.x = (int) endpoint.x;
@@ -150,32 +150,32 @@ public class VCS extends JPanel {
 			}
 		}
 		double binRes = l2.getBinInterval(radarBase.active_moment);
-        float startEndDistance = (float) Math.sqrt(Math.pow(pointEnd.x - pointStart.x, 2) + Math.pow(pointEnd.y - pointStart.y, 2));//¼ÆËãÁ½µã¾àÀë	
+        float startEndDistance = (float) Math.sqrt(Math.pow(pointEnd.x - pointStart.x, 2) + Math.pow(pointEnd.y - pointStart.y, 2));//è®¡ç®—ä¸¤ç‚¹è·ç¦»	
         range_max=startEndDistance;
-        int nPoints = (int) (startEndDistance / binRes + 1);//¸ù¾İ¾àÀë¿â³¤¼ÆËã·Ö¸îµãÊı
-        Array xa = ArrayUtil.lineSpace(pointStart.x, pointEnd.x, nPoints);//Éú³É·Ö¸îµãµÄXÖá×ø±êÊı×é
-        Array ya = ArrayUtil.lineSpace(pointStart.y, pointEnd.y, nPoints);//Éú³É·Ö¸îµãµÄyÖá×ø±êÊı×é        
-        Array azimuth_ar =PositionUtils.xyToAzimuth(xa, ya);//¼ÆËã·Ö¸îµãµÄ·½Î»        
-       // System.out.println("ÈÎÎñ2¼Æ»®Ê±¼ä£º"+azimuth_ar);       		
+        int nPoints = (int) (startEndDistance / binRes + 1);//æ ¹æ®è·ç¦»åº“é•¿è®¡ç®—åˆ†å‰²ç‚¹æ•°
+        Array xa = ArrayUtil.lineSpace(pointStart.x, pointEnd.x, nPoints, true);//ç”Ÿæˆåˆ†å‰²ç‚¹çš„Xè½´åæ ‡æ•°ç»„
+        Array ya = ArrayUtil.lineSpace(pointStart.y, pointEnd.y, nPoints, true);//ç”Ÿæˆåˆ†å‰²ç‚¹çš„yè½´åæ ‡æ•°ç»„        
+        Array azimuth_ar =PositionUtils.xyToAzimuth(xa, ya);//è®¡ç®—åˆ†å‰²ç‚¹çš„æ–¹ä½        
+       // System.out.println("ä»»åŠ¡2è®¡åˆ’æ—¶é—´ï¼š"+azimuth_ar);       		
 		double halfWidth = RadarData.VERTICAL_BEAM_WIDTH / 2.0;
-		double scaleX = (width - LEFT_WIDTH-10) / (double) (startEndDistance);//¼ÆËãÏñËØ¾àÀëÓëÊµ¼ÊË®Æ½¾àÀëµÄ±ÈÂÊ
+		double scaleX = (width - LEFT_WIDTH-10) / (double) (startEndDistance);//è®¡ç®—åƒç´ è·ç¦»ä¸å®é™…æ°´å¹³è·ç¦»çš„æ¯”ç‡
 		double scaleY = (height - TOP_WIDTH * 2)
 				/ (double) (height_max - height_min);
 		int baseY = height - TOP_WIDTH;		
 		for (int i = 0; i < l2.getCutNumber(); i++) {
 			 for (int bin = 0; bin < nPoints; bin++) {
 				int recordNum = l2.getCutStart(i);
-				l2.readHeader(recordNum);//¶ÁÈ¡¾¶ÏòÍ·ĞÅÏ¢
+				l2.readHeader(recordNum);//è¯»å–å¾„å‘å¤´ä¿¡æ¯
 				if (l2.getBinCount(radarBase.active_moment) <= 0) {
 					continue;
 				}
-				int endRecordNum = l2.getCutStart(i + 1);//»ñÈ¡ÉÏÒ»²ãÑö½Ç¿ªÊ¼¾¶ÏòµÄĞòÁĞÖµ
+				int endRecordNum = l2.getCutStart(i + 1);//è·å–ä¸Šä¸€å±‚ä»°è§’å¼€å§‹å¾„å‘çš„åºåˆ—å€¼
 				if (endRecordNum == -1) {
 					endRecordNum = RadarData.MAX_FILE_RECORDS;
 				}
 				int k = -1;
 				double interval = Double.MAX_VALUE;
-				//ËÑË÷½Ó½ü·Ö¸îµãµÄÄÇ¸ú¾¶Ïò
+				//æœç´¢æ¥è¿‘åˆ†å‰²ç‚¹çš„é‚£è·Ÿå¾„å‘
 				for (int j = recordNum; j < endRecordNum; j++) {
 					double diff = Math.abs(l2.getAzimuth(j) - azimuth_ar.getFloat(bin));
 					if (diff < interval) {
@@ -200,10 +200,10 @@ public class VCS extends JPanel {
 					double yy = ya.getFloat(bin);
 					double R = CommonProps.RE * 1000.0 * 4.0 / 3.0;  // effective radius of earth in meters.
 					double	s = Math.sqrt(xx * xx + yy * yy);
-					//double dis = (float) Math.tan(s/R)*(R+RadarBase.antennaHeight)/Math.cos(ang);//²¨ÊøÖĞĞÄµÄ¾¶Ïò¾àÀë,¸Ã¼ÆËã¹«Ê½Îª×¼È·µÄ£¬µ«Ğ§ÂÊµÍÏÂ£¬¼ÆËãÎó²î²»´ó£¬ËùÒÔ²ÉÓÃ¹ÀËã
-					double dis = s/Math.cos(ang);//²¨ÊøÖĞĞÄµÄ¾¶Ïò¾àÀë¹ÀËã
-					double dis1 = s/Math.cos(ang1);//²¨Êøµ×µÄ¾¶Ïò¾àÀë
-					double dis2 =s/Math.cos(ang2);//²¨Êø¶¥µÄ¾¶Ïò¾àÀë
+					//double dis = (float) Math.tan(s/R)*(R+RadarBase.antennaHeight)/Math.cos(ang);//æ³¢æŸä¸­å¿ƒçš„å¾„å‘è·ç¦»,è¯¥è®¡ç®—å…¬å¼ä¸ºå‡†ç¡®çš„ï¼Œä½†æ•ˆç‡ä½ä¸‹ï¼Œè®¡ç®—è¯¯å·®ä¸å¤§ï¼Œæ‰€ä»¥é‡‡ç”¨ä¼°ç®—
+					double dis = s/Math.cos(ang);//æ³¢æŸä¸­å¿ƒçš„å¾„å‘è·ç¦»ä¼°ç®—
+					double dis1 = s/Math.cos(ang1);//æ³¢æŸåº•çš„å¾„å‘è·ç¦»
+					double dis2 =s/Math.cos(ang2);//æ³¢æŸé¡¶çš„å¾„å‘è·ç¦»
 					int codebin=(int)(dis/rangeStep);					
 						Color c = colorCache[l2.getBinaryValue(
 								radarBase.active_moment, 0, codebin)];
@@ -212,7 +212,7 @@ public class VCS extends JPanel {
 							//double range = rangeToFirst + dis;
 							double range1 = rangeToFirst + dis1 ;
 							double range2 = rangeToFirst + dis2 ;
-                             //0,1,2,3 ·Ö±ğ´ú±íÉÏÇ°£¬ÉÏºó£¬ÏÂºó£¬ÏÂÇ°£¬½Ó½üÀ×´ïÎªÇ°
+                             //0,1,2,3 åˆ†åˆ«ä»£è¡¨ä¸Šå‰ï¼Œä¸Šåï¼Œä¸‹åï¼Œä¸‹å‰ï¼Œæ¥è¿‘é›·è¾¾ä¸ºå‰
 							x[0] = (int) Math.round((binRes*bin-binRes/2 )
 									* scaleX)
 									+ LEFT_WIDTH;
@@ -249,14 +249,14 @@ public class VCS extends JPanel {
 
 	private void displayGrid(Graphics2D g) {
 
-		// Çå³ıGridÍâµÄÍ¼Ïñ
+		// æ¸…é™¤Gridå¤–çš„å›¾åƒ
 		g.setPaint(Color.BLACK);
 		g.fillRect(0, 0, LEFT_WIDTH, height);
 		g.fillRect(0, 0, width, TOP_WIDTH);
 		g.fillRect(0, height - TOP_WIDTH, width, TOP_WIDTH);
-		g.setFont(new Font("ËÎÌå",Font.PLAIN,15));
+		g.setFont(new Font("å®‹ä½“",Font.PLAIN,15));
 		g.setPaint(Color.WHITE);
-		//g.drawString("·½Î»½Ç: " + CommonUtils.format(azimuth, 1) + "¡ã",
+		//g.drawString("æ–¹ä½è§’: " + CommonUtils.format(azimuth, 1) + "Â°",
 			//	width / 2 - 40, 15);
 		double intervalX = (range_max - range_min) / 10.0;
 		if(range_max<=50)
@@ -271,7 +271,7 @@ public class VCS extends JPanel {
 		if(range_max>50)
 		{
 		for (int i = 0; i < 11; i++) {
-			int pixel = (int) Math.round(i * intervalX * scaleX) + LEFT_WIDTH;//¾ßÌåÍø¸ñµãµÄºá×ø±êÖµ
+			int pixel = (int) Math.round(i * intervalX * scaleX) + LEFT_WIDTH;//å…·ä½“ç½‘æ ¼ç‚¹çš„æ¨ªåæ ‡å€¼
 			g.drawLine(pixel, TOP_WIDTH, pixel, (height - TOP_WIDTH));
 			if (i != 10) {
 				String value = CommonUtils.format(range_min + i * intervalX, 1);
@@ -283,7 +283,7 @@ public class VCS extends JPanel {
 		if(range_max<=50)
 		{
 			for (int i = 0; i < 6; i++) {
-				int pixel = (int) Math.round(i * intervalX * scaleX) + LEFT_WIDTH;//¾ßÌåÍø¸ñµãµÄºá×ø±êÖµ
+				int pixel = (int) Math.round(i * intervalX * scaleX) + LEFT_WIDTH;//å…·ä½“ç½‘æ ¼ç‚¹çš„æ¨ªåæ ‡å€¼
 				g.drawLine(pixel, TOP_WIDTH, pixel, (height - TOP_WIDTH));
 				if (i != 5) {
 					String value = CommonUtils.format(range_min + i * intervalX, 1);
@@ -321,7 +321,7 @@ public class VCS extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		if (!GUIManager.syncTool) {
 			RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
-			JDialog vcsDialog = new JDialog(owner, "VCSÈÎÒâÆÊÃæÏÔÊ¾");
+			JDialog vcsDialog = new JDialog(owner, "VCSä»»æ„å‰–é¢æ˜¾ç¤º");
 			vcsDialog.addWindowListener(new VcsWindowHandler(vcsDialog));
 			if (bounds != null) {
 				vcsDialog.setBounds(bounds);
@@ -345,7 +345,7 @@ public class VCS extends JPanel {
 		}else {
 			for (int i = 0; i < GUIManager.jlayers.size(); i++) {
 				RadarBase radarBase = GUIManager.jlayers.get(i).getView().getRadarBase();
-				JDialog vcsDialog = new JDialog(owner, "VCSÈÎÒâÆÊÃæÏÔÊ¾");
+				JDialog vcsDialog = new JDialog(owner, "VCSä»»æ„å‰–é¢æ˜¾ç¤º");
 				vcsDialog.addWindowListener(new VcsWindowHandler(vcsDialog));
 				if (bounds != null) {
 					vcsDialog.setBounds(bounds);

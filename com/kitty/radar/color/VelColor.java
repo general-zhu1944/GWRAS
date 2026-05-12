@@ -3,7 +3,7 @@ package com.kitty.radar.color;
 import java.awt.Color;
 
 /**
- * ËÙ¶ÈÉ«±ê»ùÀà¡£
+ * é€Ÿåº¦è‰²æ ‡åŸºç±»ã€‚
  */
 public abstract class VelColor extends RadarColor {
 

@@ -13,7 +13,7 @@ import javax.swing.filechooser.FileFilter;
 import com.kitty.radar.Radar;
 
 /**
- * À©Õ¹µÄÎÄ¼şÑ¡Ôñ¶Ô»°¿ò¡£
+ * æ‰©å±•çš„æ–‡ä»¶é€‰æ‹©å¯¹è¯æ¡†ã€‚
  */
 public class FileChooser extends JFileChooser {
 
@@ -35,14 +35,14 @@ public class FileChooser extends JFileChooser {
     }
 
     /**
-     * Èç¹ûµ±Ç°´ò¿ªµÄÊÇ±£´æ¶Ô»°¿ò£¬´æÔÚÍ¬ÃûÎÄ¼şÊ±ÌáÊ¾ÊÇ·ñÒªÌæ»»¡£
+     * å¦‚æœå½“å‰æ‰“å¼€çš„æ˜¯ä¿å­˜å¯¹è¯æ¡†ï¼Œå­˜åœ¨åŒåæ–‡ä»¶æ—¶æç¤ºæ˜¯å¦è¦æ›¿æ¢ã€‚
      */
     public void approveSelection() {
         if (type == TYPE_SAVE) {
             File file = this.getSelectedFile();
             if (file.exists()) {
                 int flag = JOptionPane.showConfirmDialog(this, file.getAbsolutePath()
-                        + " ÒÑ´æÔÚ¡£\r\nÒªÌæ»»ËüÂğ£¿", "", JOptionPane.YES_NO_OPTION,
+                        + " å·²å­˜åœ¨ã€‚\r\nè¦æ›¿æ¢å®ƒå—ï¼Ÿ", "", JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
                 if (flag != JOptionPane.YES_OPTION) {
                     return;
@@ -62,17 +62,17 @@ public class FileChooser extends JFileChooser {
         int rtn;
         if (type == TYPE_SAVE) {
             this.setApproveButtonMnemonic(KeyEvent.VK_S);
-            rtn = super.showDialog(parent, "±£´æ(S)");
+            rtn = super.showDialog(parent, "ä¿å­˜(S)");
         } else {
             this.setApproveButtonMnemonic(KeyEvent.VK_O);
-            rtn = super.showDialog(parent, "´ò¿ª(O)");
+            rtn = super.showDialog(parent, "æ‰“å¼€(O)");
         }
         Radar.radar.setCursor(cursor);
         return rtn;
     }
 
     /**
-     * °´extÖ¸¶¨µÄÀ©Õ¹ÃûÌí¼ÓÎÄ¼ş¹ıÂËÆ÷¡£
+     * æŒ‰extæŒ‡å®šçš„æ‰©å±•åæ·»åŠ æ–‡ä»¶è¿‡æ»¤å™¨ã€‚
      * 
      * @param ext
      */
@@ -85,7 +85,7 @@ public class FileChooser extends JFileChooser {
                 }
 
                 public String getDescription() {
-                    return "ËùÓĞÎÄ¼ş (*.*)";
+                    return "æ‰€æœ‰æ–‡ä»¶ (*.*)";
                 }
             });
         }
@@ -100,7 +100,7 @@ public class FileChooser extends JFileChooser {
                 }
 
                 public String getDescription() {
-                    return "Excel ÎÄ¼ş (*.xls)";
+                    return "Excel æ–‡ä»¶ (*.xls)";
                 }
             });
         }
@@ -115,7 +115,7 @@ public class FileChooser extends JFileChooser {
                 }
 
                 public String getDescription() {
-                    return "ÎÄ±¾ÎÄµµ (*.txt)";
+                    return "æ–‡æœ¬æ–‡æ¡£ (*.txt)";
                 }
             });
         }

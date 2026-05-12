@@ -25,14 +25,14 @@ import com.kitty.radar.util.RadarUtils;
 
 public class RHI extends JPanel {
 
-	public static final byte LEFT_WIDTH = 40; // ×ó±ß¾à£¬µ¥Î»£ºÏñËØ
+	public static final byte LEFT_WIDTH = 40; // å·¦è¾¹è·ï¼Œå•ä½ï¼šåƒç´ 
 
-	public static final byte TOP_WIDTH = 22; // ÉÏ±ß¾à¡¢ÏÂ±ß¾à£¬µ¥Î»£ºÏñËØ
+	public static final byte TOP_WIDTH = 22; // ä¸Šè¾¹è·ã€ä¸‹è¾¹è·ï¼Œå•ä½ï¼šåƒç´ 
 
 	public static RHI rhi;
 
 	public static double azimuth = 0;
-	public int postion = 0; // o£¬±íÊ¾Êó±ê»¬¶¯»ñÈ¡·½Î»»æÖÆHRI£¬1±íÊ¾¶¨µã»ñÈ¡·½Î»»æÖÆHRI
+	public int postion = 0; // oï¼Œè¡¨ç¤ºé¼ æ ‡æ»‘åŠ¨è·å–æ–¹ä½ç»˜åˆ¶HRIï¼Œ1è¡¨ç¤ºå®šç‚¹è·å–æ–¹ä½ç»˜åˆ¶HRI
 
 	public static Rectangle bounds = new Rectangle(0, 0, 480, 224);
 
@@ -75,9 +75,9 @@ public class RHI extends JPanel {
 		}
 		if (update) {
 			Graphics2D g2 = image.createGraphics();
-			  //Ïû³ıÎÄ×Ö¾â³İ
+			  //æ¶ˆé™¤æ–‡å­—é”¯é½¿
 			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			  //Ïû³ı»­Í¼¾â³İ
+			  //æ¶ˆé™¤ç”»å›¾é”¯é½¿
 		   g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 			g2.setPaint(Color.BLACK);
@@ -189,14 +189,14 @@ public class RHI extends JPanel {
 
 	private void displayGrid(Graphics2D g) {
 
-		// Çå³ıGridÍâµÄÍ¼Ïñ
+		// æ¸…é™¤Gridå¤–çš„å›¾åƒ
 		g.setPaint(Color.BLACK);
 		g.fillRect(0, 0, LEFT_WIDTH, height);
 		g.fillRect(0, 0, width, TOP_WIDTH);
 		g.fillRect(0, height - TOP_WIDTH, width, TOP_WIDTH);
-		g.setFont(new Font("ËÎÌå",Font.PLAIN,15));
+		g.setFont(new Font("å®‹ä½“",Font.PLAIN,15));
 		g.setPaint(Color.WHITE);
-		g.drawString("·½Î»½Ç: " + CommonUtils.format(azimuth, 1) + "¡ã",
+		g.drawString("æ–¹ä½è§’: " + CommonUtils.format(azimuth, 1) + "Â°",
 				width / 2 - 40, 15);
 
 		double intervalX = (range_max - range_min) / 10.0;
@@ -205,7 +205,7 @@ public class RHI extends JPanel {
 		double scaleY = (height - TOP_WIDTH * 2)
 				/ (double) (height_max - height_min);
 		for (int i = 0; i < 11; i++) {
-			int pixel = (int) Math.round(i * intervalX * scaleX) + LEFT_WIDTH;//¾ßÌåÍø¸ñµãµÄºá×ø±êÖµ
+			int pixel = (int) Math.round(i * intervalX * scaleX) + LEFT_WIDTH;//å…·ä½“ç½‘æ ¼ç‚¹çš„æ¨ªåæ ‡å€¼
 			g.drawLine(pixel, TOP_WIDTH, pixel, (height - TOP_WIDTH));
 			if (i != 10) {
 				String value = CommonUtils.format(range_min + i * intervalX, 1);
@@ -245,7 +245,7 @@ public class RHI extends JPanel {
 			RadarBase radarBase = GUIManager.activeMainPanel.getRadarBase();
 			// rhi=rhis.get(i);
 			//	if (rhis.isEmpty()) {
-			JDialog rhiDialog = new JDialog(owner, "RHI¾àÀë¸ß¶ÈÏÔÊ¾");
+			JDialog rhiDialog = new JDialog(owner, "RHIè·ç¦»é«˜åº¦æ˜¾ç¤º");
 			rhiDialog.addWindowListener(new RhiWindowHandler(rhiDialog));
 			if (bounds != null) {
 				rhiDialog.setBounds(bounds);
@@ -273,7 +273,7 @@ public class RHI extends JPanel {
 				RadarBase radarBase = GUIManager.jlayers.get(i).getView().getRadarBase();
 				// rhi=rhis.get(i);
 				//	if (rhis.isEmpty()) {
-				JDialog rhiDialog = new JDialog(owner, "RHI¾àÀë¸ß¶ÈÏÔÊ¾");
+				JDialog rhiDialog = new JDialog(owner, "RHIè·ç¦»é«˜åº¦æ˜¾ç¤º");
 				rhiDialog.addWindowListener(new RhiWindowHandler(rhiDialog));
 				if (bounds != null) {
 					rhiDialog.setBounds(bounds);
@@ -321,7 +321,7 @@ public class RHI extends JPanel {
 			RadarUtils.writeValues(w, new String[] { "R(km)", "H(km)",
 					"V(" + RadarUtils.getMomentUnitLabel(radarBase.currentMoment) + ")" });
 		} else {
-			RadarUtils.writeValues(w, new String[] { "LNG(¡ã)", "LAT(¡ã)",
+			RadarUtils.writeValues(w, new String[] { "LNG(Â°)", "LAT(Â°)",
 					"H(km)", "V(" + RadarUtils.getMomentUnitLabel(radarBase.currentMoment) + ")" });
 		}
 		RadarData l2 = radarBase.l2;

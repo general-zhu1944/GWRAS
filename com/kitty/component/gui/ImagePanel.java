@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * Í¼ÏñJPanel£¬ÓÃÓÚÏÔÊ¾Í¼Ïñ¡£
+ * å›¾åƒJPanelï¼Œç”¨äºæ˜¾ç¤ºå›¾åƒã€‚
  */
 public class ImagePanel extends JPanel {
 

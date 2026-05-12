@@ -76,7 +76,7 @@ public class TianQingInfoDialog extends PropsDialog {
 
 
     public TianQingInfoDialog(Frame owner) {
-        super(owner, "ÌìÇæÅäÖÃ", true);
+        super(owner, "å¤©æ“é…ç½®", true);
         Dimension d = new Dimension(350, 243);
         this.setSize(d);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -93,9 +93,9 @@ public class TianQingInfoDialog extends PropsDialog {
         gbc.weighty = 0;
         gbc.insets.set(18, 5, 0, 5);
         gbc.anchor = GridBagConstraints.WEST;
-        JLabel label1 = new JLabel("ÕËºÅ£º");
-        JLabel label2 = new JLabel("ÃÜÂë£º");
-        JLabel label3 = new JLabel("´æ·ÅÂ·¾¶£º");
+        JLabel label1 = new JLabel("è´¦å·ï¼š");
+        JLabel label2 = new JLabel("å¯†ç ï¼š");
+        JLabel label3 = new JLabel("å­˜æ”¾è·¯å¾„ï¼š");
         userId = new JTextField(RadarParams.userId,20);
         d = userId.getMinimumSize();
         d.width = 126;
@@ -112,7 +112,7 @@ public class TianQingInfoDialog extends PropsDialog {
         pw.getDocument().addDocumentListener(listener);
         path.getDocument().addDocumentListener(listener);
         dirImage = new ImagePanel("resource/folder_page.gif");
-        dirImage.setToolTipText("Ñ¡Ôñ´æ´¢À×´ï»ùÊı¾İÄ¿Â¼(" + RadarParams.radarSavePath + ")");
+        dirImage.setToolTipText("é€‰æ‹©å­˜å‚¨é›·è¾¾åŸºæ•°æ®ç›®å½•(" + RadarParams.radarSavePath + ")");
         dirImage.setCursor(new Cursor(Cursor.HAND_CURSOR));
         dirImage.addMouseListener(new SelectDownloadDirHandler());
 
@@ -152,7 +152,7 @@ public class TianQingInfoDialog extends PropsDialog {
         group.add(path, Validators.maxLength(100));
         vpanel.setInnerComponent(panel);
         this.addValidationListener(vpanel, "1");
-        tabbedPane.addTab(" ÌìÇæÕËºÅºÍÀ×´ï»ùÊı¾İ´æ´¢Â·¾¶ÅäÖÃ ", vpanel);
+        tabbedPane.addTab(" å¤©æ“è´¦å·å’Œé›·è¾¾åŸºæ•°æ®å­˜å‚¨è·¯å¾„é…ç½® ", vpanel);
 
         this.add(createPropsButtons(), BorderLayout.SOUTH);
     }

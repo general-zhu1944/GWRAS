@@ -13,7 +13,7 @@ import com.kitty.radar.util.PositionUtils;
 import com.kitty.radar.util.RadarUtils;
 
 /**
- * Ô²ĞÎÇøÓò¡£
+ * åœ†å½¢åŒºåŸŸã€‚
  */
 public class CircleArea extends Area {
 
@@ -48,7 +48,7 @@ public class CircleArea extends Area {
     }
 
     public String toString() {
-        return "¾­¶È:" + CommonUtils.format(lx, 6) + "¡ã; Î³¶È:" + CommonUtils.format(ly, 6) + "¡ã; °ë¾¶:"
+        return "ç»åº¦:" + CommonUtils.format(lx, 6) + "Â°; çº¬åº¦:" + CommonUtils.format(ly, 6) + "Â°; åŠå¾„:"
                 + CommonUtils.format(r, 1) + RadarUtils.getDistanceUnitLabel();
     }
 

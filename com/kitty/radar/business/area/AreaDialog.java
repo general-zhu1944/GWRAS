@@ -20,7 +20,7 @@ import com.kitty.radar.gui.ImportAreaDialog;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * ÇøÓòÁĞ±í¶Ô»°¿ò¡£
+ * åŒºåŸŸåˆ—è¡¨å¯¹è¯æ¡†ã€‚
  */
 public class AreaDialog extends BasicDialog {
 
@@ -29,7 +29,7 @@ public class AreaDialog extends BasicDialog {
     private JTable table = new JTable(tableModel);
 
     public AreaDialog() {
-        super("ÇøÓòÁĞ±í", true);
+        super("åŒºåŸŸåˆ—è¡¨", true);
         this.setCenterSize(509, 300);
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 5));
@@ -49,62 +49,62 @@ public class AreaDialog extends BasicDialog {
                 if (e.getClickCount() > 1) {
                     int[] rows = table.getSelectedRows();
                     if (rows.length == 1) {
-                        new AreaInputDialog(AreaDialog.this, "ĞŞ¸ÄÇøÓò", rows[0]);
+                        new AreaInputDialog(AreaDialog.this, "ä¿®æ”¹åŒºåŸŸ", rows[0]);
                     }
                 }
             }
         });
         buttonPanel.remove(this.confirmButton);
         this.setButtonHgap(5);
-        JButton button = new JButton(" ĞÂ½¨(N) ");
+        JButton button = new JButton(" æ–°å»º(N) ");
         button.setMnemonic(KeyEvent.VK_N);
         button.setActionCommand("new");
         button.addActionListener(this);
         buttonPanel.add(button, 0);
-        button = new JButton(" ĞŞ¸Ä(M) ");
+        button = new JButton(" ä¿®æ”¹(M) ");
         button.setMnemonic(KeyEvent.VK_M);
         button.setActionCommand("modify");
         button.addActionListener(this);
         buttonPanel.add(button, 1);
-        button = new JButton(" É¾³ı(D) ");
+        button = new JButton(" åˆ é™¤(D) ");
         button.setMnemonic(KeyEvent.VK_D);
         button.setActionCommand("delete");
         button.addActionListener(this);
         buttonPanel.add(button, 2);
-//        button = new JButton(" µ¼Èë(I) ");
+//        button = new JButton(" å¯¼å…¥(I) ");
 //        button.setMnemonic(KeyEvent.VK_I);
 //        button.setActionCommand("import");
 //        button.addActionListener(this);
 //        buttonPanel.add(button, 3);
-        cancelButton.setText(" ¹Ø±Õ(C) ");
+        cancelButton.setText(" å…³é—­(C) ");
         this.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if ("new".equals(command)) {
-            new AreaInputDialog(this, "ĞÂ½¨ÇøÓò", -1);
+            new AreaInputDialog(this, "æ–°å»ºåŒºåŸŸ", -1);
         } else if ("modify".equals(command)) {
             int[] rows = table.getSelectedRows();
             if (rows.length == 1) {
-                new AreaInputDialog(this, "ĞŞ¸ÄÇøÓò", rows[0]);
+                new AreaInputDialog(this, "ä¿®æ”¹åŒºåŸŸ", rows[0]);
             } else if (rows.length > 1) {
-                CommonUtils.alert("ÇëÑ¡ÔñÒ»¸öÒªĞŞ¸ÄµÄÇøÓò", null);
+                CommonUtils.alert("è¯·é€‰æ‹©ä¸€ä¸ªè¦ä¿®æ”¹çš„åŒºåŸŸ", null);
             } else {
-                CommonUtils.alert("ÇëÑ¡ÔñÒªĞŞ¸ÄµÄÇøÓò", null);
+                CommonUtils.alert("è¯·é€‰æ‹©è¦ä¿®æ”¹çš„åŒºåŸŸ", null);
             }
         } else if ("import".equals(command)) {
             new ImportAreaDialog(this);
         } else {
             int[] rows = table.getSelectedRows();
             if (rows.length > 0) {
-                int flag = JOptionPane.showConfirmDialog(this, "È·¶¨É¾³ıÑ¡ÖĞµÄÇøÓòÂğ£¿", "",
+                int flag = JOptionPane.showConfirmDialog(this, "ç¡®å®šåˆ é™¤é€‰ä¸­çš„åŒºåŸŸå—ï¼Ÿ", "",
                         JOptionPane.YES_NO_OPTION);
                 if (flag == JOptionPane.OK_OPTION) {
                     tableModel.remove(rows);
                 }
             } else {
-                CommonUtils.alert("ÇëÑ¡ÔñÒªÉ¾³ıµÄÇøÓò", null);
+                CommonUtils.alert("è¯·é€‰æ‹©è¦åˆ é™¤çš„åŒºåŸŸ", null);
             }
         }
     }

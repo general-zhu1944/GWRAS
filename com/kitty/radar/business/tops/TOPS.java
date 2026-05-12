@@ -32,18 +32,18 @@ public class TOPS extends RadarBase {
     
     private static byte resolution = 1;
 
-    private static float gridWidth = 1f; // µ¥Ôª¸ñ¿í¶È£¬µ¥Î»£ºkm
+    private static float gridWidth = 1f; // å•å…ƒæ ¼å®½åº¦ï¼Œå•ä½ï¼škm
     
     private static float range = 150;
     private static NavigableMap map_old;
     private static NavigableMap map;
-    private static String filetime;//ÓÃÓÚÅĞ¶Ïµ±Ç°À×´ïÎÄ¼şÊÇ·ñÒ»ÖÂ£¬Ò»ÖÂ¾Í²»ÓÃÖØĞÂ¶ÁÈ¡Êı¾İ¼ÆËã
+    private static String filetime;//ç”¨äºåˆ¤æ–­å½“å‰é›·è¾¾æ–‡ä»¶æ˜¯å¦ä¸€è‡´ï¼Œä¸€è‡´å°±ä¸ç”¨é‡æ–°è¯»å–æ•°æ®è®¡ç®—
 
     public static void display(Graphics2D g,RadarBase radarBase) {
         Instant start = Instant.now();
 
         radarBase.datas = null;
-        if (radarBase.l2 == null) { // Ã»ÓĞÑ¡ÖĞµÄÎÄ¼ş
+        if (radarBase.l2 == null) { // æ²¡æœ‰é€‰ä¸­çš„æ–‡ä»¶
             return;
         }
         int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
@@ -53,12 +53,12 @@ public class TOPS extends RadarBase {
         int moment = RadarData.DBZ;
         double binInterval = rd.getBinInterval(moment);
         double rangeToFirst = rd.getRangeToFirstBin(moment);
-        if(!radarBase.l2.getFileTime().toString().equals(filetime))//±ÜÃâÍ¬Ò»ÎÄ¼ş¶à´Î¶ÁÈ¡Êı¾İ
+        if(!radarBase.l2.getFileTime().toString().equals(filetime))//é¿å…åŒä¸€æ–‡ä»¶å¤šæ¬¡è¯»å–æ•°æ®
         {
          map = rd.readFile(moment);
          map_old=map;
          filetime=radarBase.l2.getFileTime().toString();
-      //   JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º");
+      //   JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š");
         }
         else
         {
@@ -101,7 +101,7 @@ public class TOPS extends RadarBase {
 
         radarBase.datas = grids;
 
-        // »­³ö¸ñµã
+        // ç”»å‡ºæ ¼ç‚¹
 		RadarColor radarColor = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase);
 		Color[] colors = radarColor.getColors();
 		float[] cvalues = radarColor.getColorValues();
@@ -128,7 +128,7 @@ public class TOPS extends RadarBase {
 			}
 		}
         Duration duration = Duration.between(start, Instant.now());
-       // JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+duration.toMillis());
+       // JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+duration.toMillis());
     }
 
     public static float getPointValue(int x, int y,RadarBase radarBase) {
@@ -170,8 +170,8 @@ public class TOPS extends RadarBase {
     public static String evaLabelText(RadarBase radarBase) {
         if(radarBase.l2 == null)
             return "";
-        String lableText = "Ê±¼ä " + RadarUtils.getFileTime(radarBase)
-//                + " - ÎÄ¼ş " + radarBase.l2.getSrcFileName()
+        String lableText = "æ—¶é—´ " + RadarUtils.getFileTime(radarBase)
+//                + " - æ–‡ä»¶ " + radarBase.l2.getSrcFileName()
                 + " - " + RadarUtils.getMomentLabel(radarBase);
         return lableText;
     }

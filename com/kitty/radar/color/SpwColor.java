@@ -7,7 +7,7 @@ import com.kitty.radar.data.SA_SB;
 import com.kitty.radar.util.CommonProps;
 
 /**
- * �׿�ɫ�ꡣ
+ * 谱宽色标。
  */
 public class SpwColor extends RadarColor {
 

@@ -20,11 +20,11 @@ public class SC extends RadarData {
 
 	RadarDataFileHeader header = new RadarDataFileHeader();
 
-	private int recordNum; // ±£´æ×î½ü¶ÁÈ¡µÄrecordNum
+	private int recordNum; // ä¿å­˜æœ€è¿‘è¯»å–çš„recordNum
 
-	private float[][][] values; // ±£´æ·´ÉäÂÊ¡¢ËÙ¶È¡¢Æ×¿íÊı¾İÖµ
+	private float[][][] values; // ä¿å­˜åå°„ç‡ã€é€Ÿåº¦ã€è°±å®½æ•°æ®å€¼
 
-	public long headerOffset = 1024; // Êı¾İÍ·Æ«ÒÆµØÖ·
+	public long headerOffset = 1024; // æ•°æ®å¤´åç§»åœ°å€
 
 	@Override
 	public Date getFileTime() {
@@ -69,7 +69,7 @@ public class SC extends RadarData {
 				offset += header.radarObservationInfo.LayerInfo[i].recordnumber;
 			}
 			raf.seek(this.headerOffset + offset * (8 + surveillanceBins * 4));
-			int numberInCut = header.radarObservationInfo.LayerInfo[cutNum].recordnumber; // record numberÄ³²ã¾¶ÏòÊı
+			int numberInCut = header.radarObservationInfo.LayerInfo[cutNum].recordnumber; // record numberæŸå±‚å¾„å‘æ•°
 			for (int i = 0; i < numberInCut; i++) {
 				readData(cutNum, i);
 			}
@@ -171,9 +171,9 @@ public class SC extends RadarData {
 				srcFileName = file.getName();
 			}
 			raf = new RandomAccessFile(file.getPath(), "r");
-			raf.order(RandomAccessFile.LITTLE_ENDIAN);//±àÂë·½Ê½
+			raf.order(RandomAccessFile.LITTLE_ENDIAN);//ç¼–ç æ–¹å¼
 			readFileHeader();			
-			//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º"+header.radarSiteInfo.RadarType);
+			//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š"+header.radarSiteInfo.RadarType);
 			if (header.radarSiteInfo.RadarType == null || header.radarSiteInfo.RadarType.indexOf("SC") == -1) {
 				this.close();
 				return false;
@@ -197,13 +197,13 @@ public class SC extends RadarData {
 		radarBase.setAntennaHeight((float) (header.radarSiteInfo.Height / 1000000.0));
 		this.readParams(0);
 
-		// ³õÊ¼»¯cutStarts
+		// åˆå§‹åŒ–cutStarts
 		cutStarts[0] = 0;
 		for (int i = 1; i < cutNumber; i++) {
 			cutStarts[i] = (short) (cutStarts[i - 1] + header.radarObservationInfo.LayerInfo[i - 1].recordnumber);
 		}
 
-		// ³õÊ¼»¯azimuths
+		// åˆå§‹åŒ–azimuths
 		this.beamWidth = 360.0 / header.radarObservationInfo.LayerInfo[0].recordnumber;
 		for (int i = 0; i < this.cutNumber; i++) {
 			for (int j = 0; j < header.radarObservationInfo.LayerInfo[0].recordnumber; j++) {
@@ -285,7 +285,7 @@ public class SC extends RadarData {
 	}
 
 	/**
-	 * ÎÄ¼şÍ·
+	 * æ–‡ä»¶å¤´
 	 */
 	class RadarDataFileHeader {
 		RadarSite radarSiteInfo = new RadarSite();
@@ -295,132 +295,132 @@ public class SC extends RadarData {
 	}
 
 	/**
-	 * Õ¾µã»ù±¾Çé¿ö
+	 * ç«™ç‚¹åŸºæœ¬æƒ…å†µ
 	 */
 	class RadarSite {
-		String Country; // ¹ú¼ÒÃû£¬ÎÄ±¾¸ñÊ½ÊäÈë
-		String Province; // Ê¡Ãû£¬ÎÄ±¾¸ñÊ½ÊäÈë
-		String Station; // Õ¾Ãû£¬ÎÄ±¾¸ñÊ½ÊäÈë
-		String StationNumber; // ÇøÕ¾ºÅ£¬ÎÄ±¾¸ñÊ½ÊäÈë
-		String RadarType; // À×´ïĞÍºÅ£¬ÎÄ±¾¸ñÊ½ÊäÈë
-		String Longitude; // ÌìÏßËùÔÚ¾­Î³¶È£¬ÎÄ±¾¸ñÊ½ÊäÈë
-		String Latitude; // ÌìÏßËùÔÚÎ³¶È£¬ÎÄ±¾¸ñÊ½ÊäÈë
-		long LongitudeValue; // ÌìÏßËùÔÚ¾­¶ÈµÄÊıÖµ£¬ÒÔ1/1000¶ÈÎª¼ÆÊıµ¥Î»
-								// ¶«¾­£¨E£©ÎªÕı£¬Î÷¾­£¨W£©Îª¸º
-		long LatitudeValue; // ÌìÏßËùÔÚÎ³¶ÈµÄÊıÖµ£¬ÒÔ1/1000¶ÈÎª¼ÆÊıµ¥Î»
-							// ±±Î³£¨N£©ÎªÕı£¬ÄÏÎ³£¨S£©Îª¸º
-		long Height; // ÌìÏßº£°Î¸ß¶È£¬ÒÔºÁÃ×Îª¼ÆÊıµ¥Î»
-		short MaxAngle; // ²âÕ¾ÖÜÎ§µØÎï×î´óÕÚµ²Ñö½Ç£¬ÒÔ1/100¶ÈÎª¼ÆÊıµ¥Î»
-		short OptiAngle; // ²âÕ¾µÄ×î¼Ñ¹Û²âÑö½Ç£¨µØÎï»Ø²¨Ç¿¶È<10dBZ£©£¬ÒÔ1/100¶ÈÎª¼ÆÊıµ¥Î»
-		short MangFreq; // À×´ï¹¤×÷Æµµã£¨¿ÉÓÉ´ËÖµ¼ÆËã²¨³¤£©
+		String Country; // å›½å®¶åï¼Œæ–‡æœ¬æ ¼å¼è¾“å…¥
+		String Province; // çœåï¼Œæ–‡æœ¬æ ¼å¼è¾“å…¥
+		String Station; // ç«™åï¼Œæ–‡æœ¬æ ¼å¼è¾“å…¥
+		String StationNumber; // åŒºç«™å·ï¼Œæ–‡æœ¬æ ¼å¼è¾“å…¥
+		String RadarType; // é›·è¾¾å‹å·ï¼Œæ–‡æœ¬æ ¼å¼è¾“å…¥
+		String Longitude; // å¤©çº¿æ‰€åœ¨ç»çº¬åº¦ï¼Œæ–‡æœ¬æ ¼å¼è¾“å…¥
+		String Latitude; // å¤©çº¿æ‰€åœ¨çº¬åº¦ï¼Œæ–‡æœ¬æ ¼å¼è¾“å…¥
+		long LongitudeValue; // å¤©çº¿æ‰€åœ¨ç»åº¦çš„æ•°å€¼ï¼Œä»¥1/1000åº¦ä¸ºè®¡æ•°å•ä½
+								// ä¸œç»ï¼ˆEï¼‰ä¸ºæ­£ï¼Œè¥¿ç»ï¼ˆWï¼‰ä¸ºè´Ÿ
+		long LatitudeValue; // å¤©çº¿æ‰€åœ¨çº¬åº¦çš„æ•°å€¼ï¼Œä»¥1/1000åº¦ä¸ºè®¡æ•°å•ä½
+							// åŒ—çº¬ï¼ˆNï¼‰ä¸ºæ­£ï¼Œå—çº¬ï¼ˆSï¼‰ä¸ºè´Ÿ
+		long Height; // å¤©çº¿æµ·æ‹”é«˜åº¦ï¼Œä»¥æ¯«ç±³ä¸ºè®¡æ•°å•ä½
+		short MaxAngle; // æµ‹ç«™å‘¨å›´åœ°ç‰©æœ€å¤§é®æŒ¡ä»°è§’ï¼Œä»¥1/100åº¦ä¸ºè®¡æ•°å•ä½
+		short OptiAngle; // æµ‹ç«™çš„æœ€ä½³è§‚æµ‹ä»°è§’ï¼ˆåœ°ç‰©å›æ³¢å¼ºåº¦<10dBZï¼‰ï¼Œä»¥1/100åº¦ä¸ºè®¡æ•°å•ä½
+		short MangFreq; // é›·è¾¾å·¥ä½œé¢‘ç‚¹ï¼ˆå¯ç”±æ­¤å€¼è®¡ç®—æ³¢é•¿ï¼‰
 	}
 
 	class RadarPerformanceParam {
-		long AntennaG; // ÌìÏßÔöÒæ£¬ÒÔ0.001dBZÎª¼ÆÊıµ¥Î»
-		int VerBeamW; // ´¹Ö±²¨Êø¿í¶È£¬ÒÔ1/100¶ÈÎª¼ÆÊıµ¥Î»
-		int HorBeamW; // Ë®Æ½²¨Êø¿í¶È£¬ÒÔ1/100¶ÁÎª¼ÆÊıµ¥Î»
-		short Polarizations; // Æ«ÕñÇé¿ö
-								// 0=Ë®Æ½
-								// 1=´¹Ö±
-								// 2=Ë«ÏßÆ«Õñ
-								// 3=Ô°Æ«Õñ
-								// 4=ÆäËû
-		int SideLobe; // µÚÒ»ÅÔ°ê£¬ÒÔ0.01dBZÎª¼ÆÊıµ¥Î»
-		long Power; // À×´ïÂö³å·åÖµ¹¦ÂÊ£¬ÒÔÍßÎªµ¥Î»
-		long WaveLength; // ²¨³¤£¬ÒÔÎ¢Ã×Îª¼ÆÊıµ¥Î»
-		int LogA; // ¶ÔÊı½ÓÊÕ»ú¶¯Ì¬·¶Î§£¬ÒÔ0.01dBZÎª¼ÆÊıµ¥Î»
-		int LineA; // ÏßĞÔ½ÓÊÕ»ú¶¯Ì¬·¶Î§£¬ÒÔ0.01dBZÎª¼ÆÊıµ¥Î»
-		int AGCP; // AGCÑÓ³ÙÁ¿£¬ÒÔÎ¢ÃëÎª¼ÆÊıµ¥Î»
-		short ClutterT; // ÔÓ²¨Ïû³ıãĞÖµ£¬¼ÆÊıµ¥Î»Îª0.01dB
+		long AntennaG; // å¤©çº¿å¢ç›Šï¼Œä»¥0.001dBZä¸ºè®¡æ•°å•ä½
+		int VerBeamW; // å‚ç›´æ³¢æŸå®½åº¦ï¼Œä»¥1/100åº¦ä¸ºè®¡æ•°å•ä½
+		int HorBeamW; // æ°´å¹³æ³¢æŸå®½åº¦ï¼Œä»¥1/100è¯»ä¸ºè®¡æ•°å•ä½
+		short Polarizations; // åæŒ¯æƒ…å†µ
+								// 0=æ°´å¹³
+								// 1=å‚ç›´
+								// 2=åŒçº¿åæŒ¯
+								// 3=å›­åæŒ¯
+								// 4=å…¶ä»–
+		int SideLobe; // ç¬¬ä¸€æ—ç“£ï¼Œä»¥0.01dBZä¸ºè®¡æ•°å•ä½
+		long Power; // é›·è¾¾è„‰å†²å³°å€¼åŠŸç‡ï¼Œä»¥ç“¦ä¸ºå•ä½
+		long WaveLength; // æ³¢é•¿ï¼Œä»¥å¾®ç±³ä¸ºè®¡æ•°å•ä½
+		int LogA; // å¯¹æ•°æ¥æ”¶æœºåŠ¨æ€èŒƒå›´ï¼Œä»¥0.01dBZä¸ºè®¡æ•°å•ä½
+		int LineA; // çº¿æ€§æ¥æ”¶æœºåŠ¨æ€èŒƒå›´ï¼Œä»¥0.01dBZä¸ºè®¡æ•°å•ä½
+		int AGCP; // AGCå»¶è¿Ÿé‡ï¼Œä»¥å¾®ç§’ä¸ºè®¡æ•°å•ä½
+		short ClutterT; // æ‚æ³¢æ¶ˆé™¤é˜ˆå€¼ï¼Œè®¡æ•°å•ä½ä¸º0.01dB
 
-		short VelocityP; // ËÙ¶È´¦Àí·½Ê½
-							// 0=ÎŞËÙ¶È´¦Àí
+		short VelocityP; // é€Ÿåº¦å¤„ç†æ–¹å¼
+							// 0=æ— é€Ÿåº¦å¤„ç†
 							// 1=PPP
 							// 2=FFT
-							// 3£½RANDPËæ¼´±àÂë
-		// 4=PPP£«RANDPËæ¼´±àÂë
-		// 5=FFT£«RANDPËæ¼´±àÂë
-		short FilterP; // µØÎïÔÓ²¨Ïû³ı·½Ê½
-						// 0=ÎŞµØÎïÔÓ²¨Ïû³ı
-						// 1=µØÎïÔÓ²¨¿Û³ı·¨
-						// 2=µØÎïÔÓ²¨+ÂË²¨Æ÷´¦Àí
-						// 3=ÂË²¨Æ÷´¦Àí
-						// 4=Æ×·ÖÎö´¦Àí
-						// 5=ÆäËû´¦Àí·¨
-		short NoiseT; // ÔëÉùÏû³ıãĞÖµ£¨0-255£©
-		short SQIT; // SQIãĞÖµ£¬ÒÔ0.01Îª¼ÆÊıµ¥Î»
-		short IntensityC; // RVPÇ¿¶ÈÖµ¹ÀËã²ÉÓÃÍ¨µÀ
-							// 1=¶ÔÊıÍ¨µÀ
-							// 2=ÏßĞÔÍ¨µÀ
-		short IntensityR; // Ç¿¶È¹ÀËãÊÇ·ñ½øĞĞÁË¾àÀë¶©Õı
-							// 0=ÎŞ
-							// 1=ÒÔ½øĞĞÁË¾àÀë¶©Õı
+							// 3ï¼RANDPéšå³ç¼–ç 
+		// 4=PPPï¼‹RANDPéšå³ç¼–ç 
+		// 5=FFTï¼‹RANDPéšå³ç¼–ç 
+		short FilterP; // åœ°ç‰©æ‚æ³¢æ¶ˆé™¤æ–¹å¼
+						// 0=æ— åœ°ç‰©æ‚æ³¢æ¶ˆé™¤
+						// 1=åœ°ç‰©æ‚æ³¢æ‰£é™¤æ³•
+						// 2=åœ°ç‰©æ‚æ³¢+æ»¤æ³¢å™¨å¤„ç†
+						// 3=æ»¤æ³¢å™¨å¤„ç†
+						// 4=è°±åˆ†æå¤„ç†
+						// 5=å…¶ä»–å¤„ç†æ³•
+		short NoiseT; // å™ªå£°æ¶ˆé™¤é˜ˆå€¼ï¼ˆ0-255ï¼‰
+		short SQIT; // SQIé˜ˆå€¼ï¼Œä»¥0.01ä¸ºè®¡æ•°å•ä½
+		short IntensityC; // RVPå¼ºåº¦å€¼ä¼°ç®—é‡‡ç”¨é€šé“
+							// 1=å¯¹æ•°é€šé“
+							// 2=çº¿æ€§é€šé“
+		short IntensityR; // å¼ºåº¦ä¼°ç®—æ˜¯å¦è¿›è¡Œäº†è·ç¦»è®¢æ­£
+							// 0=æ— 
+							// 1=ä»¥è¿›è¡Œäº†è·ç¦»è®¢æ­£
 	}
 
 	class RadarObservationParam {
-		short SType; // É¨Ãè·½Ê½
+		short SType; // æ‰«ææ–¹å¼
 		// 1=RHI
 		// 10=PPI
-		// 1XX=VOL£¬XXÎª²ãÊı
-		int SYear; // ¹Û²â¼ÇÂ¼¿ªÊ¼Ê±¼äµÄÄê£¨2000-£©
-		short SMonth; // ¹Û²â¼ÇÂ¼¿ªÊ¼Ê±¼äµÄÔÂ£¨1-12£©
-		short SDay; // ¹Û²â¼ÇÂ¼¿ªÊ¼Ê±¼äµÄÈÕ£¨1-31£©
-		short SHour; // ¹Û²â¼ÇÂ¼¿ªÊ¼Ê±¼äµÄÊ±£¨00-23£©
-		short SMinute; // ¹Û²â¼ÇÂ¼¿ªÊ¼Ê±¼äµÄ·Ö£¨00-59£©
-		short SSecond; // ¹Û²â¼ÇÂ¼¿ªÊ¼Ê±¼äµÄÃë£¨00-59£©
-		short TimeP; // Ê±¼äÀ´Ô´
-		// 0=¼ÆËã»úÊ±ÖÓ£¬µ«Ò»ÌìÄÚÎ´½øĞĞ¶ÔÊ±
-		// 1=¼ÆËã»úÊ±ÖÓ£¬Ò»ÌìÄÚÒÑ½øĞĞ¶ÔÊ±
+		// 1XX=VOLï¼ŒXXä¸ºå±‚æ•°
+		int SYear; // è§‚æµ‹è®°å½•å¼€å§‹æ—¶é—´çš„å¹´ï¼ˆ2000-ï¼‰
+		short SMonth; // è§‚æµ‹è®°å½•å¼€å§‹æ—¶é—´çš„æœˆï¼ˆ1-12ï¼‰
+		short SDay; // è§‚æµ‹è®°å½•å¼€å§‹æ—¶é—´çš„æ—¥ï¼ˆ1-31ï¼‰
+		short SHour; // è§‚æµ‹è®°å½•å¼€å§‹æ—¶é—´çš„æ—¶ï¼ˆ00-23ï¼‰
+		short SMinute; // è§‚æµ‹è®°å½•å¼€å§‹æ—¶é—´çš„åˆ†ï¼ˆ00-59ï¼‰
+		short SSecond; // è§‚æµ‹è®°å½•å¼€å§‹æ—¶é—´çš„ç§’ï¼ˆ00-59ï¼‰
+		short TimeP; // æ—¶é—´æ¥æº
+		// 0=è®¡ç®—æœºæ—¶é’Ÿï¼Œä½†ä¸€å¤©å†…æœªè¿›è¡Œå¯¹æ—¶
+		// 1=è®¡ç®—æœºæ—¶é’Ÿï¼Œä¸€å¤©å†…å·²è¿›è¡Œå¯¹æ—¶
 		// 2=GPS
-		// 3=ÆäËû
-		long SMillisecond; // ÃëµÄĞ¡ÊıÎ»£¨¼ÆÊıµ¥Î»Î¢Ãë£©
-		short Calibration; // ±êĞ£×´Ì¬
-		// 0=ÎŞ±êĞ£
-		// 1=×Ô¶¯±êĞ£
-		// 2=Ò»ĞÇÆÚÄÚÈË¹¤±êĞ£
-		// 3=Ò»ÔÂÄÚÈË¹¤±êĞ£
-		// ÆäËûÂë²»ÓÃ
-		short IntensityI; // Ç¿¶È»ı·Ö´ÎÊı£¨32-128£©
-		short VelocityP; // ËÙ¶È´¦ÀíÑù±¾£¨31-255£©£¨Ñù±¾Êı¼õÒ»£©
-		LayerParam[] LayerInfo = new LayerParam[30]; // ²ã²ÎÊı½á¹¹£¨¸÷²ãÉ¨Ãè×´Ì¬ÉèÖÃ£©
+		// 3=å…¶ä»–
+		long SMillisecond; // ç§’çš„å°æ•°ä½ï¼ˆè®¡æ•°å•ä½å¾®ç§’ï¼‰
+		short Calibration; // æ ‡æ ¡çŠ¶æ€
+		// 0=æ— æ ‡æ ¡
+		// 1=è‡ªåŠ¨æ ‡æ ¡
+		// 2=ä¸€æ˜ŸæœŸå†…äººå·¥æ ‡æ ¡
+		// 3=ä¸€æœˆå†…äººå·¥æ ‡æ ¡
+		// å…¶ä»–ç ä¸ç”¨
+		short IntensityI; // å¼ºåº¦ç§¯åˆ†æ¬¡æ•°ï¼ˆ32-128ï¼‰
+		short VelocityP; // é€Ÿåº¦å¤„ç†æ ·æœ¬ï¼ˆ31-255ï¼‰ï¼ˆæ ·æœ¬æ•°å‡ä¸€ï¼‰
+		LayerParam[] LayerInfo = new LayerParam[30]; // å±‚å‚æ•°ç»“æ„ï¼ˆå„å±‚æ‰«æçŠ¶æ€è®¾ç½®ï¼‰
 		int RHIA;
-		// RHIÊ±µÄËùÔÚ·½Î»½Ç£¬¼ÆÊıµ¥Î»Îª1/100¶È£¬×÷PPIºÍÁ¢ÌåÉ¨ÃèÊ±²»ÓÃ
+		// RHIæ—¶çš„æ‰€åœ¨æ–¹ä½è§’ï¼Œè®¡æ•°å•ä½ä¸º1/100åº¦ï¼Œä½œPPIå’Œç«‹ä½“æ‰«ææ—¶ä¸ç”¨
 		short RHIL;
-		// RHIÊ±µÄ×îµÍÑö½Ç£¬¼ÆÊıµ¥Î»Îª1/100¶È£¬×÷ÆäËûÉ¨ÃèÊ±²»ÓÃ
+		// RHIæ—¶çš„æœ€ä½ä»°è§’ï¼Œè®¡æ•°å•ä½ä¸º1/100åº¦ï¼Œä½œå…¶ä»–æ‰«ææ—¶ä¸ç”¨
 		short RHIH;
-		// RHIÊ±µÄ×î¸ßÑö½Ç£¬¼ÆÊıµ¥Î»Îª1/100¶È£¬×öÆäËûÉ¨ÃèÊ±²»ÓÃ
-		int EYear; // ¹Û²â¼ÇÂ¼½áÊøÊ±¼äµÄÄê£¨2000-£©
-		short EMonth; // ¹Û²â¼ÇÂ¼½áÊøÊ±¼äµÄÔÂ£¨1-12£©
-		short EDay; // ¹Û²â¼ÇÂ¼½áÊøÊ±¼äµÄÈÕ£¨1-31£©
-		short EHour; // ¹Û²â¼ÇÂ¼½áÊøÊ±¼äµÄÊ±£¨00-23£©
-		short EMinute; // ¹Û²â¼ÇÂ¼½áÊøÊ±¼äµÄ·Ö£¨00-59£©
-		short ESecond; // ¹Û²â¼ÇÂ¼½áÊøÊ±¼äµÄÃë£¨00-59£©
-		short ETenth; // ¹Û²â¼ÇÂ¼½áÊøÊ±¼äµÄ1/100Ãë£¨00-99£©
+		// RHIæ—¶çš„æœ€é«˜ä»°è§’ï¼Œè®¡æ•°å•ä½ä¸º1/100åº¦ï¼Œåšå…¶ä»–æ‰«ææ—¶ä¸ç”¨
+		int EYear; // è§‚æµ‹è®°å½•ç»“æŸæ—¶é—´çš„å¹´ï¼ˆ2000-ï¼‰
+		short EMonth; // è§‚æµ‹è®°å½•ç»“æŸæ—¶é—´çš„æœˆï¼ˆ1-12ï¼‰
+		short EDay; // è§‚æµ‹è®°å½•ç»“æŸæ—¶é—´çš„æ—¥ï¼ˆ1-31ï¼‰
+		short EHour; // è§‚æµ‹è®°å½•ç»“æŸæ—¶é—´çš„æ—¶ï¼ˆ00-23ï¼‰
+		short EMinute; // è§‚æµ‹è®°å½•ç»“æŸæ—¶é—´çš„åˆ†ï¼ˆ00-59ï¼‰
+		short ESecond; // è§‚æµ‹è®°å½•ç»“æŸæ—¶é—´çš„ç§’ï¼ˆ00-59ï¼‰
+		short ETenth; // è§‚æµ‹è®°å½•ç»“æŸæ—¶é—´çš„1/100ç§’ï¼ˆ00-99ï¼‰
 	}
 
 	class LayerParam {
-		short ambiguousp; // ±¾²ãÍËÄ£ºı×´Ì¬
-		// 0 = ÎŞÍËÄ£ºı×´Ì¬
-		// 1 = Èí¼şÍËÄ£ºı
-		// 2 = Ë«TÍËÄ£ºı
-		// 3 = ÅúÊ½ÍËÄ£ºı
-		// 4 = Ë«T + Èí¼şÍËÄ£ºı
-		// 5 = ÅúÊ½ + Èí¼şÍËÄ£ºı
-		// 6 = Ë«PPIÍËÄ£ºı
-		// 9 = ÆäËû·½Ê½
-		int Arotate; // ±¾²ãÌìÏß×ªËÙ,¼ÆÊıµ¥Î»:0.01¶È/Ãë
-		int Prf1; // ±¾²ãµÄµÚÒ»ÖÖÂö³åÖØ¸´ÆµÂÊ,¼ÆÊıµ¥Î»: 1/10 Hz
-		int Prf2; // ±¾²ãµÄµÚ¶şÖÖÂö³åÖØ¸´ÆµÂÊ,¼ÆÊıµ¥Î»: 1/10 Hz
-		// (Í¨¹ıÖØ¸´ÆµÂÊ1¡¢ÖØ¸´ÆµÂÊ2ºÍ´Å¿Ø¹ÜÆµÂÊ¿É¼ÆËã×î´óËÙ¶È£º
+		short ambiguousp; // æœ¬å±‚é€€æ¨¡ç³ŠçŠ¶æ€
+		// 0 = æ— é€€æ¨¡ç³ŠçŠ¶æ€
+		// 1 = è½¯ä»¶é€€æ¨¡ç³Š
+		// 2 = åŒTé€€æ¨¡ç³Š
+		// 3 = æ‰¹å¼é€€æ¨¡ç³Š
+		// 4 = åŒT + è½¯ä»¶é€€æ¨¡ç³Š
+		// 5 = æ‰¹å¼ + è½¯ä»¶é€€æ¨¡ç³Š
+		// 6 = åŒPPIé€€æ¨¡ç³Š
+		// 9 = å…¶ä»–æ–¹å¼
+		int Arotate; // æœ¬å±‚å¤©çº¿è½¬é€Ÿ,è®¡æ•°å•ä½:0.01åº¦/ç§’
+		int Prf1; // æœ¬å±‚çš„ç¬¬ä¸€ç§è„‰å†²é‡å¤é¢‘ç‡,è®¡æ•°å•ä½: 1/10 Hz
+		int Prf2; // æœ¬å±‚çš„ç¬¬äºŒç§è„‰å†²é‡å¤é¢‘ç‡,è®¡æ•°å•ä½: 1/10 Hz
+		// (é€šè¿‡é‡å¤é¢‘ç‡1ã€é‡å¤é¢‘ç‡2å’Œç£æ§ç®¡é¢‘ç‡å¯è®¡ç®—æœ€å¤§é€Ÿåº¦ï¼š
 		// if(Prf2==0|) Vmax=30000.0*Prf1/MangFreq*400.0
 		// else Vmax=30000.0*Prf1*Prf2/MangFreq*400.0*abs(Prf2-Prf1)
-		int spulseW; // ±¾²ãµÄÂö³å¿í¶È,¼ÆÊıµ¥Î»: Î¢Ãë
-		int MaxV; // ±¾²ãµÄ×î´ó¿É²âËÙ¶È,¼ÆÊıµ¥Î»: ÀåÃ×/Ãë
-		int MaxL; // ±¾²ãµÄ×î´ó¿É²â¾àÀë£¬ÒÔ10Ã×Îª¼ÆÊıµ¥Î»
-		int binWidth; // ±¾²ãÊı¾İµÄ¿â³¤£¬ÒÔ·ÖÃ×Îª¼ÆÊıµ¥Î»
-		int binnumber; // ±¾²ãÃ¿¸ö¾¶ÏòµÄ¿âÊı
-		int recordnumber; // ±¾²ã¾¶ÏòÊı(¼ÇÂ¼¸öÊı)
-		short Swangles; // ±¾²ãµÄÑö½Ç£¬¼ÆÊıµ¥Î» £º1/100¶È
+		int spulseW; // æœ¬å±‚çš„è„‰å†²å®½åº¦,è®¡æ•°å•ä½: å¾®ç§’
+		int MaxV; // æœ¬å±‚çš„æœ€å¤§å¯æµ‹é€Ÿåº¦,è®¡æ•°å•ä½: å˜ç±³/ç§’
+		int MaxL; // æœ¬å±‚çš„æœ€å¤§å¯æµ‹è·ç¦»ï¼Œä»¥10ç±³ä¸ºè®¡æ•°å•ä½
+		int binWidth; // æœ¬å±‚æ•°æ®çš„åº“é•¿ï¼Œä»¥åˆ†ç±³ä¸ºè®¡æ•°å•ä½
+		int binnumber; // æœ¬å±‚æ¯ä¸ªå¾„å‘çš„åº“æ•°
+		int recordnumber; // æœ¬å±‚å¾„å‘æ•°(è®°å½•ä¸ªæ•°)
+		short Swangles; // æœ¬å±‚çš„ä»°è§’ï¼Œè®¡æ•°å•ä½ ï¼š1/100åº¦
 	}
 
 }

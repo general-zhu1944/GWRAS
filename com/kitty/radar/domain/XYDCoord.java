@@ -1,8 +1,8 @@
 package com.kitty.radar.domain;
 
 /**
- * 以雷达中心为原点的X、Y坐标，单位：km
- * X坐标向右为正，Y坐标向上为正
+ * 浠ラ浄杈句腑蹇冧负鍘熺偣鐨刋銆乊鍧愭爣锛屽崟浣嶏細km
+ * X鍧愭爣鍚戝彸涓烘锛孻鍧愭爣鍚戜笂涓烘
  */
 public class XYDCoord {
 

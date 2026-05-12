@@ -10,7 +10,7 @@ import com.kitty.radar.Radar;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * »¶Ó­¶Ô»°¿ò¡£
+ * æ¬¢è¿å¯¹è¯æ¡†ã€‚
  */
 public class WelcomeDialog extends BasicDialog {
 
@@ -19,18 +19,18 @@ public class WelcomeDialog extends BasicDialog {
     private JCheckBox cb;
 
     public WelcomeDialog() {
-        super("»¶Ó­Ê¹ÓÃ" + Radar.APP_NAME, false);
+        super("æ¬¢è¿ä½¿ç”¨" + Radar.APP_NAME, false);
         this.setCenterSize(400, 255);
         this.mainPanel.addImage("resource/about.gif", 0, 0, 400, 43);
-        this.mainPanel.addLabel("Èí¼ş°æ±¾: " + Radar.APP_VERSION, 23, 59);
+        this.mainPanel.addLabel("è½¯ä»¶ç‰ˆæœ¬: " + Radar.APP_VERSION, 23, 59);
         this.mainPanel.addLabel(Radar.COPYRIGHT_INFO, 104, 59);
-        this.mainPanel.addLabel("Èí¼şÉè¼Æ: " + Radar.AUTHOR + "  " + Radar.PHONE + "  " + Radar.E_MAIL,
+        this.mainPanel.addLabel("è½¯ä»¶è®¾è®¡: " + Radar.AUTHOR + "  " + Radar.PHONE + "  " + Radar.E_MAIL,
                 23, 89);
-        this.mainPanel.addLabel("ÌØ±ğ¸ĞĞ»: ¿µá°  ËÄ´¨Ê¡ÆøÏóÌ¨¡¢ÍõÑÇÇ¿  ÖĞ¹úÆøÏó¿ÆÑ§ÑĞ¾¿Ôº", 23, 119);
+        this.mainPanel.addLabel("ç‰¹åˆ«æ„Ÿè°¢: åº·å²š  å››å·çœæ°”è±¡å°ã€ç‹äºšå¼º  ä¸­å›½æ°”è±¡ç§‘å­¦ç ”ç©¶é™¢", 23, 119);
         this.mainPanel.addLabel("", 23, 149);
         this.buttonPanel.remove(this.cancelButton);
-        this.confirmButton.setText("    È·¶¨    ");
-        cb = new JCheckBox("ÏÂ´ÎÆô¶¯²»ÔÙÏÔÊ¾");
+        this.confirmButton.setText("    ç¡®å®š    ");
+        cb = new JCheckBox("ä¸‹æ¬¡å¯åŠ¨ä¸å†æ˜¾ç¤º");
         this.buttonPanel.add(cb, 0);
         FlowLayout layout = (FlowLayout) this.buttonPanel.getLayout();
         layout.setAlignment(FlowLayout.LEFT);

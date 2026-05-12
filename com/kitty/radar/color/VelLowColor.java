@@ -7,7 +7,7 @@ import com.kitty.radar.data.SA_SB;
 import com.kitty.radar.util.CommonProps;
 
 /**
- * µÍ·Ö±æÂÊËÙ¶ÈÉ«±ê£¬Resolution£º4£¨1Ã×/Ãë£©¡£
+ * ä½åˆ†è¾¨ç‡é€Ÿåº¦è‰²æ ‡ï¼ŒResolutionï¼š4ï¼ˆ1ç±³/ç§’ï¼‰ã€‚
  */
 public class VelLowColor extends VelColor {
 

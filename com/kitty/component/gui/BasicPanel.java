@@ -11,7 +11,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
- * X¡¢Y×ø±ê²¼¾ÖµÄPanel»ùÀà¡£
+ * Xã€Yåæ ‡å¸ƒå±€çš„PanelåŸºç±»ã€‚
  */
 public class BasicPanel extends JPanel {
 
@@ -26,7 +26,7 @@ public class BasicPanel extends JPanel {
     }
 
     /**
-     * Ìí¼ÓÒ»¸öJLabel×é¼ş£¬¸Ã×é¼şÎ»ÓÚcomp×é¼şµÄÍ¬ĞĞÓÒ²à¡£
+     * æ·»åŠ ä¸€ä¸ªJLabelç»„ä»¶ï¼Œè¯¥ç»„ä»¶ä½äºcompç»„ä»¶çš„åŒè¡Œå³ä¾§ã€‚
      * 
      * @param text
      * @param comp
@@ -38,7 +38,7 @@ public class BasicPanel extends JPanel {
     }
 
     /**
-     * °´X¡¢Y×ø±êÌí¼ÓÒ»¸öJLabel×é¼ş¡£
+     * æŒ‰Xã€Yåæ ‡æ·»åŠ ä¸€ä¸ªJLabelç»„ä»¶ã€‚
      * 
      * @param text
      * @param x

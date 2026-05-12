@@ -29,7 +29,7 @@ public class PrintPreviewDialog extends JDialog {
     private JPanel panel;
 
     public PrintPreviewDialog(Frame owner) {
-        super(owner, "´òÓ¡Ô¤ÀÀ", true);
+        super(owner, "æ‰“å°é¢„è§ˆ", true);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension d = toolkit.getScreenSize();
         d.setSize(d.getWidth(), d.getHeight() - 30);
@@ -41,8 +41,8 @@ public class PrintPreviewDialog extends JDialog {
             Insets insets = new Insets(2, 4, 3, 4);
             toolBar.setBorder(BorderFactory.createEtchedBorder());
 
-            JButton button = new JButton("´òÓ¡(P)...");
-            button.setToolTipText("´òÓ¡(Alt+P)");
+            JButton button = new JButton("æ‰“å°(P)...");
+            button.setToolTipText("æ‰“å°(Alt+P)");
             button.setMnemonic(KeyEvent.VK_P);
             button.setFocusable(false);
             button.setMargin(insets);
@@ -52,7 +52,7 @@ public class PrintPreviewDialog extends JDialog {
             toolBar.addSeparator();
 
             button = new JButton(new ImageIcon(CommonUtils.getResImage("resource/page_gear.png")));
-            button.setToolTipText("Ò³ÃæÉèÖÃ(Alt+U)");
+            button.setToolTipText("é¡µé¢è®¾ç½®(Alt+U)");
             button.setMnemonic(KeyEvent.VK_U);
             button.setFocusable(false);
             button.setMargin(insets);
@@ -61,8 +61,8 @@ public class PrintPreviewDialog extends JDialog {
             toolBar.add(button);
             toolBar.addSeparator();
 
-            button = new JButton("¹Ø±Õ(C)");
-            button.setToolTipText("¹Ø±Õ(Alt+C)");
+            button = new JButton("å…³é—­(C)");
+            button.setToolTipText("å…³é—­(Alt+C)");
             button.setMnemonic(KeyEvent.VK_C);
             button.setFocusable(false);
             button.setMargin(insets);
@@ -77,28 +77,28 @@ public class PrintPreviewDialog extends JDialog {
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
-                double xoff; //ÔÚÆÁÄ»ÉÏÒ³Ãæ³õÊ¼Î»ÖÃµÄË®Æ½Æ«ÒÆ
-                double yoff; //ÔÚÆÁÄ»ÉÏÒ³Ãæ³õÊ¼Î»ÖÃµÄ´¹Ö±Æ«ÒÆ
-                double scale; //ÔÚÆÁÄ»ÉÏÊÊºÏÒ³ÃæµÄ±ÈÀı
-                double px = RadarParams.pageFormat.getWidth(); //Ò³Ãæ¿í¶È
-                double py = RadarParams.pageFormat.getHeight(); //Ò³Ãæ¸ß¶È
+                double xoff; //åœ¨å±å¹•ä¸Šé¡µé¢åˆå§‹ä½ç½®çš„æ°´å¹³åç§»
+                double yoff; //åœ¨å±å¹•ä¸Šé¡µé¢åˆå§‹ä½ç½®çš„å‚ç›´åç§»
+                double scale; //åœ¨å±å¹•ä¸Šé€‚åˆé¡µé¢çš„æ¯”ä¾‹
+                double px = RadarParams.pageFormat.getWidth(); //é¡µé¢å®½åº¦
+                double py = RadarParams.pageFormat.getHeight(); //é¡µé¢é«˜åº¦
                 double sx = getWidth() - 1;
                 double sy = getHeight() - 1;
                 if (px / py < sx / sy) {
-                    scale = sy / py; //¼ÆËã±ÈÀı
-                    xoff = 0.5 * (sx - scale * px); //Ë®Æ½Æ«ÒÆÁ¿
+                    scale = sy / py; //è®¡ç®—æ¯”ä¾‹
+                    xoff = 0.5 * (sx - scale * px); //æ°´å¹³åç§»é‡
                     yoff = 0;
                 } else {
-                    scale = sx / px; //¼ÆËã±ÈÀı
+                    scale = sx / px; //è®¡ç®—æ¯”ä¾‹
                     xoff = 0;
-                    yoff = 0.5 * (sy - scale * py); //´¹Ö±Æ«ÒÆÁ¿
+                    yoff = 0.5 * (sy - scale * py); //å‚ç›´åç§»é‡
                 }
-                g2.translate(xoff, yoff); //×ª»»×ø±ê
+                g2.translate(xoff, yoff); //è½¬æ¢åæ ‡
                 g2.scale(scale, scale);
-                Rectangle2D page = new Rectangle2D.Double(0, 0, px, py); //»æÖÆÒ³Ãæ¾ØĞÎ
-                g2.setPaint(Color.white); //ÉèÖÃÒ³Ãæ±³¾°Îª°×É«
+                Rectangle2D page = new Rectangle2D.Double(0, 0, px, py); //ç»˜åˆ¶é¡µé¢çŸ©å½¢
+                g2.setPaint(Color.white); //è®¾ç½®é¡µé¢èƒŒæ™¯ä¸ºç™½è‰²
                 g2.fill(page);
-                g2.setPaint(Color.black);//ÉèÖÃÒ³ÃæÎÄ×ÖÎªºÚÉ«
+                g2.setPaint(Color.black);//è®¾ç½®é¡µé¢æ–‡å­—ä¸ºé»‘è‰²
                 g2.draw(page);
                 try {
                     GUIManager.activeMainPanel.print(g2, RadarParams.pageFormat, 0);

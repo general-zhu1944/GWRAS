@@ -13,7 +13,7 @@ import com.kitty.radar.gui.TianQingInfoDialog;
 public class SelectDownloadDirHandler extends MouseAdapter {
 
 	 public void mouseClicked(MouseEvent e) {
-	        File file = JDirChooser.showDialog(TianQingInfoDialog.dirImage, "ä¯ÀÀÎÄ¼ş¼Ğ", true, new File("f:\\"), "ÇëÑ¡ÔñÊı¾İÄ¿Â¼");
+	        File file = JDirChooser.showDialog(TianQingInfoDialog.dirImage, "æµè§ˆæ–‡ä»¶å¤¹", true, new File("f:\\"), "è¯·é€‰æ‹©æ•°æ®ç›®å½•");
 	        if (file != null) {
 	            try {
 	            	TianQingInfoDialog.path.setText(file.getCanonicalPath());

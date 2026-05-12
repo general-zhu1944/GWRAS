@@ -12,7 +12,7 @@ import com.kitty.component.third.TreeMapExt;
 import com.kitty.radar.RadarBase;
 
 /**
- * À×´ïÎÄ¼ş¶ÁÈ¡»ùÀà¡£
+ * é›·è¾¾æ–‡ä»¶è¯»å–åŸºç±»ã€‚
  */
 public abstract class RadarData {
 	
@@ -20,7 +20,7 @@ public abstract class RadarData {
 	
 	protected RadarBase radarBase;
 
-	// ============================ Ö§³ÖµÄÀ×´ï¸ñÊ½ ============================
+	// ============================ æ”¯æŒçš„é›·è¾¾æ ¼å¼ ============================
 	public static final Option RADAR_FORMAT_PARD = new Option("PARD", 4);
 	public static final Option RADAR_FORMAT_CA_CB = new Option("CA/CB", 3);
 
@@ -28,9 +28,9 @@ public abstract class RadarData {
 
 	public static final Option RADAR_FORMAT_SC = new Option("SC", 1);
 
-	public static final Option RADAR_FORMAT_FMT = new Option("±ê×¼¸ñÊ½", 0);
+	public static final Option RADAR_FORMAT_FMT = new Option("æ ‡å‡†æ ¼å¼", 0);
 
-	// ============================ ³£Á¿¶¨Òå ============================
+	// ============================ å¸¸é‡å®šä¹‰ ============================
 
 	public static final int DBT = 1;
 	
@@ -50,50 +50,50 @@ public abstract class RadarData {
 	
 	public static final int SNRH = 16;
 
-	public static final byte DOPPLER_RESOLUTION_LOW = 4; // ¶àÆÕÀÕËÙ¶È·Ö±æÂÊ£¬1Ã×/Ãë
+	public static final byte DOPPLER_RESOLUTION_LOW = 4; // å¤šæ™®å‹’é€Ÿåº¦åˆ†è¾¨ç‡ï¼Œ1ç±³/ç§’
 
-	public static final byte DOPPLER_RESOLUTION_HIGH = 2; // ¶àÆÕÀÕËÙ¶È·Ö±æÂÊ£¬0.5Ã×/Ãë
+	public static final byte DOPPLER_RESOLUTION_HIGH = 2; // å¤šæ™®å‹’é€Ÿåº¦åˆ†è¾¨ç‡ï¼Œ0.5ç±³/ç§’
 
-	public static final short MAX_FILE_RECORDS = 30000; // ÎÄ¼şÖĞµÄ×î´ó¼ÇÂ¼Êı
+	public static final short MAX_FILE_RECORDS = 30000; // æ–‡ä»¶ä¸­çš„æœ€å¤§è®°å½•æ•°
 
-	public static final byte MAX_FILE_CUTS = 20; // ÎÄ¼şÖĞµÄ×î´óÑö½ÇÊı
+	public static final byte MAX_FILE_CUTS = 20; // æ–‡ä»¶ä¸­çš„æœ€å¤§ä»°è§’æ•°
 
-	public static final short MAX_CUT_RECORDS = 600; // Ã¿¸öÑö½ÇÖĞµÄ×î´ó¼ÇÂ¼Êı
+	public static final short MAX_CUT_RECORDS = 600; // æ¯ä¸ªä»°è§’ä¸­çš„æœ€å¤§è®°å½•æ•°
 
-	public static final float VERTICAL_BEAM_WIDTH = 1.0f; // ´¹Ö±²¨Êø¿í¶È£¬µ¥Î»£º¶È
+	public static final float VERTICAL_BEAM_WIDTH = 1.0f; // å‚ç›´æ³¢æŸå®½åº¦ï¼Œå•ä½ï¼šåº¦
 
-	public static final float NO_DATA = -3276.8f; // ÎŞĞ§µÄÊı¾İ
+	public static final float NO_DATA = -3276.8f; // æ— æ•ˆçš„æ•°æ®
 
-	// ============================ ×ÓÀà±ØĞë¸³ÖµµÄ±äÁ¿ ============================
+	// ============================ å­ç±»å¿…é¡»èµ‹å€¼çš„å˜é‡ ============================
 
-	protected short surveillanceRange = 0; // ·´ÉäÂÊÊı¾İµÚÒ»¸ö¾àÀë¿âµÄÊµ¼Ê¾àÀë(µ¥Î»: Ã×)
+	protected short surveillanceRange = 0; // åå°„ç‡æ•°æ®ç¬¬ä¸€ä¸ªè·ç¦»åº“çš„å®é™…è·ç¦»(å•ä½: ç±³)
 
-	protected short dopplerRange = 0; // ¶àÆÕÀÕÊı¾İµÚÒ»¸ö¾àÀë¿âµÄÊµ¼Ê¾àÀë(µ¥Î»: Ã×)
+	protected short dopplerRange = 0; // å¤šæ™®å‹’æ•°æ®ç¬¬ä¸€ä¸ªè·ç¦»åº“çš„å®é™…è·ç¦»(å•ä½: ç±³)
 
-	protected short surveillanceInterval = 0; // ·´ÉäÂÊÊı¾İµÄ¾àÀë¿â³¤£¨µ¥Î»£ºÃ×£©
+	protected short surveillanceInterval = 0; // åå°„ç‡æ•°æ®çš„è·ç¦»åº“é•¿ï¼ˆå•ä½ï¼šç±³ï¼‰
 
-	protected short dopplerInterval = 0; // ¶àÆÕÀÕÊı¾İµÄ¾àÀë¿â³¤£¨µ¥Î»£ºÃ×£©
+	protected short dopplerInterval = 0; // å¤šæ™®å‹’æ•°æ®çš„è·ç¦»åº“é•¿ï¼ˆå•ä½ï¼šç±³ï¼‰
 
-	protected short surveillanceBins = 0; // ·´ÉäÂÊµÄ¾àÀë¿âÊı
+	protected short surveillanceBins = 0; // åå°„ç‡çš„è·ç¦»åº“æ•°
 
-	protected short dopplerBins = 0; // ¶àÆÕÀÕµÄ¾àÀë¿âÊı
+	protected short dopplerBins = 0; // å¤šæ™®å‹’çš„è·ç¦»åº“æ•°
 
-	public short resolution = DOPPLER_RESOLUTION_HIGH; // ¶àÆÕÀÕËÙ¶È·Ö±æÂÊ 2£º±íÊ¾0.5Ã×/Ãë£»4£º±íÊ¾1.0Ã×/Ãë
+	public short resolution = DOPPLER_RESOLUTION_HIGH; // å¤šæ™®å‹’é€Ÿåº¦åˆ†è¾¨ç‡ 2ï¼šè¡¨ç¤º0.5ç±³/ç§’ï¼›4ï¼šè¡¨ç¤º1.0ç±³/ç§’
 
 	public String vcp = "21";
 
-	protected short[] cutStarts = new short[MAX_FILE_CUTS]; // »º´æËùÓĞÑö½ÇµÄÆğÊ¼recordNum£¬´Ó0¿ªÊ¼
+	protected short[] cutStarts = new short[MAX_FILE_CUTS]; // ç¼“å­˜æ‰€æœ‰ä»°è§’çš„èµ·å§‹recordNumï¼Œä»0å¼€å§‹
 
-	protected double[] azimuths = new double[MAX_FILE_RECORDS]; // »º´æËùÓĞÊı¾İµÄ·½Î»½Ç£¬µ¥Î»£º¶È
+	protected double[] azimuths = new double[MAX_FILE_RECORDS]; // ç¼“å­˜æ‰€æœ‰æ•°æ®çš„æ–¹ä½è§’ï¼Œå•ä½ï¼šåº¦
 
-	protected byte cutNumber = 0; // ÎÄ¼ş°üº¬µÄÑö½ÇÊı
+	protected byte cutNumber = 0; // æ–‡ä»¶åŒ…å«çš„ä»°è§’æ•°
 	
 	/**
-	 * ÎÄ¼şÖĞ°üº¬µÄÊı¾İÀàĞÍ
+	 * æ–‡ä»¶ä¸­åŒ…å«çš„æ•°æ®ç±»å‹
 	 */
 	protected Set<Integer> dataTypeSet = new HashSet<Integer>();
 
-	// ============================ ±äÁ¿¶¨Òå ============================
+	// ============================ å˜é‡å®šä¹‰ ============================
 
 	public short radarType;
 
@@ -118,14 +118,14 @@ public abstract class RadarData {
 	// ======================== Abstract Functions =========================
 
 	/**
-	 * È¡µÃRecord²É¼¯Ê±¼ä£¬Èç¹ûÎŞ·¨»ñÈ¡Record²É¼¯Ê±¼ä£¬Ôò·µ»ØÎÄ¼ş²É¼¯Ê±¼ä
+	 * å–å¾—Recordé‡‡é›†æ—¶é—´ï¼Œå¦‚æœæ— æ³•è·å–Recordé‡‡é›†æ—¶é—´ï¼Œåˆ™è¿”å›æ–‡ä»¶é‡‡é›†æ—¶é—´
 	 * 
 	 * @return
 	 */
 	public abstract Date getFileTime();
 
 	/**
-	 * È¡µÃÖ¸¶¨Ñö½Ç£¬µ¥Î»£º¶È¡£×ÓÀàÓ¦»º´æ´Ë·½·¨
+	 * å–å¾—æŒ‡å®šä»°è§’ï¼Œå•ä½ï¼šåº¦ã€‚å­ç±»åº”ç¼“å­˜æ­¤æ–¹æ³•
 	 * 
 	 * @param cutNum
 	 * @return
@@ -133,10 +133,10 @@ public abstract class RadarData {
 	public abstract double getElevation(int cutNum);
 
 	/**
-	 * ¶ÁÈ¡Ö¸¶¨recordµÄheaderĞÅÏ¢ ×¢Òâ£º×ÓÀà±ØĞëÊµÏÖ²¢µ÷ÓÃ´Ë·½·¨
+	 * è¯»å–æŒ‡å®šrecordçš„headerä¿¡æ¯ æ³¨æ„ï¼šå­ç±»å¿…é¡»å®ç°å¹¶è°ƒç”¨æ­¤æ–¹æ³•
 	 * 
 	 * @param recordNum
-	 * @return true£º¶ÁÈ¡³É¹¦£»false£º¶ÁÈ¡´íÎó»òµ½´ïÎÄ¼şÄ©Î²
+	 * @return trueï¼šè¯»å–æˆåŠŸï¼›falseï¼šè¯»å–é”™è¯¯æˆ–åˆ°è¾¾æ–‡ä»¶æœ«å°¾
 	 */
 	public boolean readHeader(int recordNum) {
 		this.cutRecordNum = -1;
@@ -144,10 +144,10 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * ¶ÁÈ¡Ö¸¶¨recordÊı¾İ ×¢Òâ£º×ÓÀà±ØĞëÊµÏÖ²¢µ÷ÓÃ´Ë·½·¨
+	 * è¯»å–æŒ‡å®šrecordæ•°æ® æ³¨æ„ï¼šå­ç±»å¿…é¡»å®ç°å¹¶è°ƒç”¨æ­¤æ–¹æ³•
 	 * 
 	 * @param recordNum
-	 * @return true£º¶ÁÈ¡³É¹¦£»false£º¶ÁÈ¡´íÎó»òµ½´ïÎÄ¼şÄ©Î²
+	 * @return trueï¼šè¯»å–æˆåŠŸï¼›falseï¼šè¯»å–é”™è¯¯æˆ–åˆ°è¾¾æ–‡ä»¶æœ«å°¾
 	 */
 	public boolean readRecord(int recordNum) {
 		this.cutRecordNum = -1;
@@ -155,10 +155,10 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * ¶ÁÈ¡´ÓrecordNum¿ªÊ¼µÄÑö½ÇÖĞµÄËùÓĞÊı¾İ ×¢Òâ£º×ÓÀà±ØĞëÊµÏÖ²¢µ÷ÓÃ´Ë·½·¨
+	 * è¯»å–ä»recordNumå¼€å§‹çš„ä»°è§’ä¸­çš„æ‰€æœ‰æ•°æ® æ³¨æ„ï¼šå­ç±»å¿…é¡»å®ç°å¹¶è°ƒç”¨æ­¤æ–¹æ³•
 	 * 
 	 * @param recordNum
-	 * @return ¶ÁÈ¡µÄrecord¸öÊı
+	 * @return è¯»å–çš„recordä¸ªæ•°
 	 */
 	public int readCut(int recordNum) {
 		this.cutRecordNum = recordNum;
@@ -166,44 +166,44 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃµ±Ç°RecordµÄ·½Î»½Ç£¬µ¥Î»£º¶È
+	 * å–å¾—å½“å‰Recordçš„æ–¹ä½è§’ï¼Œå•ä½ï¼šåº¦
 	 * 
 	 * @return
 	 */
 	public abstract double getAzimuth();
 
 	/**
-	 * È¡µÃµ±Ç°RecordµÄÑö½Ç£¬µ¥Î»£º¶È
+	 * å–å¾—å½“å‰Recordçš„ä»°è§’ï¼Œå•ä½ï¼šåº¦
 	 * 
 	 * @return
 	 */
 	public abstract double getElevation();
 
 	/**
-	 * È¡µÃÔ­Ê¼»ùÊı¾İÖµ
+	 * å–å¾—åŸå§‹åŸºæ•°æ®å€¼
 	 * 
 	 * @param moment
-	 * @param radial Ñö½ÇÖĞµÄradialNum£¬´Ó0¿ªÊ¼
-	 * @param bin    ¿âÊı£¬´Ó0¿ªÊ¼
-	 * @return Èç¹ûÃ»ÓĞÏàÓ¦µÄÊı¾İ£¬·µ»Ø0
+	 * @param radial ä»°è§’ä¸­çš„radialNumï¼Œä»0å¼€å§‹
+	 * @param bin    åº“æ•°ï¼Œä»0å¼€å§‹
+	 * @return å¦‚æœæ²¡æœ‰ç›¸åº”çš„æ•°æ®ï¼Œè¿”å›0
 	 */
 	public abstract int getBinaryValue(int moment, int radial, int bin);
 
 	/**
-	 * È¡µÃ»ùÊı¾İ±äÁ¿Öµ
+	 * å–å¾—åŸºæ•°æ®å˜é‡å€¼
 	 * 
 	 * @param moment
-	 * @param radial Ñö½ÇÖĞµÄradialNum£¬´Ó0¿ªÊ¼
-	 * @param bin    ¿âÊı£¬´Ó0¿ªÊ¼
-	 * @return Èç¹ûÃ»ÓĞÏàÓ¦µÄÊı¾İ£¬·µ»ØNO_DATA
+	 * @param radial ä»°è§’ä¸­çš„radialNumï¼Œä»0å¼€å§‹
+	 * @param bin    åº“æ•°ï¼Œä»0å¼€å§‹
+	 * @return å¦‚æœæ²¡æœ‰ç›¸åº”çš„æ•°æ®ï¼Œè¿”å›NO_DATA
 	 */
 	public abstract float getMomentValue(int moment, int radial, int bin);
 
 	/**
-	 * ´ò¿ªÀ×´ïÎÄ¼ş
+	 * æ‰“å¼€é›·è¾¾æ–‡ä»¶
 	 * 
 	 * @param file
-	 * @return true£º´ò¿ª³É¹¦£»false£º´íÎóµÄÊı¾İ¸ñÊ½
+	 * @return trueï¼šæ‰“å¼€æˆåŠŸï¼›falseï¼šé”™è¯¯çš„æ•°æ®æ ¼å¼
 	 */
 	public abstract boolean open(File file);
 
@@ -214,7 +214,7 @@ public abstract class RadarData {
 	}
 	
 	/**
-	 * È¡µÃÖ¸¶¨momentµÄµÚÒ»¸ö¾àÀë¿âµÄÊµ¼Ê¾àÀë£¬µ¥Î»£ºkm
+	 * å–å¾—æŒ‡å®šmomentçš„ç¬¬ä¸€ä¸ªè·ç¦»åº“çš„å®é™…è·ç¦»ï¼Œå•ä½ï¼škm
 	 * 
 	 * @param moment
 	 * @return
@@ -228,7 +228,7 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃÖ¸¶¨momentµÄ¾àÀë¿â³¤£¬µ¥Î»£ºkm
+	 * å–å¾—æŒ‡å®šmomentçš„è·ç¦»åº“é•¿ï¼Œå•ä½ï¼škm
 	 * 
 	 * @param moment
 	 * @return
@@ -242,7 +242,7 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃÖ¸¶¨momentµÄ¾àÀë¿âÊı
+	 * å–å¾—æŒ‡å®šmomentçš„è·ç¦»åº“æ•°
 	 * 
 	 * @param moment
 	 * @return
@@ -256,7 +256,7 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃÀ×´ïÎÄ¼şÃû
+	 * å–å¾—é›·è¾¾æ–‡ä»¶å
 	 * 
 	 * @return
 	 */
@@ -265,7 +265,7 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * Éè¶¨À×´ïÎÄ¼şÃû
+	 * è®¾å®šé›·è¾¾æ–‡ä»¶å
 	 * 
 	 * @param srcFileName
 	 */
@@ -274,7 +274,7 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃÖ¸¶¨recordµÄ·½Î»½Ç£¬µ¥Î»£º¶È£¬Èç¹ûÃ»ÓĞÀ×´ïÊı¾İ£¬·µ»Ø-1
+	 * å–å¾—æŒ‡å®šrecordçš„æ–¹ä½è§’ï¼Œå•ä½ï¼šåº¦ï¼Œå¦‚æœæ²¡æœ‰é›·è¾¾æ•°æ®ï¼Œè¿”å›-1
 	 * 
 	 * @param recordNum
 	 * @return
@@ -284,7 +284,7 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃÖ¸¶¨Ñö½ÇÖĞµÄÆğÊ¼recordNum£¬Èç¹û¸ÃÑö½ÇÃ»ÓĞÊı¾İ£¬·µ»Ø-1
+	 * å–å¾—æŒ‡å®šä»°è§’ä¸­çš„èµ·å§‹recordNumï¼Œå¦‚æœè¯¥ä»°è§’æ²¡æœ‰æ•°æ®ï¼Œè¿”å›-1
 	 * 
 	 * @param cutNum
 	 * @return
@@ -306,7 +306,7 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃÎÄ¼şÖĞµÄÑö½ÇÊı
+	 * å–å¾—æ–‡ä»¶ä¸­çš„ä»°è§’æ•°
 	 * 
 	 * @return
 	 */
@@ -315,17 +315,17 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃ»ùÊı¾İ±äÁ¿Öµ ×¢Òâ£º´Ë·½·¨Ö§³ÖÑÓ³Ùµ÷ÓÃ
+	 * å–å¾—åŸºæ•°æ®å˜é‡å€¼ æ³¨æ„ï¼šæ­¤æ–¹æ³•æ”¯æŒå»¶è¿Ÿè°ƒç”¨
 	 * 
 	 * @param moment
 	 * @param cutNum
-	 * @param azimuth ·½Î»½Ç£¬µ¥Î»£º¶È
-	 * @param range   ¾àÀë£¬µ¥Î»£ºkm
-	 * @return Èç¹ûÃ»ÓĞÏàÓ¦µÄÊı¾İ£¬·µ»ØNO_DATA
+	 * @param azimuth æ–¹ä½è§’ï¼Œå•ä½ï¼šåº¦
+	 * @param range   è·ç¦»ï¼Œå•ä½ï¼škm
+	 * @return å¦‚æœæ²¡æœ‰ç›¸åº”çš„æ•°æ®ï¼Œè¿”å›NO_DATA
 	 */
 	public float getMomentValue(int moment, int cutNum, double azimuth, double range) {
 		int startRecordNum = this.getCutStart(cutNum);
-		if (startRecordNum != this.cutRecordNum) { // ÑÓ³Ùµ÷ÓÃÊ±Èç¹ûÊı¾İ·¢ÉúÁË±ä»¯£¬ÖØĞÂ¶ÁÈ¡
+		if (startRecordNum != this.cutRecordNum) { // å»¶è¿Ÿè°ƒç”¨æ—¶å¦‚æœæ•°æ®å‘ç”Ÿäº†å˜åŒ–ï¼Œé‡æ–°è¯»å–
 			this.readCut(startRecordNum);
 		}
 		int endRecordNum = -1;
@@ -356,7 +356,7 @@ public abstract class RadarData {
 	}
 	
 	/**
-	 * ¹Ø±ÕÀ×´ïÎÄ¼ş
+	 * å…³é—­é›·è¾¾æ–‡ä»¶
 	 */
 	public void close() {
 		if (raf != null) {
@@ -369,10 +369,10 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * ¶ÁÈ¡ÎÄ¼şÖĞËùÓĞÑö½ÇµÄÊı¾İ¡£
+	 * è¯»å–æ–‡ä»¶ä¸­æ‰€æœ‰ä»°è§’çš„æ•°æ®ã€‚
 	 * 
 	 * @param moment
-	 * @return µÚÒ»²ã£ºËùÓĞÑö½ÇÊı¾İ£¬Ã¿¸öÑö½ÇÎª<TreeMapExt>£»µÚ¶ş²ã£ºËùÓĞ·½Î»½ÇÊı¾İ£¬Ã¿¸ö·½Î»½ÇÎª<short[]>
+	 * @return ç¬¬ä¸€å±‚ï¼šæ‰€æœ‰ä»°è§’æ•°æ®ï¼Œæ¯ä¸ªä»°è§’ä¸º<TreeMapExt>ï¼›ç¬¬äºŒå±‚ï¼šæ‰€æœ‰æ–¹ä½è§’æ•°æ®ï¼Œæ¯ä¸ªæ–¹ä½è§’ä¸º<short[]>
 	 */
 	public TreeMapExt readFile(int moment) {
 		TreeMapExt map = new TreeMapExt();
@@ -402,14 +402,14 @@ public abstract class RadarData {
 	}
 
 	/**
-	 * È¡µÃÄ³Ò»µãµÄÊı¾İÖµ£¨4µãË«ÏßĞÔ²åÖµ·¨£©
+	 * å–å¾—æŸä¸€ç‚¹çš„æ•°æ®å€¼ï¼ˆ4ç‚¹åŒçº¿æ€§æ’å€¼æ³•ï¼‰
 	 * 
 	 * @param map
 	 * @param azimuth
 	 * @param range
 	 * @param binInterval
 	 * @param rangeToFirst
-	 * @return Èç¹ûÃ»ÓĞÏàÓ¦µÄÊı¾İ£¬·µ»Ø0
+	 * @return å¦‚æœæ²¡æœ‰ç›¸åº”çš„æ•°æ®ï¼Œè¿”å›0
 	 */
 	public short getPointValue4I(Object map, double azimuth, double range, double binInterval, double rangeToFirst) {
 		TreeMapExt tme = (TreeMapExt) map;

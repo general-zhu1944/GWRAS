@@ -21,12 +21,12 @@ import com.kitty.radar.listener.DisposeActionHandler;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * ¹ØÓÚ¶Ô»°¿ò¡£
+ * å…³äºå¯¹è¯æ¡†ã€‚
  */
 public class AboutDialog extends JDialog {
 
     public AboutDialog(Frame owner) {
-        super(owner, "¹ØÓÚ " + Radar.APP_NAME, true);
+        super(owner, "å…³äº " + Radar.APP_NAME, true);
         Dimension d = new Dimension(400, 255);
         this.setSize(d);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -36,33 +36,33 @@ public class AboutDialog extends JDialog {
         ImagePanel imagePanel = new ImagePanel("resource/about.gif");
         this.add(imagePanel);
         imagePanel.setBounds(0, 0, 400, 43);
-        JLabel label = new JLabel("Èí¼ş°æ±¾: " + Radar.APP_VERSION);
+        JLabel label = new JLabel("è½¯ä»¶ç‰ˆæœ¬: " + Radar.APP_VERSION);
         this.add(label);
         label.setBounds(23, 53, 100, 30);
         label = new JLabel(Radar.COPYRIGHT_INFO);
         this.add(label);
         label.setBounds(120, 53, 250, 30);
-        label = new JLabel("Èí¼şÉè¼Æ: " + Radar.AUTHOR + "  " + Radar.PHONE + "  " + Radar.E_MAIL);
+        label = new JLabel("è½¯ä»¶è®¾è®¡: " + Radar.AUTHOR + "  " + Radar.PHONE + "  " + Radar.E_MAIL);
         this.add(label);
         label.setBounds(23, 83, 350, 30);
-        label = new JLabel("ÌØ±ğ¸ĞĞ»: ¿µá°  ËÄ´¨Ê¡ÆøÏóÌ¨£¬ ÍõÑÇÇ¿ ÖĞ¹úÆøÏó¿ÆÑ§ÑĞ¾¿Ôº");
+        label = new JLabel("ç‰¹åˆ«æ„Ÿè°¢: åº·å²š  å››å·çœæ°”è±¡å°ï¼Œ ç‹äºšå¼º ä¸­å›½æ°”è±¡ç§‘å­¦ç ”ç©¶é™¢");
         this.add(label);
         label.setBounds(23, 113, 350, 30);
-        label = new JLabel("×ÊÖú£º´¨¶«±±Ç¿ÌìÆøÄÏ³äÊĞÖØµãÊµÑéÊÒ¡¢¸´ÅÌ×¨Ïî");
+        label = new JLabel("èµ„åŠ©ï¼šå·ä¸œåŒ—å¼ºå¤©æ°”å—å……å¸‚é‡ç‚¹å®éªŒå®¤ã€å¤ç›˜ä¸“é¡¹");
         this.add(label);
         label.setBounds(23, 143, 350, 30);
-        label = new JLabel("ËÄ´¨Ê¡Ç¿¶ÔÁ÷´´ĞÂÍÅ¶Ó¡¢ÄÏ³äÊĞÆøÏó¾ÖÇ¿¶ÔÁ÷´´ĞÂÍÅ¶Ó");
+        label = new JLabel("å››å·çœå¼ºå¯¹æµåˆ›æ–°å›¢é˜Ÿã€å—å……å¸‚æ°”è±¡å±€å¼ºå¯¹æµåˆ›æ–°å›¢é˜Ÿ");
         this.add(label);
         label.setBounds(58, 163, 350, 30);
         //String mapFile = CommonUtils.appPath + "province.map";
     	//JOptionPane.showMessageDialog(this, mapFile);
 
-        final JButton confirm = new JButton("    È·¶¨    ");
+        final JButton confirm = new JButton("    ç¡®å®š    ");
         DisposeActionHandler listener = new DisposeActionHandler(this);
         confirm.addActionListener(listener);
         this.add(confirm);
 //        confirm.setBounds(287, 184, 85, 24);
-//        JButton button = new JButton("ÁªÏµÎÒÃÇ");
+//        JButton button = new JButton("è”ç³»æˆ‘ä»¬");
 //        button.setDefaultCapable(false);
 //        button.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
@@ -70,14 +70,14 @@ public class AboutDialog extends JDialog {
 //                    Desktop.getDesktop().browse(new URI("mailto:" + Radar.E_MAIL));
 //                } catch (Exception e1) {
 //                    e1.printStackTrace();
-//                    CommonUtils.alert("»¶Ó­À´µç£¨" + Radar.PHONE + "£©»òE-mail£¨" + Radar.E_MAIL + "£©ÁªÏµ",
+//                    CommonUtils.alert("æ¬¢è¿æ¥ç”µï¼ˆ" + Radar.PHONE + "ï¼‰æˆ–E-mailï¼ˆ" + Radar.E_MAIL + "ï¼‰è”ç³»",
 //                            null);
 //                }
 //            }
 //        });
 //        button.setBounds(23, 184, 70, 24);
 //        this.add(button);
-//        button = new JButton("²é¿´Ğí¿ÉĞ­Òé");
+//        button = new JButton("æŸ¥çœ‹è®¸å¯åè®®");
 //        button.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
 //                try {

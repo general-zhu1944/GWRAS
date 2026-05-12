@@ -19,7 +19,7 @@ import com.kitty.radar.util.CommonProps;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * Í¨ÓÃ¶Ô»°¿ò»ùÀà£¬°üº¬»ù±¾µÄ¡°È·¶¨¡±¡¢¡°È¡Ïû¡±°´Å¥¡£
+ * é€šç”¨å¯¹è¯æ¡†åŸºç±»ï¼ŒåŒ…å«åŸºæœ¬çš„â€œç¡®å®šâ€ã€â€œå–æ¶ˆâ€æŒ‰é’®ã€‚
  */
 public abstract class BasicDialog extends JDialog implements ActionListener {
 
@@ -44,13 +44,13 @@ public abstract class BasicDialog extends JDialog implements ActionListener {
         FlowLayout layout = (FlowLayout) buttonPanel.getLayout();
         layout.setHgap(30);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        confirmButton = new JButton(" È·¶¨(O) ");
+        confirmButton = new JButton(" ç¡®å®š(O) ");
         confirmButton.setMnemonic(KeyEvent.VK_O);
         confirmButton.setActionCommand(CommonProps.AC_CONFIRM);
         confirmButton.addActionListener(this);
         buttonPanel.add(confirmButton);
         this.getRootPane().setDefaultButton(confirmButton);
-        cancelButton = new JButton(" È¡Ïû(C) ");
+        cancelButton = new JButton(" å–æ¶ˆ(C) ");
         cancelButton.setMnemonic(KeyEvent.VK_C);
         cancelButton.addActionListener(handler);
         buttonPanel.add(cancelButton);

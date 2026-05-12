@@ -5,7 +5,7 @@ import java.awt.Color;
 import com.kitty.radar.util.CommonProps;
 
 /**
- * Çç¿ÕÄ£Ê½·´ÉäÂÊÉ«±ê£¬VCP£º31¡¢32¡£
+ * æ™´ç©ºæ¨¡å¼åå°„ç‡è‰²æ ‡ï¼ŒVCPï¼š31ã€32ã€‚
  */
 public class RefClearColor extends RefColor {
 

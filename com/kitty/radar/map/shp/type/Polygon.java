@@ -13,22 +13,22 @@ import com.kitty.radar.map.shp.IShape;
 
 public class Polygon implements IShape{
 
-	//ĞÎ×´ÀàĞÍ
+	//å½¢çŠ¶ç±»å‹
 	private int shapeType;
 	
-	//±ß½çBOX
+	//è¾¹ç•ŒBOX
 	private Box box;
 	
-	//Part¸öÊı
+	//Partä¸ªæ•°
 	private int numParts;
 	
-	//µãµÄÊıÁ¿
+	//ç‚¹çš„æ•°é‡
 	private int numPoints;
 	
-	//Ã¿¸öPartµÄÆğÊ¼µãÔÚpointsÖĞÆ«ÒÆÎ»ÖÃ
+	//æ¯ä¸ªPartçš„èµ·å§‹ç‚¹åœ¨pointsä¸­åç§»ä½ç½®
 	private int[] parts;
 	
-	//ËùÓĞµã
+	//æ‰€æœ‰ç‚¹
 	private Point[] points;
 	
 	public int getShapeType() {

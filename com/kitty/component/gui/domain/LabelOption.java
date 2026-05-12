@@ -3,7 +3,7 @@ package com.kitty.component.gui.domain;
 import com.kitty.component.gui.BasicPanel;
 
 /**
- * ÓÃÓÚScrollLabelµÄÏÔÊ¾ÎÄ±¾Ïî¡£
+ * ç”¨äºScrollLabelçš„æ˜¾ç¤ºæ–‡æœ¬é¡¹ã€‚
  */
 public class LabelOption {
     
@@ -11,9 +11,9 @@ public class LabelOption {
     
     private String href;
     
-    private int width; // ÎÄ±¾ÏÔÊ¾¿í¶È£¬µ¥Î»£ºÏñËØ
+    private int width; // æ–‡æœ¬æ˜¾ç¤ºå®½åº¦ï¼Œå•ä½ï¼šåƒç´ 
     
-    private long showTime = 15000; // Ã¿¸öOptionµÄÏÔÊ¾Ê±¼ä£¬µ¥Î»£ºms
+    private long showTime = 15000; // æ¯ä¸ªOptionçš„æ˜¾ç¤ºæ—¶é—´ï¼Œå•ä½ï¼šms
     
     public LabelOption(String text) {
         this.text = text;

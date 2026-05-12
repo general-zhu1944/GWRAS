@@ -20,17 +20,17 @@ public class VIL extends RadarBase {
 
 	private static byte resolution = 1;
 
-	public static float gridWidth = 4f; // µ¥Ôª¸ñ¿í¶È£¬µ¥Î»£ºkm
+	public static float gridWidth = 4f; // å•å…ƒæ ¼å®½åº¦ï¼Œå•ä½ï¼škm
 
 	public static float range = 230;
 
 	public static void display(Graphics2D g,RadarBase radarBase) {
 		RadarData l2 = radarBase.l2;
 		radarBase.datas = null;
-		if (l2 == null) { // Ã»ÓĞÑ¡ÖĞµÄÎÄ¼ş
+		if (l2 == null) { // æ²¡æœ‰é€‰ä¸­çš„æ–‡ä»¶
 			return;
 		}
-		int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());//????¦Ì£¤?a???¨ª?¨¨
+		int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());//????Î¼ï¿¥?a???Ã­?Ã¨
 		int hw = w / 2;
 		GridValue[][] grids = RadarUtils.getGridsXY(w, range,radarBase);
 		RadarData rd = radarBase.l2;
@@ -38,7 +38,7 @@ public class VIL extends RadarBase {
 		double binInterval = rd.getBinInterval(moment);
 		double rangeToFirst = rd.getRangeToFirstBin(moment);
 		NavigableMap map = rd.readFile(moment);
-//		GUIManager.toolBarLabel.setText(RadarBase.radarName + " ¨º¡À?? " + RadarUtils.getFileTime()
+//		GUIManager.toolBarLabel.setText(RadarBase.radarName + " ÃªÂ±?? " + RadarUtils.getFileTime()
 //				+ " - ???t " + l2.getSrcFileName() + " - "
 //				+ RadarUtils.getMomentLabel());
 		int size = map.size();
@@ -102,7 +102,7 @@ public class VIL extends RadarBase {
 		}
 		radarBase.datas = grids;
 
-		// ?-3???¦Ì?
+		// ?-3???Î¼?
 		RadarColor radarColor = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase);
 		Color[] colors = radarColor.getColors();
 		float[] cvalues = radarColor.getColorValues();
@@ -175,7 +175,7 @@ public class VIL extends RadarBase {
 	public static String evaLabelText(RadarBase radarBase) {
 		if(radarBase.l2 == null)
 			return "";
-		String label = "¨º¡À?? " + RadarUtils.getFileTime(radarBase)
+		String label = "ÃªÂ±?? " + RadarUtils.getFileTime(radarBase)
 //				+ " - ???t " + radarBase.l2.getSrcFileName()
 				+ " - " + RadarUtils.getMomentLabel(radarBase);
 		return label;

@@ -14,7 +14,7 @@ import com.kitty.radar.gui.GUIManager;
 import com.kitty.radar.util.PositionUtils;
 
 /**
- * ÇøÓòJTableÊı¾İÄ£ĞÍ¡£
+ * åŒºåŸŸJTableæ•°æ®æ¨¡å‹ã€‚
  */
 public class AreaTableModel extends AbstractTableModel {
 
@@ -68,11 +68,11 @@ public class AreaTableModel extends AbstractTableModel {
 
     public String getColumnName(int column) {
         if (column == 0) {
-            return "Àà±ğ";
+            return "ç±»åˆ«";
         } else if (column == 1) {
-            return "ÃèÊö";
+            return "æè¿°";
         } else {
-            return "ÏÔÊ¾";
+            return "æ˜¾ç¤º";
         }
     }
 
@@ -106,7 +106,7 @@ public class AreaTableModel extends AbstractTableModel {
     }
 
     /**
-     * ÊÇ·ñÓĞÇøÓòÕıÔÚÏÔÊ¾
+     * æ˜¯å¦æœ‰åŒºåŸŸæ­£åœ¨æ˜¾ç¤º
      * 
      * @return
      */

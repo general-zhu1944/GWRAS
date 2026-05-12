@@ -42,7 +42,7 @@ import com.kitty.radar.util.CommonUtils;
 
 /**
  * <p>Title: OpenSwing</p>
- * <p>Description: JDirChooser Ä¿Â¼Ñ¡ÔñÆ÷</p>
+ * <p>Description: JDirChooser ç›®å½•é€‰æ‹©å™¨</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
  * @author <a href="mailto:sunkingxie@hotmail.com">SunKing</a>
@@ -65,15 +65,15 @@ public class JDirChooser extends JDialog implements TreeSelectionListener, Actio
 
     JPanel pResult = new JPanel(new BorderLayout());
 
-    JLabel lbFolder = new JLabel("ÎÄ¼ş¼Ğ: ");
+    JLabel lbFolder = new JLabel("æ–‡ä»¶å¤¹: ");
 
     JTextField txtResult = new JTextField();
 
-    JButton bttCreateNew = new JButton("ĞÂ½¨ÎÄ¼ş¼Ğ(M)");
+    JButton bttCreateNew = new JButton("æ–°å»ºæ–‡ä»¶å¤¹(M)");
 
-    JButton bttCancel = new JButton("È¡Ïû");
+    JButton bttCancel = new JButton("å–æ¶ˆ");
 
-    JButton bttOK = new JButton("È·¶¨");
+    JButton bttOK = new JButton("ç¡®å®š");
 
     JLabel lbView = new JLabel();
 
@@ -174,7 +174,7 @@ public class JDirChooser extends JDialog implements TreeSelectionListener, Actio
     }
 
     /**
-     * È¡µÃ¸ù´°¿Ú
+     * å–å¾—æ ¹çª—å£
      * @param c Component
      * @return Window
      */
@@ -320,7 +320,7 @@ public class JDirChooser extends JDialog implements TreeSelectionListener, Actio
     public void actionPerformed(ActionEvent actionEvent) {
         Object obj = actionEvent.getSource();
         if (obj == bttCreateNew) {
-            String dirName = JOptionPane.showInputDialog(this, null, "ĞÂ½¨ÎÄ¼ş¼Ğ");
+            String dirName = JOptionPane.showInputDialog(this, null, "æ–°å»ºæ–‡ä»¶å¤¹");
             if (dirName == null || dirName.trim().length() == 0) {
                 return;
             }
@@ -331,7 +331,7 @@ public class JDirChooser extends JDialog implements TreeSelectionListener, Actio
                 fileTree.getSelectFileNode().setExplored(false);
                 this.setSelectFile(f);
             } else {
-                JOptionPane.showMessageDialog(this, "ĞÂ½¨ÎÄ¼ş¼Ğ´íÎó£¬ÇëÈ·ÈÏÃû³ÆÊÇ·ñÕıÈ·", null,
+                JOptionPane.showMessageDialog(this, "æ–°å»ºæ–‡ä»¶å¤¹é”™è¯¯ï¼Œè¯·ç¡®è®¤åç§°æ˜¯å¦æ­£ç¡®", null,
                         JOptionPane.ERROR_MESSAGE);
             }
         } else {

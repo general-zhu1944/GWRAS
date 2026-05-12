@@ -19,7 +19,7 @@ import javax.swing.tree.TreePath;
 
 /**
  * <p>Title: OpenSwing</p>
- * <p>Description: JFileTree ÎÄ¼şÊ÷</p>
+ * <p>Description: JFileTree æ–‡ä»¶æ ‘</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
  * @author <a href="mailto:sunkingxie@hotmail.com">SunKing</a>
@@ -32,15 +32,15 @@ public class JFileTree extends JTree implements Serializable {
     DefaultTreeModel treeModel;
 
     /**
-     * Ö»ä¯ÀÀÄ¿Â¼µÄÄ¿Â¼Ê÷
+     * åªæµè§ˆç›®å½•çš„ç›®å½•æ ‘
      */
     public JFileTree() {
         this(new DirFilter());
     }
 
     /**
-     * Ö¸¶¨¹ıÂËÆ÷µÄÎÄ¼şÊ÷
-     * @param filter FileFilter Ö¸¶¨¹ıÂËÆ÷
+     * æŒ‡å®šè¿‡æ»¤å™¨çš„æ–‡ä»¶æ ‘
+     * @param filter FileFilter æŒ‡å®šè¿‡æ»¤å™¨
      */
     public JFileTree(java.io.FileFilter filter) {
         FileNode root = new FileNode(fileSystemView.getRoots()[0], filter);
@@ -53,7 +53,7 @@ public class JFileTree extends JTree implements Serializable {
     }
 
     /**
-     * È¡µÃµ±Ç°Ñ¡ÔñµÄ½Úµã
+     * å–å¾—å½“å‰é€‰æ‹©çš„èŠ‚ç‚¹
      * @return FileNode
      */
     public FileNode getSelectFileNode() {
@@ -65,7 +65,7 @@ public class JFileTree extends JTree implements Serializable {
     }
 
     /**
-     * ÉèÖÃµ±Ç°Ñ¡ÔñµÄ½Úµã
+     * è®¾ç½®å½“å‰é€‰æ‹©çš„èŠ‚ç‚¹
      * @param f FileNode
      * @throws Exception
      */
@@ -74,7 +74,7 @@ public class JFileTree extends JTree implements Serializable {
     }
 
     /**
-     * È¡µÃµ±Ç°Ñ¡ÔñµÄÎÄ¼ş»òÄ¿Â¼
+     * å–å¾—å½“å‰é€‰æ‹©çš„æ–‡ä»¶æˆ–ç›®å½•
      * @return File
      */
     public File getSelectFile() {
@@ -83,7 +83,7 @@ public class JFileTree extends JTree implements Serializable {
     }
 
     /**
-     * ÉèÖÃµ±Ç°Ñ¡ÔñµÄÎÄ¼ş»òÄ¿Â¼
+     * è®¾ç½®å½“å‰é€‰æ‹©çš„æ–‡ä»¶æˆ–ç›®å½•
      * @param f File
      * @throws Exception
      */
@@ -98,7 +98,7 @@ public class JFileTree extends JTree implements Serializable {
     }
 
     /**
-     * Õ¹¿ªÖ¸¶¨µÄÎÄ¼ş»òÄ¿Â¼
+     * å±•å¼€æŒ‡å®šçš„æ–‡ä»¶æˆ–ç›®å½•
      * @param f File
      * @return FileNode
      * @throws Exception
@@ -132,7 +132,7 @@ public class JFileTree extends JTree implements Serializable {
      *
      * <p>Title: OpenSwing</p>
      *
-     * <p>Description: ÎÄ¼şÊ÷ĞŞÊÎÆ÷</p>
+     * <p>Description: æ–‡ä»¶æ ‘ä¿®é¥°å™¨</p>
      *
      * <p>Copyright: Copyright (c) 2004</p>
      *
@@ -159,7 +159,7 @@ public class JFileTree extends JTree implements Serializable {
      *
      * <p>Title: OpenSwing</p>
      *
-     * <p>Description: ÎÄ¼şÊ÷Õ¹¿ªÊÂ¼ş¼àÌıÆ÷</p>
+     * <p>Description: æ–‡ä»¶æ ‘å±•å¼€äº‹ä»¶ç›‘å¬å™¨</p>
      *
      * <p>Copyright: Copyright (c) 2004</p>
      *
@@ -193,7 +193,7 @@ public class JFileTree extends JTree implements Serializable {
      *
      * <p>Title: OpenSwing</p>
      *
-     * <p>Description:ÎÄ¼ş½Úµã </p>
+     * <p>Description:æ–‡ä»¶èŠ‚ç‚¹ </p>
      *
      * <p>Copyright: Copyright (c) 2004</p>
      *
@@ -244,18 +244,18 @@ public class JFileTree extends JTree implements Serializable {
         }
 
         /**
-         * Õ¹¿ª½Úµã
+         * å±•å¼€èŠ‚ç‚¹
          */
         public void explore() {
             if (!explored) {
                 explored = true;
                 File file = getFile();
-                //Èç¹ûÕâÀïÊ¹ÓÃ file.listFiles(filter) ÓĞBUG
+                //å¦‚æœè¿™é‡Œä½¿ç”¨ file.listFiles(filter) æœ‰BUG
                 File[] children = file.listFiles();
                 if (children == null || children.length == 0) {
                     return;
                 }
-                //¹ıÂËºóÅÅĞò,Ñ¡¼ÓÈëÅÅĞòºóµÄÄ¿Â¼, ÔÙ¼ÓÈëÅÅĞòºóµÄÎÄ¼ş
+                //è¿‡æ»¤åæ’åº,é€‰åŠ å…¥æ’åºåçš„ç›®å½•, å†åŠ å…¥æ’åºåçš„æ–‡ä»¶
                 ArrayList listDir = new ArrayList();
                 ArrayList listFile = new ArrayList();
                 for (int i = 0; i < children.length; ++i) {
@@ -284,7 +284,7 @@ public class JFileTree extends JTree implements Serializable {
      *
      * <p>Title: OpenSwing</p>
      *
-     * <p>Description:Ä¿Â¼¹ıÂËÆ÷ </p>
+     * <p>Description:ç›®å½•è¿‡æ»¤å™¨ </p>
      *
      * <p>Copyright: Copyright (c) 2004</p>
      *

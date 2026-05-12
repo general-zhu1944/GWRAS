@@ -17,7 +17,7 @@ import com.kitty.radar.gui.GUIManager;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * Ô²ĞÎÇøÓòhandler¡£
+ * åœ†å½¢åŒºåŸŸhandlerã€‚
  */
 public class CircleHandler extends AreaHandler {
 
@@ -31,15 +31,15 @@ public class CircleHandler extends AreaHandler {
         this.dialog = dialog;
         this.group = group;
         dialog.setSize(310, 245);
-        JLabel label = dialog.mainPanel.addLabel("ÖĞĞÄ¾­¶È", 40, 62);
+        JLabel label = dialog.mainPanel.addLabel("ä¸­å¿ƒç»åº¦", 40, 62);
         lng = dialog.mainPanel.addTextField(150, label);
         lng.setHorizontalAlignment(JTextField.RIGHT);
-        dialog.mainPanel.addLabel("¶È", lng);
-        label = dialog.mainPanel.addLabel("ÖĞĞÄÎ³¶È", 40, 94);
+        dialog.mainPanel.addLabel("åº¦", lng);
+        label = dialog.mainPanel.addLabel("ä¸­å¿ƒçº¬åº¦", 40, 94);
         lat = dialog.mainPanel.addTextField(150, label);
         lat.setHorizontalAlignment(JTextField.RIGHT);
-        dialog.mainPanel.addLabel("¶È", lat);
-        label = dialog.mainPanel.addLabel("°ë¾¶", 40, 126);
+        dialog.mainPanel.addLabel("åº¦", lat);
+        label = dialog.mainPanel.addLabel("åŠå¾„", 40, 126);
         r = dialog.mainPanel.addTextField(150, label);
         r.setHorizontalAlignment(JTextField.RIGHT);
         Rectangle rect = r.getBounds();

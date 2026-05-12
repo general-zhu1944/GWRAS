@@ -17,7 +17,7 @@ import com.kitty.radar.gui.GUIManager;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * æÿ–Œ«¯”Úhandler°£
+ * Áü©ÂΩ¢Âå∫Âüühandler„ÄÇ
  */
 public class RectangleHandler extends AreaHandler {
 
@@ -33,22 +33,22 @@ public class RectangleHandler extends AreaHandler {
         this.dialog = dialog;
         this.group = group;
         dialog.setSize(310, 277);
-        JLabel label = dialog.mainPanel.addLabel("÷––ƒæ≠∂»", 40, 62);
+        JLabel label = dialog.mainPanel.addLabel("‰∏≠ÂøÉÁªèÂ∫¶", 40, 62);
         lng = dialog.mainPanel.addTextField(150, label);
         lng.setHorizontalAlignment(JTextField.RIGHT);
-        dialog.mainPanel.addLabel("∂»", lng);
-        label = dialog.mainPanel.addLabel("÷––ƒŒ≥∂»", 40, 94);
+        dialog.mainPanel.addLabel("Â∫¶", lng);
+        label = dialog.mainPanel.addLabel("‰∏≠ÂøÉÁ∫¨Â∫¶", 40, 94);
         lat = dialog.mainPanel.addTextField(150, label);
         lat.setHorizontalAlignment(JTextField.RIGHT);
-        dialog.mainPanel.addLabel("∂»", lat);
-        label = dialog.mainPanel.addLabel("≥§∂»", 40, 126);
+        dialog.mainPanel.addLabel("Â∫¶", lat);
+        label = dialog.mainPanel.addLabel("ÈïøÂ∫¶", 40, 126);
         width = dialog.mainPanel.addTextField(150, label);
         width.setHorizontalAlignment(JTextField.RIGHT);
         Rectangle rect = width.getBounds();
         rect.x += 24;
         width.setBounds(rect);
         dialog.mainPanel.addLabel("km", width);
-        label = dialog.mainPanel.addLabel("øÌ∂»", 40, 158);
+        label = dialog.mainPanel.addLabel("ÂÆΩÂ∫¶", 40, 158);
         height = dialog.mainPanel.addTextField(150, label);
         height.setHorizontalAlignment(JTextField.RIGHT);
         rect = height.getBounds();

@@ -38,7 +38,7 @@ public class RadarUtils {
 
 	private static double[] cos = new double[720];
 
-	static { // ³õÊ¼»¯sin¡¢cos»º´æ£¬¾«¶È0.5¶È
+	static { // åˆå§‹åŒ–sinã€cosç¼“å­˜ï¼Œç²¾åº¦0.5åº¦
 		for (int i = 0; i < 720; i++) {
 			sin[i] = Math.sin((i / 2.0 + 90.0) * Math.PI / 180.0);
 			cos[i] = Math.cos((i / 2.0 - 90.0) * Math.PI / 180.0);
@@ -109,13 +109,13 @@ public class RadarUtils {
 
 	public static RadarData createRadarData(RadarBase radarBase) {
 		if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_SA_SB.getValue()) {
-			//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt1£º");
+			//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjt1ï¼š");
 			return new SA_SB(radarBase);
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_SC.getValue()) {
-			//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt2£º");
+			//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjt2ï¼š");
 			return new SC(radarBase);
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_CA_CB.getValue()) {
-			//JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt2£º");
+			//JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjt2ï¼š");
 			return new CA_CB(radarBase);
 		} else if (RadarBase.radarFormat == RadarData.RADAR_FORMAT_FMT.getValue()) {
 			return new FMT(radarBase);
@@ -181,9 +181,9 @@ public class RadarUtils {
 		} else if (moment == CommonProps.MOMENT_ZDR) {
 			label = "dB";
 		} else if (moment == CommonProps.MOMENT_DP) {
-			label = "¡ã";
+			label = "Â°";
 		} else if (moment == CommonProps.MOMENT_KDP) {
-			label = "¡ã/km";
+			label = "Â°/km";
 		} else if (moment == CommonProps.MOMENT_DBT) {
 			label = "dBT";
 		} else if (moment == CommonProps.MOMENT_SNRH) {
@@ -199,34 +199,34 @@ public class RadarUtils {
 		String label = "";
 		if (radarBase.currentMoment == CommonProps.MOMENT_R) {
 			if (radarBase.cutNum == CommonProps.MOMENT_CR) {
-				label = "×éºÏ·´ÉäÂÊÒò×Ó";
+				label = "ç»„åˆåå°„ç‡å› å­";
 			} else {
-				label = "·´ÉäÂÊÒò×Ó";
+				label = "åå°„ç‡å› å­";
 			}
 		} else if (current == CommonProps.MOMENT_V) {
-			label = "¾¶ÏòËÙ¶È";
+			label = "å¾„å‘é€Ÿåº¦";
 		} else if (current == CommonProps.MOMENT_W) {
-			label = "Æ×¿í";
+			label = "è°±å®½";
 		} else if (current == CommonProps.MOMENT_LW) {
-			label = "ÒºÌ¬Ë®º¬Á¿";
+			label = "æ¶²æ€æ°´å«é‡";
 		} else if (current == CommonProps.MOMENT_VIL) {
-			label = "´¹Ö±ÀÛ»ıÒºË®º¬Á¿";
+			label = "å‚ç›´ç´¯ç§¯æ¶²æ°´å«é‡";
 		} else if (current == CommonProps.MOMENT_ET) {
-			label = "ÔÆ¶¥¸ß¶È";
+			label = "äº‘é¡¶é«˜åº¦";
 		} else if (current == CommonProps.MOMENT_HP) {
-			label = "±ù±¢¸ÅÂÊ";
+			label = "å†°é›¹æ¦‚ç‡";
 		} else if (current == CommonProps.MOMENT_DBT) {
-			label = "ÂË²¨Ç°·´ÉäÂÊ";
+			label = "æ»¤æ³¢å‰åå°„ç‡";
 		} else if (current == CommonProps.MOMENT_KDP) {
-			label = "²î·ÖÏàÒÆÂÊ";
+			label = "å·®åˆ†ç›¸ç§»ç‡";
 		} else if (current == CommonProps.MOMENT_DP) {
-			label = "²î·ÖÏàÒÆ";
+			label = "å·®åˆ†ç›¸ç§»";
 		} else if (current == CommonProps.MOMENT_CC) {
-			label = "Ğ­Ïà¹ØÏµÊı";
+			label = "åç›¸å…³ç³»æ•°";
 		} else if (current == CommonProps.MOMENT_ZDR) {
-			label = "²î·Ö·´ÉäÂÊ";
+			label = "å·®åˆ†åå°„ç‡";
 		} else if (current == CommonProps.MOMENT_SNRH) {
-			label = "Ë®Æ½Í¨µÀĞÅÔë±È";
+			label = "æ°´å¹³é€šé“ä¿¡å™ªæ¯”";
 		}
 		return label;
 	}
@@ -256,7 +256,7 @@ public class RadarUtils {
 		} else if (moment == CommonProps.MOMENT_KDP) {
 			return "KDP";
 		} else if (moment == CommonProps.MOMENT_DP) {
-			return "¦ÕDP";
+			return "Ï†DP";
 		} else if (moment == CommonProps.MOMENT_CC) {
 			return "CC";
 		} else if (moment == CommonProps.MOMENT_SNRH) {
@@ -352,10 +352,10 @@ public class RadarUtils {
 	}
 
 	/**
-	 * »ñÈ¡ĞèÒª²åÖµ¼ÆËãµÄËùÓĞ¸ñµã¡£
+	 * è·å–éœ€è¦æ’å€¼è®¡ç®—çš„æ‰€æœ‰æ ¼ç‚¹ã€‚
 	 * 
 	 * @param gridWidth
-	 *            ¸ñµã¿í¶È£¬µ¥Î»£ºÏñËØ
+	 *            æ ¼ç‚¹å®½åº¦ï¼Œå•ä½ï¼šåƒç´ 
 	 * @return
 	 */
 	public static GridValue[][] getGridsXY(int gridWidth, float range, RadarBase radarBase) {
@@ -386,10 +386,10 @@ public class RadarUtils {
 			throws IOException {
 		int moment = radarBase.currentMoment;
 		if (ExportSetDialog.coordType == 0) {
-			RadarUtils.writeValues(w, new String[] { "A(¡ã)", "R(km)",
+			RadarUtils.writeValues(w, new String[] { "A(Â°)", "R(km)",
 					"V(" + RadarUtils.getMomentUnitLabel(moment) + ")" });
 		} else {
-			RadarUtils.writeValues(w, new String[] { "LNG(¡ã)", "LAT(¡ã)",
+			RadarUtils.writeValues(w, new String[] { "LNG(Â°)", "LAT(Â°)",
 					"V(" + RadarUtils.getMomentUnitLabel(moment) + ")" });
 		}
 		if (radarBase.datas != null) {

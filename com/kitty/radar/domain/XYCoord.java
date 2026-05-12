@@ -1,7 +1,7 @@
 package com.kitty.radar.domain;
 
 /**
- * 以左上角为原点的X、Y坐标，单位：像素
+ * 浠ュ乏涓婅涓哄師鐐圭殑X銆乊鍧愭爣锛屽崟浣嶏細鍍忕礌
  */
 public class XYCoord {
 

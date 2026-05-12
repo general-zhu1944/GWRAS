@@ -6,58 +6,58 @@ import com.kitty.radar.util.CommonProps;
 import com.kitty.radar.util.RadarUtils;
 
 /**
- * À×´ï²úÆ·ÏÔÊ¾»ùÀà¡£
+ * é›·è¾¾äº§å“æ˜¾ç¤ºåŸºç±»ã€‚
  */
 public class RadarBase {
 
-    public static final byte MIN_ZOOM = 1; // ×îĞ¡·Å´ó±¶Êı
+    public static final byte MIN_ZOOM = 1; // æœ€å°æ”¾å¤§å€æ•°
 
-    public static final byte MAX_ZOOM = 16; // ×î´ó·Å´ó±¶Êı
+    public static final byte MAX_ZOOM = 16; // æœ€å¤§æ”¾å¤§å€æ•°
 
-    public String vcp = "21"; // VCPÄ£Ê½
+    public String vcp = "21"; // VCPæ¨¡å¼
 
-    public short resolution = RadarData.DOPPLER_RESOLUTION_HIGH; // ËÙ¶È·Ö±æÂÊ
+    public short resolution = RadarData.DOPPLER_RESOLUTION_HIGH; // é€Ÿåº¦åˆ†è¾¨ç‡
 
     public byte view = CommonProps.VIEW_PPI;
 
-    public int cutNum = 0; // Ñ¡ÖĞµÄÑö½Ç
+    public int cutNum = 0; // é€‰ä¸­çš„ä»°è§’
 
-    public float level = 3; // CAPPI¸ß¶È£¬µ¥Î»£ºkm
+    public float level = 3; // CAPPIé«˜åº¦ï¼Œå•ä½ï¼škm
 
-    private int width = 0; // ÏÔÊ¾Çø¿í¶È£¬µ¥Î»£ºÏñËØ MainPanel×é¼şµÄ¿í¶È
+    private int width = 0; // æ˜¾ç¤ºåŒºå®½åº¦ï¼Œå•ä½ï¼šåƒç´  MainPanelç»„ä»¶çš„å®½åº¦
 
-    private int height = 0; // ÏÔÊ¾Çø¸ß¶È£¬µ¥Î»£ºÏñËØ MainPanel×é¼şµÄ¸ß¶È
+    private int height = 0; // æ˜¾ç¤ºåŒºé«˜åº¦ï¼Œå•ä½ï¼šåƒç´  MainPanelç»„ä»¶çš„é«˜åº¦
 
-    private int zoom = 1; // µ±Ç°·Å´ó±¶Êı
+    private int zoom = 1; // å½“å‰æ”¾å¤§å€æ•°
 
-    public static float radius = RadarUtils.getRadarRadius(); // ÏÔÊ¾Çø°ë¾¶£¬µ¥Î»£ºkm
+    public static float radius = RadarUtils.getRadarRadius(); // æ˜¾ç¤ºåŒºåŠå¾„ï¼Œå•ä½ï¼škm
 
-    private int center_X = 0; // ÏÔÊ¾ÇøÖĞĞÄX×ø±ê£¬µ¥Î»£ºÏñËØ MainPanel×é¼şÖĞĞÄX×ø±ê
+    private int center_X = 0; // æ˜¾ç¤ºåŒºä¸­å¿ƒXåæ ‡ï¼Œå•ä½ï¼šåƒç´  MainPanelç»„ä»¶ä¸­å¿ƒXåæ ‡
 
-    private int center_Y = 0; // ÏÔÊ¾ÇøÖĞĞÄY×ø±ê£¬µ¥Î»£ºÏñËØ MainPanel×é¼şÖĞĞÄY×ø±ê
+    private int center_Y = 0; // æ˜¾ç¤ºåŒºä¸­å¿ƒYåæ ‡ï¼Œå•ä½ï¼šåƒç´  MainPanelç»„ä»¶ä¸­å¿ƒYåæ ‡
     
-    public static double latitude1 = 30.822000; // À×´ïÖĞĞÄÎ³¶È£¬Èç£º±±¾© 39.808889
+    public static double latitude1 = 30.822000; // é›·è¾¾ä¸­å¿ƒçº¬åº¦ï¼Œå¦‚ï¼šåŒ—äº¬ 39.808889
 
-    public static double longitude1 = 106.078000; // À×´ïÖĞĞÄ¾­¶È£¬Èç£º±±¾© 116.471944
+    public static double longitude1 = 106.078000; // é›·è¾¾ä¸­å¿ƒç»åº¦ï¼Œå¦‚ï¼šåŒ—äº¬ 116.471944
 
-    private double latitude = latitude1;//30.822000; // À×´ïÖĞĞÄÎ³¶È£¬Èç£º±±¾© 39.808889
+    private double latitude = latitude1;//30.822000; // é›·è¾¾ä¸­å¿ƒçº¬åº¦ï¼Œå¦‚ï¼šåŒ—äº¬ 39.808889
 
-    private double longitude =longitude1;// 106.078000; // À×´ïÖĞĞÄ¾­¶È£¬Èç£º±±¾© 116.471944
+    private double longitude =longitude1;// 106.078000; // é›·è¾¾ä¸­å¿ƒç»åº¦ï¼Œå¦‚ï¼šåŒ—äº¬ 116.471944
 
-    private float antennaHeight = 0; // À×´ïÌìÏß¸ß¶È£¬µ¥Î»£ºkm
+    private float antennaHeight = 0; // é›·è¾¾å¤©çº¿é«˜åº¦ï¼Œå•ä½ï¼škm
 
-    public String radarName = ""; // À×´ïÕ¾µãÃû³Æ
+    public String radarName = ""; // é›·è¾¾ç«™ç‚¹åç§°
 
     public String siteCode;
-    //Ã¿¸öMainPanelµ¥¶ÀÅäÖÃ
+    //æ¯ä¸ªMainPanelå•ç‹¬é…ç½®
     public int active_moment = RadarData.DBZ;
 
-    //Ã¿¸öMainPanelµ¥¶ÀÅäÖÃ
+    //æ¯ä¸ªMainPanelå•ç‹¬é…ç½®
     public int currentMoment = CommonProps.MOMENT_R;
 
-    private double scale_X = 0; // X·½Ïò±ÈÀı£¬XÏÔÊ¾¾àÀë£¨ÏñËØ£© / XÊµ¼Ê¾àÀë£¨km£©
+    private double scale_X = 0; // Xæ–¹å‘æ¯”ä¾‹ï¼ŒXæ˜¾ç¤ºè·ç¦»ï¼ˆåƒç´ ï¼‰ / Xå®é™…è·ç¦»ï¼ˆkmï¼‰
 
-    private double scale_Y = 0; // Y·½Ïò±ÈÀı£¬YÏÔÊ¾¾àÀë£¨ÏñËØ£© / YÊµ¼Ê¾àÀë£¨km£©
+    private double scale_Y = 0; // Yæ–¹å‘æ¯”ä¾‹ï¼ŒYæ˜¾ç¤ºè·ç¦»ï¼ˆåƒç´ ï¼‰ / Yå®é™…è·ç¦»ï¼ˆkmï¼‰
 //
 //    public static float minimum_r = 0;
 //
@@ -85,13 +85,13 @@ public class RadarBase {
 
     public RadarData l2 = null;
 
-    private int xoffset = 0; // Êó±êÍÏ¶¯ºó£¬X·½ÏòÆ«ÒÆÁ¿£¬µ¥Î»£ºÏñËØ
+    private int xoffset = 0; // é¼ æ ‡æ‹–åŠ¨åï¼ŒXæ–¹å‘åç§»é‡ï¼Œå•ä½ï¼šåƒç´ 
 
-    private int yoffset = 0; // Êó±êÍÏ¶¯ºó£¬Y·½ÏòÆ«ÒÆÁ¿£¬µ¥Î»£ºÏñËØ
+    private int yoffset = 0; // é¼ æ ‡æ‹–åŠ¨åï¼ŒYæ–¹å‘åç§»é‡ï¼Œå•ä½ï¼šåƒç´ 
 
     public static int radarFormat = RadarData.RADAR_FORMAT_SC.getValue();
 
-    public Object datas; // ±£´æÍ¼ÏñÊı¾İ
+    public Object datas; // ä¿å­˜å›¾åƒæ•°æ®
 
     public void setZoom(int zoomFactor) {
         if (zoomFactor != zoom) {
@@ -111,7 +111,7 @@ public class RadarBase {
         RadarBase.radarFormat = radarFormat;
         radius = RadarUtils.getRadarRadius();
         GUIManager.repaintAll();
-//        computeScale();	//Í¨¹ıGUIManager.repaintAllÖØĞÂµ÷ÓÃcomputeScale
+//        computeScale();	//é€šè¿‡GUIManager.repaintAllé‡æ–°è°ƒç”¨computeScale
 //        RHI.range_max = radius;
     }
     

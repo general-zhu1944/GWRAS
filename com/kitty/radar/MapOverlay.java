@@ -34,6 +34,7 @@ import com.kitty.radar.color.RadarColor;
 import com.kitty.radar.domain.XYCoord;
 import com.kitty.radar.color.RadarColor;
 import com.kitty.radar.gui.GUIManager;
+import com.kitty.radar.RadarParams;
 import com.kitty.radar.util.CommonProps;
 import com.kitty.radar.util.PositionUtils;
 import org.apache.commons.io.FileUtils;
@@ -74,6 +75,7 @@ public class MapOverlay {
     public double[] dateLat;
     public short[][] elevationArr;
     private boolean elevationLoaded = false;
+    private String lastElevationFile = null;
     private final Object elevationLock = new Object();
 
     public static boolean point_on = false;
@@ -97,7 +99,7 @@ public class MapOverlay {
     private double latitude = 30.822000;
     private double longitude = 106.078000;
     public static byte mapMode = 49;
-    public static String elevationFile = "F:\\projects\\Radar20231021\\gebco_2022_n35.0_s25.0_w100.0_e110.0.nc";
+    public static String elevationFile = "gebco_2022_n35.0_s25.0_w100.0_e110.0.nc";
     private RadarBase radarBase;
     private byte[] mapFileBytes = null;
 
@@ -138,7 +140,7 @@ public class MapOverlay {
     private static final Map<String, byte[]> mapMap = new HashMap<String, byte[]>();
 
     private boolean getMapFileBytes() {
-        String fileKey = "map/" + this.radarBase.siteCode + ".map";
+        String fileKey = RadarParams.mapDataDir + this.radarBase.siteCode + ".map";
         if (mapMap.containsKey(fileKey)) {
             mapFileBytes = mapMap.get(fileKey);
             return true;
@@ -180,9 +182,9 @@ public class MapOverlay {
     }
 
     private void loadElevationData() {
-        if (elevationLoaded) return;
+        if (elevationLoaded && elevationFile.equals(lastElevationFile)) return;
         synchronized (elevationLock) {
-            if (elevationLoaded) return;
+            if (elevationLoaded && elevationFile.equals(lastElevationFile)) return;
             NetcdfFile ncFile = null;
             try {
                 File f = new File(elevationFile);
@@ -208,6 +210,7 @@ public class MapOverlay {
                     }
                 }
                 elevationLoaded = true;
+                lastElevationFile = elevationFile;
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

@@ -42,7 +42,7 @@ public class ShpMap2Map {
 			provinceFiles.add("D:\\workspace\\ncrad\\maptest\\sichuan_full.shp");
 			//cityFiles.add("D:\\workspace\\ncrad\\maptest\\liangshan.shp");
      		//townFiles.add("D:\\workspace\\ncrad\\maptest\\liangshan.shp");
-			//townFiles.add("D:\\workspace\\ncrad\\maptest\\ÑÅ°²ÏçÕò_PolygonToLine\\ÑÅ°²ÏçÕò_PolygonToLine.shp");
+			//townFiles.add("D:\\workspace\\ncrad\\maptest\\é›…å®‰ä¹¡é•‡_PolygonToLine\\é›…å®‰ä¹¡é•‡_PolygonToLine.shp");
 			
 			File stationf=new File("D:\\workspace\\ncrad\\maptest\\station1.xls"); 
 
@@ -75,26 +75,26 @@ public class ShpMap2Map {
 		}
 		
     	MapHead mapHead = new MapHead();
-        //mapId:2×Ö½Ú,156Ê¡½ç,198³ÇÊĞ,152town,144ºÓÁ÷,196³ÇÊĞÃû³Æ
+        //mapId:2å­—èŠ‚,156çœç•Œ,198åŸå¸‚,152town,144æ²³æµ,196åŸå¸‚åç§°
     	mapHead.mapID = 152;
-        //flag1:2×Ö½Ú
+        //flag1:2å­—èŠ‚
         mapHead.flag1 = 0;
-        //flag2:2×Ö½Ú
+        //flag2:2å­—èŠ‚
         mapHead.flag2 = 0;
-        //³¤¶È:4×Ö½Ú
+        //é•¿åº¦:4å­—èŠ‚
         mapHead.length = 0;
-        //startpos:2×Ö½Ú,²»º¬MsgHeadµÄ
-        mapHead.startpos = 0; //startpos*256²ÅÊÇÕæÕıµÄÆ«ÒÆÁ¿
-        //ÎŞÓÃ202×Ö½Ú
+        //startpos:2å­—èŠ‚,ä¸å«MsgHeadçš„
+        mapHead.startpos = 0; //startpos*256æ‰æ˜¯çœŸæ­£çš„åç§»é‡
+        //æ— ç”¨202å­—èŠ‚
         mapHead.unused = new byte[202];
         
         byte[] mapMsg = getMapMsg(shpMapList);
         mapHead.length = mapMsg.length;
-        //startpos:256ËãÒ»¸ö¿é,Ç°5¸ö¿é¸øMapHeadÊ¹ÓÃ
+        //startpos:256ç®—ä¸€ä¸ªå—,å‰5ä¸ªå—ç»™MapHeadä½¿ç”¨
         mapHead.startpos = startPos;
         randomAccessFile.seek(startPos*256);
         randomAccessFile.write(mapMsg);
-        //²¹Âú256¿éÊı¾İ
+        //è¡¥æ»¡256å—æ•°æ®
         int posLen = mapHead.length/256;
         if(mapHead.length%256 !=0 ) {
         	posLen = posLen+1;
@@ -113,26 +113,26 @@ public class ShpMap2Map {
 		
 		
     	MapHead mapHead = new MapHead();
-        //mapId:2×Ö½Ú,156Ê¡½ç,198³ÇÊĞ,152town,144ºÓÁ÷,196³ÇÊĞÃû³Æ
+        //mapId:2å­—èŠ‚,156çœç•Œ,198åŸå¸‚,152town,144æ²³æµ,196åŸå¸‚åç§°
     	mapHead.mapID = 196;
-        //flag1:2×Ö½Ú
+        //flag1:2å­—èŠ‚
         mapHead.flag1 = 0;
-        //flag2:2×Ö½Ú
+        //flag2:2å­—èŠ‚
         mapHead.flag2 = 0;
-        //³¤¶È:4×Ö½Ú
+        //é•¿åº¦:4å­—èŠ‚
         mapHead.length = 0;
-        //startpos:2×Ö½Ú,²»º¬MsgHeadµÄ
-        mapHead.startpos = 0; //startpos*256²ÅÊÇÕæÕıµÄÆ«ÒÆÁ¿
-        //ÎŞÓÃ202×Ö½Ú
+        //startpos:2å­—èŠ‚,ä¸å«MsgHeadçš„
+        mapHead.startpos = 0; //startpos*256æ‰æ˜¯çœŸæ­£çš„åç§»é‡
+        //æ— ç”¨202å­—èŠ‚
         mapHead.unused = new byte[202];
         
         byte[] mapName = getMapName(nameFile);
         mapHead.length = mapName.length;
-        //startpos:256ËãÒ»¸ö¿é,Ç°5¸ö¿é¸øMapHeadÊ¹ÓÃ
+        //startpos:256ç®—ä¸€ä¸ªå—,å‰5ä¸ªå—ç»™MapHeadä½¿ç”¨
         mapHead.startpos = startPos;
         randomAccessFile.seek(startPos*256);
         randomAccessFile.write(mapName);
-        //²¹Âú256¿éÊı¾İ
+        //è¡¥æ»¡256å—æ•°æ®
         int posLen = mapHead.length/256;
         if(mapHead.length%256 !=0 ) {
         	posLen = posLen+1;
@@ -163,26 +163,26 @@ public class ShpMap2Map {
 		}
 		
     	MapHead mapHead = new MapHead();
-        //mapId:2×Ö½Ú,156Ê¡½ç,198³ÇÊĞ,152town,144ºÓÁ÷,196³ÇÊĞÃû³Æ
+        //mapId:2å­—èŠ‚,156çœç•Œ,198åŸå¸‚,152town,144æ²³æµ,196åŸå¸‚åç§°
     	mapHead.mapID = 198;
-        //flag1:2×Ö½Ú
+        //flag1:2å­—èŠ‚
         mapHead.flag1 = 0;
-        //flag2:2×Ö½Ú
+        //flag2:2å­—èŠ‚
         mapHead.flag2 = 0;
-        //³¤¶È:4×Ö½Ú
+        //é•¿åº¦:4å­—èŠ‚
         mapHead.length = 0;
-        //startpos:2×Ö½Ú,²»º¬MsgHeadµÄ
-        mapHead.startpos = 0; //startpos*256²ÅÊÇÕæÕıµÄÆ«ÒÆÁ¿
-        //ÎŞÓÃ202×Ö½Ú
+        //startpos:2å­—èŠ‚,ä¸å«MsgHeadçš„
+        mapHead.startpos = 0; //startpos*256æ‰æ˜¯çœŸæ­£çš„åç§»é‡
+        //æ— ç”¨202å­—èŠ‚
         mapHead.unused = new byte[202];
         
         byte[] mapMsg = getMapMsg(shpMapList);
         mapHead.length = mapMsg.length;
-        //startpos:256ËãÒ»¸ö¿é,Ç°5¸ö¿é¸øMapHeadÊ¹ÓÃ
+        //startpos:256ç®—ä¸€ä¸ªå—,å‰5ä¸ªå—ç»™MapHeadä½¿ç”¨
         mapHead.startpos = startPos;
         randomAccessFile.seek(startPos*256);
         randomAccessFile.write(mapMsg);
-        //²¹Âú256¿éÊı¾İ
+        //è¡¥æ»¡256å—æ•°æ®
         int posLen = mapHead.length/256;
         if(mapHead.length%256 !=0 ) {
         	posLen = posLen+1;
@@ -199,23 +199,23 @@ public class ShpMap2Map {
 	}
 
 	private static int initMapHead(RandomAccessFile randomAccessFile) throws IOException {
-		//2+2+2+8+2+202=218×Ö½Ú
+		//2+2+2+8+2+202=218å­—èŠ‚
 		randomAccessFile.seek(0);
-		randomAccessFile.write(new byte[]{0x0, 0x0, 0x0, 0x0});	//4×Ö½ÚÍ·
+		randomAccessFile.write(new byte[]{0x0, 0x0, 0x0, 0x0});	//4å­—èŠ‚å¤´
 		randomAccessFile.seek(4);
 		
     	MapHead mapHead = new MapHead();
-        //mapId:2×Ö½Ú,156Ê¡½ç,198³ÇÊĞ,152town,144ºÓÁ÷,196³ÇÊĞÃû³Æ
+        //mapId:2å­—èŠ‚,156çœç•Œ,198åŸå¸‚,152town,144æ²³æµ,196åŸå¸‚åç§°
     	mapHead.mapID = 156;
-        //flag1:2×Ö½Ú
+        //flag1:2å­—èŠ‚
         mapHead.flag1 = 0;
-        //flag2:2×Ö½Ú
+        //flag2:2å­—èŠ‚
         mapHead.flag2 = 0;
-        //³¤¶È:4×Ö½Ú
+        //é•¿åº¦:4å­—èŠ‚
         mapHead.length = 0;
-        //startpos:2×Ö½Ú,²»º¬MsgHeadµÄ
-        mapHead.startpos = 0; //startpos*256²ÅÊÇÕæÕıµÄÆ«ÒÆÁ¿
-        //ÎŞÓÃ202×Ö½Ú
+        //startpos:2å­—èŠ‚,ä¸å«MsgHeadçš„
+        mapHead.startpos = 0; //startpos*256æ‰æ˜¯çœŸæ­£çš„åç§»é‡
+        //æ— ç”¨202å­—èŠ‚
         mapHead.unused = new byte[202];
         randomAccessFile.seek(4);
         byte[] mapHeadBytes = mapHead.toByteArray();
@@ -239,7 +239,7 @@ public class ShpMap2Map {
     	mapHead.mapID = 196;
         randomAccessFile.write(mapHead.toByteArray());
         randomAccessFile.seek(mapHeadLen*5+4);
-        randomAccessFile.write(new byte[186]);	//´ÕÕûÆ«ÒÆÁ¿startpos 256*5=218*5+186+4
+        randomAccessFile.write(new byte[186]);	//å‡‘æ•´åç§»é‡startpos 256*5=218*5+186+4
         return 5;
 	}
 	
@@ -258,26 +258,26 @@ public class ShpMap2Map {
 		}
 		
     	MapHead mapHead = new MapHead();
-        //mapId:2×Ö½Ú,156Ê¡½ç,198³ÇÊĞ,152town,144ºÓÁ÷,196³ÇÊĞÃû³Æ
+        //mapId:2å­—èŠ‚,156çœç•Œ,198åŸå¸‚,152town,144æ²³æµ,196åŸå¸‚åç§°
     	mapHead.mapID = 156;
-        //flag1:2×Ö½Ú
+        //flag1:2å­—èŠ‚
         mapHead.flag1 = 0;
-        //flag2:2×Ö½Ú
+        //flag2:2å­—èŠ‚
         mapHead.flag2 = 0;
-        //³¤¶È:4×Ö½Ú
+        //é•¿åº¦:4å­—èŠ‚
         mapHead.length = 0;
-        //startpos:2×Ö½Ú,²»º¬MsgHeadµÄ
-        mapHead.startpos = 0; //startpos*256²ÅÊÇÕæÕıµÄÆ«ÒÆÁ¿
-        //ÎŞÓÃ202×Ö½Ú
+        //startpos:2å­—èŠ‚,ä¸å«MsgHeadçš„
+        mapHead.startpos = 0; //startpos*256æ‰æ˜¯çœŸæ­£çš„åç§»é‡
+        //æ— ç”¨202å­—èŠ‚
         mapHead.unused = new byte[202];
         
         byte[] mapMsg = getMapMsg(shpMapList);
         mapHead.length = mapMsg.length;
-        //startpos:256ËãÒ»¸ö¿é,Ç°5¸ö¿é¸øMapHeadÊ¹ÓÃ
+        //startpos:256ç®—ä¸€ä¸ªå—,å‰5ä¸ªå—ç»™MapHeadä½¿ç”¨
         mapHead.startpos = startPos;
         randomAccessFile.seek(startPos*256);
         randomAccessFile.write(mapMsg);
-        //²¹Âú256¿éÊı¾İ
+        //è¡¥æ»¡256å—æ•°æ®
         int posLen = mapHead.length/256;
         if(mapHead.length%256 !=0 ) {
         	posLen = posLen+1;
@@ -298,10 +298,10 @@ public class ShpMap2Map {
         File f=namefile; 
 		 try { 
 		 Workbook book=Workbook.getWorkbook(f);// 
-		 Sheet sheet=book.getSheet(0); //»ñµÃµÚÒ»¸ö¹¤×÷±í¶ÔÏó 
+		 Sheet sheet=book.getSheet(0); //è·å¾—ç¬¬ä¸€ä¸ªå·¥ä½œè¡¨å¯¹è±¡ 
 		 for(int i=0;i<sheet.getRows();i++){ 
 		  for(int j=0;j<3;j++){ 
-		  Cell cell=sheet.getCell(j, i); //»ñµÃµ¥Ôª¸ñ 
+		  Cell cell=sheet.getCell(j, i); //è·å¾—å•å…ƒæ ¼ 
 		  stationInfo[i][j]=cell.getContents()+"";
 		  
 		  //System.out.print(cell.getContents()+" "); 
@@ -320,11 +320,11 @@ public class ShpMap2Map {
 			 double numlat = Double.parseDouble(stationInfo[i][2]);
 			 XYCoord startXY = getMapXY(numlon, numlat, longitudeStart, latitudeStart);
 			 MapTownName mapTownName=new MapTownName();
-			 mapTownName.flag1=0x0; //2×Ö½Ú
-			 mapTownName.flag2=0x0; //2×Ö½Ú
-			 mapTownName.flag3=0x0; //2×Ö½Ú
-			 mapTownName.x1=(short) startXY.x;	//2×Ö½Ú
-			 mapTownName.y1=(short) startXY.y;	//2×Ö½Ú
+			 mapTownName.flag1=0x0; //2å­—èŠ‚
+			 mapTownName.flag2=0x0; //2å­—èŠ‚
+			 mapTownName.flag3=0x0; //2å­—èŠ‚
+			 mapTownName.x1=(short) startXY.x;	//2å­—èŠ‚
+			 mapTownName.y1=(short) startXY.y;	//2å­—èŠ‚
 			 mapTownName.bytes=6;
 			 byte[] byteArray = stationInfo[i][0].getBytes();
 				 if(byteArray.length<6)
@@ -358,11 +358,11 @@ public class ShpMap2Map {
                     	XYCoord startXY = getMapXY(points[0].getX(), points[0].getY(), longitudeStart, latitudeStart);
                     	//
                     	MapMsgHead mapMsgHead = new MapMsgHead();
-                    	mapMsgHead.flag1 = 3619;	//2×Ö½Ú
-                    	mapMsgHead.flag2 = 0x0; //2×Ö½Ú
-                    	mapMsgHead.x1 = (short) startXY.x;	//2×Ö½Ú
-                    	mapMsgHead.y1 = (short) startXY.y;	//2×Ö½Ú
-                    	//Ñ­»·µÄx,y×ø±ê:bytes/4 ¶Ô
+                    	mapMsgHead.flag1 = 3619;	//2å­—èŠ‚
+                    	mapMsgHead.flag2 = 0x0; //2å­—èŠ‚
+                    	mapMsgHead.x1 = (short) startXY.x;	//2å­—èŠ‚
+                    	mapMsgHead.y1 = (short) startXY.y;	//2å­—èŠ‚
+                    	//å¾ªç¯çš„x,yåæ ‡:bytes/4 å¯¹
                     	int len = points.length;
                     	mapMsgHead.bytes = (len-1)*4;
                     	mapMsgHead.xy = new short[(len-1)*2];
@@ -384,11 +384,11 @@ public class ShpMap2Map {
                     	XYCoord startXY = getMapXY(points[0].getX(), points[0].getY(), longitudeStart, latitudeStart);
                     	//
                     	MapMsgHead mapMsgHead = new MapMsgHead();
-                    	mapMsgHead.flag1 = 3619;	//2×Ö½Ú
-                    	mapMsgHead.flag2 = 0x0; //2×Ö½Ú
-                    	mapMsgHead.x1 = (short) startXY.x;	//2×Ö½Ú
-                    	mapMsgHead.y1 = (short) startXY.y;	//2×Ö½Ú
-                    	//Ñ­»·µÄx,y×ø±ê:bytes/4 ¶Ô
+                    	mapMsgHead.flag1 = 3619;	//2å­—èŠ‚
+                    	mapMsgHead.flag2 = 0x0; //2å­—èŠ‚
+                    	mapMsgHead.x1 = (short) startXY.x;	//2å­—èŠ‚
+                    	mapMsgHead.y1 = (short) startXY.y;	//2å­—èŠ‚
+                    	//å¾ªç¯çš„x,yåæ ‡:bytes/4 å¯¹
                     	int len = points.length;
                     	mapMsgHead.bytes = (len-1)*4;
                     	mapMsgHead.xy = new short[(len-1)*2];
@@ -407,30 +407,30 @@ public class ShpMap2Map {
         return all;
 	}
      
-//	µÃµ½Map¸ñÊ½µÄxy×ø±ê
+//	å¾—åˆ°Mapæ ¼å¼çš„xyåæ ‡
 //	x1 = (ar.r * Math.cos((ar.azimuth - 90.0) * Math.PI / 180.0)+460)/mapTimes;
 //	y1 = (ar.r * Math.sin((ar.azimuth + 90.0) * Math.PI / 180.0)+460)/mapTimes;
-//	ÆäÖĞar = PositionUtils.toARCoord(longitude, latitude, longitudeStart, latitudeStart);
-//	ÆäÖĞlongitudeStart,latitudeStartÎªµØÍ¼ÖÆ×÷µÄÖĞĞÄµã,Ó¦µ±ºÍÀ×´ïÎ»ÖÃÒ»ÖÂ
+//	å…¶ä¸­ar = PositionUtils.toARCoord(longitude, latitude, longitudeStart, latitudeStart);
+//	å…¶ä¸­longitudeStart,latitudeStartä¸ºåœ°å›¾åˆ¶ä½œçš„ä¸­å¿ƒç‚¹,åº”å½“å’Œé›·è¾¾ä½ç½®ä¸€è‡´
 
-//	ÄÏ³ä
+//	å—å……
 	private static final double longitudeStart = 106.078000;
 	private static final double latitudeStart =  30.822000;
-// 	Á¹É½¡¢ÑÅ°²
+// 	å‡‰å±±ã€é›…å®‰
 //	private static final double longitudeStart =102.410599;// 103.040253;
 //	private static final double latitudeStart =27.879700;//  29.945055;
 	
 //	private static final double longitudeStart = 103.040253;
 //	private static final double latitudeStart = 29.945055;
-	//³É¶¼  104.233887  30.413055
+	//æˆéƒ½  104.233887  30.413055
 	//private static final double longitudeStart = 104.233887;
 	//private static final double latitudeStart = 30.413055;
-	//°ÍÖĞ  104.233887  30.413055
+	//å·´ä¸­  104.233887  30.413055
 //	private static final double longitudeStart = 106.809448;
 //	private static final double latitudeStart = 31.833889;
 	
 	
-	private static final double mapTimes = 1.0 / 8.0; // µØÍ¼Êı¾İ·Å´óÁË8±¶,
+	private static final double mapTimes = 1.0 / 8.0; // åœ°å›¾æ•°æ®æ”¾å¤§äº†8å€,
 	private static XYCoord getMapXY(double longitude,double latitude,double longitudeStart,double latitudeStart) {
 		ARCoord ar = PositionUtils.toARCoord(longitude, latitude, longitudeStart, latitudeStart);
 		int x1 = (int) Math.round((ar.r * Math.cos((ar.azimuth - 90.0) * Math.PI / 180.0)+460.0)/mapTimes);

@@ -6,7 +6,7 @@ import com.kitty.radar.data.RadarData;
 import com.kitty.radar.data.SA_SB;
 
 /**
- * ·´ÉäÂÊÉ«±ê»ùÀà¡£
+ * åå°„ç‡è‰²æ ‡åŸºç±»ã€‚
  */
 public abstract class RefColor extends RadarColor {
 

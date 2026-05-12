@@ -3,7 +3,7 @@ package com.kitty.radar.color;
 import java.awt.Color;
 
 /**
- * Һˮ����ɫ�ꡣ
+ * 液水含量色标。
  */
 public class VilColor extends RadarColor {
 

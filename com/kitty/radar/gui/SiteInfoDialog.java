@@ -49,7 +49,7 @@ public class SiteInfoDialog extends PropsDialog {
     private JComboBox comboFormat;
 
     public SiteInfoDialog(Frame owner) {
-        super(owner, "Õ¾µãĞÅÏ¢", true);
+        super(owner, "ç«™ç‚¹ä¿¡æ¯", true);
         RadarBase RadarBase = GUIManager.activeMainPanel.getRadarBase();
         Dimension d = new Dimension(300, 243);
         this.setSize(d);
@@ -67,11 +67,11 @@ public class SiteInfoDialog extends PropsDialog {
         gbc.weighty = 0;
         gbc.insets.set(18, 5, 0, 5);
         gbc.anchor = GridBagConstraints.WEST;
-        JLabel label1 = new JLabel("À×´ïÃû³Æ");
-        JLabel label2 = new JLabel("¾­¶È");
-        JLabel label3 = new JLabel("Î³¶È");
-        JLabel label4 = new JLabel("¶È");
-        JLabel label5 = new JLabel("¶È");
+        JLabel label1 = new JLabel("é›·è¾¾åç§°");
+        JLabel label2 = new JLabel("ç»åº¦");
+        JLabel label3 = new JLabel("çº¬åº¦");
+        JLabel label4 = new JLabel("åº¦");
+        JLabel label5 = new JLabel("åº¦");
         textRadarName = new JTextField(RadarBase.radarName, 20);
         d = textRadarName.getMinimumSize();
         d.width = 126;
@@ -122,10 +122,10 @@ public class SiteInfoDialog extends PropsDialog {
                 Validators.REQUIRE_VALID_NUMBER, Validators.REQUIRE_NON_EMPTY_STRING);
         vpanel.setInnerComponent(panel);
         this.addValidationListener(vpanel, "1");
-        tabbedPane.addTab(" À×´ï ", vpanel);
+        tabbedPane.addTab(" é›·è¾¾ ", vpanel);
 
         panel = new JPanel(null);
-        label1 = new JLabel("Êı¾İ¸ñÊ½");
+        label1 = new JLabel("æ•°æ®æ ¼å¼");
         panel.add(label1);
         label1.setBounds(25, 18, 50, 30);
         ItemHandler clistener = new ItemHandler(this);
@@ -141,8 +141,8 @@ public class SiteInfoDialog extends PropsDialog {
         comboFormat.addItemListener(clistener);
         panel.add(comboFormat);
         comboFormat.setBounds(100, 22, 139, BasicPanel.TEXT_FIELD_HEIGHT);
-        label1 = new JLabel("Ñ­»·¼ä¸ô");
-        label2 = new JLabel("Ãë");
+        label1 = new JLabel("å¾ªç¯é—´éš”");
+        label2 = new JLabel("ç§’");
         textTimerRate = new JTextField(CommonUtils.defaultFormat(RadarProcessor.timerRate), 15);
         textTimerRate.setHorizontalAlignment(JTextField.RIGHT);
         textTimerRate.getDocument().addDocumentListener(listener);
@@ -152,7 +152,7 @@ public class SiteInfoDialog extends PropsDialog {
         textTimerRate.setBounds(100, 55, 96, 22);
         panel.add(label2);
         label2.setBounds(207, 51, 50, 30);
-        enableDelete = new JCheckBox("×Ô¶¯É¾³ı", RadarParams.enableDelete);
+        enableDelete = new JCheckBox("è‡ªåŠ¨åˆ é™¤", RadarParams.enableDelete);
         enableDelete.addItemListener(new ItemHandler(this) {
             public void itemStateChanged(ItemEvent e) {
                 dialog.setApplyEnable(true);
@@ -167,7 +167,7 @@ public class SiteInfoDialog extends PropsDialog {
         textDeleteDays.setEnabled(RadarParams.enableDelete);
         panel.add(textDeleteDays);
         textDeleteDays.setBounds(100, 88, 96, 22);
-        label1 = new JLabel("ÌìÇ°µÄÎÄ¼ş");
+        label1 = new JLabel("å¤©å‰çš„æ–‡ä»¶");
         panel.add(label1);
         label1.setBounds(207, 84, 70, 30);
         vpanel = new ValidationPanel();
@@ -178,7 +178,7 @@ public class SiteInfoDialog extends PropsDialog {
                 Validators.REQUIRE_VALID_INTEGER, Validators.REQUIRE_NON_EMPTY_STRING);
         vpanel.setInnerComponent(panel);
         this.addValidationListener(vpanel, "2");
-        tabbedPane.addTab(" Êı¾İ ", vpanel);
+        tabbedPane.addTab(" æ•°æ® ", vpanel);
 
         this.add(createPropsButtons(), BorderLayout.SOUTH);
     }

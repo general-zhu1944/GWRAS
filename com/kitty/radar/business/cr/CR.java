@@ -24,13 +24,13 @@ public class CR extends RadarBase {
     
     private static byte resolution = 1;
 
-    private static float gridWidth = 1f; // µ¥Ôª¸ñ¿í¶È£¬µ¥Î»£ºkm
+    private static float gridWidth = 1f; // å•å…ƒæ ¼å®½åº¦ï¼Œå•ä½ï¼škm
     private static float range = 230;
 
     public static void display(Graphics2D g,RadarBase radarBase) {
         radarBase.datas = null;
         RadarData l2 = radarBase.l2;
-        if (l2 == null) { // Ã»ÓĞÑ¡ÖĞµÄÎÄ¼ş
+        if (l2 == null) { // æ²¡æœ‰é€‰ä¸­çš„æ–‡ä»¶
             return;
         }
         int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
@@ -40,13 +40,13 @@ public class CR extends RadarBase {
         int moment = radarBase.active_moment;
         double binInterval = rd.getBinInterval(moment);
         double rangeToFirst = rd.getRangeToFirstBin(moment);
-      //  JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjjt£º");
+      //  JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjjtï¼š");
         Color[] colorCache = RadarUtils.getRadarColor(radarBase.currentMoment, radarBase).getColorCache();
         NavigableMap map = rd.readFile(moment);
-//        GUIManager.toolBarLabel.setText( " Õ¾Ãû " +RadarBase.radarName + " - Ê±¼ä " + RadarUtils.getFileTime() + " - ÎÄ¼ş "
+//        GUIManager.toolBarLabel.setText( " ç«™å " +RadarBase.radarName + " - æ—¶é—´ " + RadarUtils.getFileTime() + " - æ–‡ä»¶ "
 //                + l2.getSrcFileName() + " - " + RadarUtils.getMomentLabel());
         Map cache = new HashMap();
-        //JOptionPane.showMessageDialog(null, "ÏûÏ¢ÌáÊ¾tjjjmmmmmjt£º"+map.keySet().toString()+"");//0,µÚÒ»²ã
+        //JOptionPane.showMessageDialog(null, "æ¶ˆæ¯æç¤ºtjjjmmmmmjtï¼š"+map.keySet().toString()+"");//0,ç¬¬ä¸€å±‚
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 if (grids[i][j] != null) {
@@ -76,7 +76,7 @@ public class CR extends RadarBase {
         }
         radarBase.datas = grids;
 
-        // »­³ö¸ñµã
+        // ç”»å‡ºæ ¼ç‚¹
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 if (grids[i][j] != null) {
@@ -130,8 +130,8 @@ public class CR extends RadarBase {
     public static String evaLabelText(RadarBase radarBase) {
         if(radarBase.l2 == null)
             return "";
-        String label = "Ê±¼ä " + RadarUtils.getFileTime(radarBase)
-//                + " - ÎÄ¼ş " + radarBase.l2.getSrcFileName()
+        String label = "æ—¶é—´ " + RadarUtils.getFileTime(radarBase)
+//                + " - æ–‡ä»¶ " + radarBase.l2.getSrcFileName()
                 + " - " + RadarUtils.getMomentLabel(radarBase);
         return label;
     }

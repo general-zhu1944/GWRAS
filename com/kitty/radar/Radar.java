@@ -33,9 +33,9 @@ public class Radar extends JFrame {
 
 	public static final String E_MAIL = "275551265@qq.com";
 
-	public static final String AUTHOR = "Öñ Àû";
+	public static final String AUTHOR = "ç«¹  åˆ©";
 
-	public static final String COPYRIGHT_INFO = "´¨¶«±±Ç¿ÌìÆøÑĞ¾¿ÄÏ³äÊĞÖØµãÊµÑéÊÒ(C)2020-2026";
+	public static final String COPYRIGHT_INFO = "å·ä¸œåŒ—å¼ºå¤©æ°”ç ”ç©¶å—å……å¸‚é‡ç‚¹å®éªŒå®¤(C)2020-2026";
 
 	public static RadarProcessor processor = new RadarProcessor();
 
@@ -64,8 +64,8 @@ public class Radar extends JFrame {
 		this.setTitle(APP_NAME);
 		this.setJMenuBar(GUIManager.createMenu(processor));//??????2???????
 		Container pane = this.getContentPane();//?????y?????Y????????
-//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);//?????Y??¡§??????1???????
-//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);//?????Y??¡§??????????????
+//		pane.add(GUIManager.createToolBar(processor), BorderLayout.NORTH);//?????Y??ï¿½ï¿½??????1???????
+//		pane.add(GUIManager.createStatusBar(), BorderLayout.SOUTH);//?????Y??ï¿½ï¿½??????????????
 		GUIManager.createPanels(processor, pane);
 		startFileMonitor();
 		processor.startDeleteTimer();
@@ -108,15 +108,13 @@ public class Radar extends JFrame {
 		UIManager.put("ProgressBar.arc", 6);
 		UIManager.put("TextComponent.arc", 6);
 		UIManager.put("TabbedPane.selectedBackground", new Color(0xF5F5F5));
-		// Menus
+		// Menus (consistent look)
 		UIManager.put("MenuBar.underlineSelectionColor", 0x357EC0);
-		UIManager.put("Menu.selectionBackground", new Color(0xE8F0FE));
-		UIManager.put("Menu.selectionForeground", 0x1A1A1A);
-		UIManager.put("MenuItem.selectionBackground", new Color(0xE8F0FE));
-		UIManager.put("MenuItem.selectionForeground", 0x1A1A1A);
-		UIManager.put("PopupMenu.borderColor", new Color(0xD0D0D0));
-		// Checkbox in menus
-		UIManager.put("CheckBoxMenuItem.selectionBackground", new Color(0xE8F0FE));
+		UIManager.put("MenuBar.background", Color.WHITE);
+		UIManager.put("Menu.background", Color.WHITE);
+		UIManager.put("PopupMenu.background", Color.WHITE);
+		UIManager.put("MenuItem.background", Color.WHITE);
+		UIManager.put("CheckBoxMenuItem.background", Color.WHITE);
 		UIManager.put("CheckBoxMenuItem.icon.checkmarkColor", 0x357EC0);
 		UIManager.put("CheckBoxMenuItem.acceleratorForeground", 0x808080);
 		// Table headers

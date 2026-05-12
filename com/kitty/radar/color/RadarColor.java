@@ -3,33 +3,33 @@ package com.kitty.radar.color;
 import java.awt.Color;
 
 /**
- * À×´ïÉ«±ê»ùÀà¡£
+ * é›·è¾¾è‰²æ ‡åŸºç±»ã€‚
  */
 public abstract class RadarColor {
 
 	/**
-	 * È¡µÃÉ«±êÑÕÉ«
+	 * å–å¾—è‰²æ ‡é¢œè‰²
 	 * 
 	 * @return
 	 */
 	public abstract Color[] getColors();
 
 	/**
-	 * È¡µÃÉ«±êÖµ
+	 * å–å¾—è‰²æ ‡å€¼
 	 * 
 	 * @return
 	 */
 	public abstract float[] getColorValues();
 
 	/**
-	 * È¡µÃÉ«±ê»º´æ£¬³¤¶ÈÎª256µÄÊı×é£¬Êı×éÏÂ±êÓëÑÕÉ«¶ÔÓ¦
+	 * å–å¾—è‰²æ ‡ç¼“å­˜ï¼Œé•¿åº¦ä¸º256çš„æ•°ç»„ï¼Œæ•°ç»„ä¸‹æ ‡ä¸é¢œè‰²å¯¹åº”
 	 * 
 	 * @return
 	 */
 	public abstract Color[] getColorCache();
 
 	/**
-	 * È¡µÃÉ«±êÏÔÊ¾¾«¶È
+	 * å–å¾—è‰²æ ‡æ˜¾ç¤ºç²¾åº¦
 	 * 
 	 * @return
 	 */
@@ -46,10 +46,10 @@ public abstract class RadarColor {
 	}
 	
 	/**
-	 * ´´½¨É«±ê»º´æ
+	 * åˆ›å»ºè‰²æ ‡ç¼“å­˜
 	 * 
 	 * @param colors
-	 * @param cacheValues ¸ù¾İÉ«±êÖµ×ª»»µÄ»ùÊı¾İÖµ£¨0-255£©
+	 * @param cacheValues æ ¹æ®è‰²æ ‡å€¼è½¬æ¢çš„åŸºæ•°æ®å€¼ï¼ˆ0-255ï¼‰
 	 * @return
 	 */
 	protected static Color[] createColorCache(Color[] colors, int[] cacheValues, int moment, int resolution, int maxCacheValue) {

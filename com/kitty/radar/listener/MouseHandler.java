@@ -36,7 +36,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	private int y;
 
 	/*
-	 * MainPanelÊó±ê½øÈëÕ¹Ê¾ÇøÓò
+	 * MainPanelé¼ æ ‡è¿›å…¥å±•ç¤ºåŒºåŸŸ
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -50,7 +50,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	}
 
 	/*
-	 * MainPanelÊó±êÀë¿ªÕ¹Ê¾ÇøÓò
+	 * MainPanelé¼ æ ‡ç¦»å¼€å±•ç¤ºåŒºåŸŸ
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -68,7 +68,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	}
 
 	/*
-	 * Êó±ê¹öÂÖ¹ö¶¨£¬ÖØĞÂ¼ÆËãËõ·Å
+	 * é¼ æ ‡æ»šè½®æ»šå®šï¼Œé‡æ–°è®¡ç®—ç¼©æ”¾
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
@@ -105,7 +105,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	}
 
 	private void setActiveMainPanel(MouseEvent e) {
-		//ÉèÖÃµ±Ç°¼¤»îMainPanel±äÁ¿¼°ÑùÊ½
+		//è®¾ç½®å½“å‰æ¿€æ´»MainPanelå˜é‡åŠæ ·å¼
 		GUIManager.activeMainPanel = (MainPanel) e.getComponent();
 		MainPanel activeMainPanel = (MainPanel) e.getComponent();
 		for(JPanel panel: GUIManager.getJpanels()) {
@@ -119,7 +119,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			}
 		}
 
-		//¸üĞÂÑ¡ÖĞµÄtoolbar
+		//æ›´æ–°é€‰ä¸­çš„toolbar
 		JPanel varPanel = GUIManager.getVarPanel();
 		Component[] components = varPanel.getComponents();
 		for (int i = 0; i < components.length; i++) {
@@ -160,7 +160,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			}
 		}
 		
-		//ÉèÖÃÑ¡ÖĞ±äÁ¿
+		//è®¾ç½®é€‰ä¸­å˜é‡
 		int curMoment = activeMainPanel.getRadarBase().currentMoment;
 		Component[] varComps = GUIManager.getVarPanel().getComponents();
 		for (int j = 0; j < varComps.length; j++) {
@@ -214,7 +214,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 			}
 		}
 
-		//1. ÉèÖÃcutÑ¡ÖĞ
+		//1. è®¾ç½®cuté€‰ä¸­
 		GUIManager.createCutButtons();
 		Component[] comps = GUIManager.cutPanel.getComponents();
 		int cut = activeMainPanel.getRadarBase().cutNum;
@@ -229,7 +229,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 		}
 		GUIManager.setPPIEnabled();
 
-		//2. ÉèÖÃÎÄ¼şÍ¬²½
+		//2. è®¾ç½®æ–‡ä»¶åŒæ­¥
 		String srcFileName = "";
 		if(activeMainPanel.getRadarBase().l2 != null) {
 			srcFileName = activeMainPanel.getRadarBase().l2.getSrcFileName();
@@ -284,11 +284,11 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 		String text = "["
 				+ CommonUtils.format(llc.longitude, 2)
-				+ "¡ã, "
+				+ "Â°, "
 				+ CommonUtils.format(llc.latitude, 2)
-				+ "¡ã] -- ["
+				+ "Â°] -- ["
 				+ CommonUtils.format(arc.azimuth, 1)
-				+ "¡ã, "
+				+ "Â°, "
 				+ CommonUtils.format(arc.r, 1)
 				+ RadarUtils.getDistanceUnitLabel()
 				+ ", "
@@ -304,7 +304,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 
 
 	/*
-	 * MainPanelÊó±ê×ó¼ü°´ÏÂÊÂ¼ş´¦Àí£¨²»ÓÃÊÍ·ÅÊó±ê£©
+	 * MainPanelé¼ æ ‡å·¦é”®æŒ‰ä¸‹äº‹ä»¶å¤„ç†ï¼ˆä¸ç”¨é‡Šæ”¾é¼ æ ‡ï¼‰
 	 */
 	public void mousePressed(MouseEvent e) {
 		System.out.println(e.getX()+":"+e.getY());
@@ -379,7 +379,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	}
 
 	/*
-	 * MainPanelÊó±ê×ó¼ü°´ÏÂºóÍÏ¶¯£¨´ËÊ±Êó±ê×ó¼üÎ´ÊÍ·Å£©
+	 * MainPanelé¼ æ ‡å·¦é”®æŒ‰ä¸‹åæ‹–åŠ¨ï¼ˆæ­¤æ—¶é¼ æ ‡å·¦é”®æœªé‡Šæ”¾ï¼‰
 	 */
 	public void mouseDragged(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
@@ -437,7 +437,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	}
 
 	/*
-	 * MainPanelÊó±ê×ó¼üÊÍ·Å
+	 * MainPanelé¼ æ ‡å·¦é”®é‡Šæ”¾
 	 */
 	public void mouseReleased(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();
@@ -491,7 +491,7 @@ public class MouseHandler extends MouseAdapter implements MouseWheelListener,
 	}
 
 	/*
-	 * Êó±êÎ´°´¼üÇé¿öÏÂÒÆ¶¯
+	 * é¼ æ ‡æœªæŒ‰é”®æƒ…å†µä¸‹ç§»åŠ¨
 	 */
 	public void mouseMoved(MouseEvent e) {
 		MainPanel mainPanel = (MainPanel)e.getComponent();

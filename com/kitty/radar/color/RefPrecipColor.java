@@ -5,7 +5,7 @@ import java.awt.Color;
 import com.kitty.radar.util.CommonProps;
 
 /**
- * ½µË®Ä£Ê½·´ÉäÂÊÉ«±ê£¬VCP£º11¡¢21¡£
+ * é™æ°´æ¨¡å¼åå°„ç‡è‰²æ ‡ï¼ŒVCPï¼š11ã€21ã€‚
  */
 public class RefPrecipColor extends RefColor {
 

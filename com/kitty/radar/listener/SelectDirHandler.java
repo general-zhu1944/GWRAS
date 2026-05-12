@@ -12,8 +12,8 @@ import com.kitty.radar.gui.GUIManager;
 public class SelectDirHandler extends MouseAdapter {
 
     public void mouseClicked(MouseEvent e) {
-        File file = JDirChooser.showDialog(Radar.radar, "ä¯ÀÀÎÄ¼ş¼Ğ", true, new File(
-                RadarParams.filePath), "ÇëÑ¡ÔñÊı¾İÄ¿Â¼");
+        File file = JDirChooser.showDialog(Radar.radar, "æµè§ˆæ–‡ä»¶å¤¹", true, new File(
+                RadarParams.filePath), "è¯·é€‰æ‹©æ•°æ®ç›®å½•");
         if (file != null) {
             try {
                 RadarParams.filePath = file.getCanonicalPath();

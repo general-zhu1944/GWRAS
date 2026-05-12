@@ -64,7 +64,7 @@ public class RainOverlay {
     Color _startColor = Color.blue;
     Color _endColor = Color.red;
     public boolean update = true;
-    public String element;//Ö¸¶¨ÏÔÊ¾µØÃæÆøÏóÒªËØ
+    public String element;//æŒ‡å®šæ˜¾ç¤ºåœ°é¢æ°”è±¡è¦ç´ 
 
     // ===================== Rain Variables ========================
 
@@ -87,13 +87,13 @@ public class RainOverlay {
     double[] valuestemper = new double[]{10, 15, 20, 25, 30, 33, 36,39};
     double[] valuestd = new double[]{16, 18, 20, 22, 24, 26, 28, 30};
     double[] valueswindmax = new double[]{ 6, 10, 14, 18, 22, 26, 30, 34};
-    String[] unites=new String[] {"mm","¡ãC","m/s"};
+    String[] unites=new String[] {"mm","Â°C","m/s"};
     String unite=null;
     
     private static boolean mock = false;
 
 
-    public class JsonParser //»ñÈ¡µØÃæÈÕ×ÊÁÏjons¸ñÊ½Êı¾İ½á¹¹
+    public class JsonParser //è·å–åœ°é¢æ—¥èµ„æ–™jonsæ ¼å¼æ•°æ®ç»“æ„
     {
         public String returnCode;
         public String returnMessage;
@@ -106,24 +106,24 @@ public class RainOverlay {
         public String fieldNames ;
         public String fieldUnits;
     }
-    public class JsonParserrain extends JsonParser //»ñÈ¡µØÃæÈÕ×ÊÁÏjons¸ñÊ½Êı¾İ½á¹¹
+    public class JsonParserrain extends JsonParser //è·å–åœ°é¢æ—¥èµ„æ–™jonsæ ¼å¼æ•°æ®ç»“æ„
     {
         public List<Datammr> DS;
     }
-    public class JsonParsertemper extends JsonParser //»ñÈ¡µØÃæÈÕ×ÊÁÏjons¸ñÊ½Êı¾İ½á¹¹
+    public class JsonParsertemper extends JsonParser //è·å–åœ°é¢æ—¥èµ„æ–™jonsæ ¼å¼æ•°æ®ç»“æ„
     {
         public List<Datatemper> DS;
     }
-    public class JsonParsertd extends JsonParser //»ñÈ¡µØÃæÈÕ×ÊÁÏjons¸ñÊ½Êı¾İ½á¹¹
+    public class JsonParsertd extends JsonParser //è·å–åœ°é¢æ—¥èµ„æ–™jonsæ ¼å¼æ•°æ®ç»“æ„
     {
         public List<Datatd> DS;
     }
-    public class JsonParserwindmax extends JsonParser //»ñÈ¡µØÃæÈÕ×ÊÁÏjons¸ñÊ½Êı¾İ½á¹¹
+    public class JsonParserwindmax extends JsonParser //è·å–åœ°é¢æ—¥èµ„æ–™jonsæ ¼å¼æ•°æ®ç»“æ„
     {
         public List<Datawindmax> DS;
     }
     
-    public class Datammr //»ñÈ¡µØÃæ·ÖÖÓÖµ×ÊÁÏ·ÖÖÓÀÛ¼ÆÓêÁ¿
+    public class Datammr //è·å–åœ°é¢åˆ†é’Ÿå€¼èµ„æ–™åˆ†é’Ÿç´¯è®¡é›¨é‡
     {
         public String Station_Id_C;
         public String Lat;
@@ -131,7 +131,7 @@ public class RainOverlay {
         public String SUM_PRE; 
         public String COUNT_PRE;//COUNT_PRE_1H
     }
-    public class Datatemper //»ñÈ¡µØÃæĞ¡Ê±ÎÂ¶È
+    public class Datatemper //è·å–åœ°é¢å°æ—¶æ¸©åº¦
     {
         public String Station_Id_C;
         public String Lat;
@@ -139,7 +139,7 @@ public class RainOverlay {
         public String TEM; 
     }
     
-    public class Datatd //»ñÈ¡µØÃæĞ¡Ê±Â¶µã
+    public class Datatd //è·å–åœ°é¢å°æ—¶éœ²ç‚¹
     {
         public String Station_Id_C;
         public String Lat;
@@ -147,7 +147,7 @@ public class RainOverlay {
         public String DPT; 
     }
     
-    public class Datawindmax //»ñÈ¡µØÃæĞ¡Ê±¼«´ó·çËÙ
+    public class Datawindmax //è·å–åœ°é¢å°æ—¶æå¤§é£é€Ÿ
     {
         public String Station_Id_C;
         public String Lat;
@@ -234,14 +234,14 @@ public class RainOverlay {
     		this.mockDiscreteData();
     		return;
     	}
-    	/* 1. ¶¨Òåclient¶ÔÏó */
+    	/* 1. å®šä¹‰clientå¯¹è±¡ */
 		DataQueryClient client = new DataQueryClient() ;		
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm00");
     	String date1 = sdf.format(t1);
     	String userId =RadarParams.userId;// cn ;
 		String pwd = RadarParams.pw;//pw ;
 		String threshold=SurfaceDialog.textrain.getText().toString();
-		/* 2.2  ½Ó¿ÚID */
+		/* 2.2  æ¥å£ID */
 		String interfaceId = "getSurfEleInRectByTime" ;
 //		String minLon="105.0";
 //		String maxLon="107.0";
@@ -266,35 +266,35 @@ public class RainOverlay {
 			eledata="WIN_S_Inst_Max";
 		}
 		
-		/* 2.3  ½Ó¿Ú²ÎÊı£¬¶à¸ö²ÎÊı¼äÎŞË³Ğò */
+		/* 2.3  æ¥å£å‚æ•°ï¼Œå¤šä¸ªå‚æ•°é—´æ— é¡ºåº */
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("dataCode","SURF_CHN_MUL_HOR"); 
-	    params.put("times", String.format("%s" ,date1.substring(0, 10))+"0000"); //Ê±¼ä¶Î£¬Ç°±Õºó¿ª
-	    params.put("elements", "Station_Id_C,Lat,Lon,"+eledata) ;//¼ìË÷ÒªËØ£ºÕ¾ºÅ¡¢Õ¾Ãû¡¢Ğ¡Ê±½µË®¡¢ÆøÑ¹¡¢Ïà¶ÔÊª¶È¡¢ÄÜ¼û¶È¡¢2·ÖÖÓÆ½¾ù·çËÙ¡¢2·ÖÖÓ·çÏò
-		params.put("minLat",  minLat); //¾­Î³¶È·¶Î§
-		params.put("maxLat",  maxLat); //¾­Î³¶È·¶Î§
-		params.put("minLon",  minLon); //¾­Î³¶È·¶Î§
-		params.put("maxLon",  maxLon); //¾­Î³¶È·¶Î§
+	    params.put("times", String.format("%s" ,date1.substring(0, 10))+"0000"); //æ—¶é—´æ®µï¼Œå‰é—­åå¼€
+	    params.put("elements", "Station_Id_C,Lat,Lon,"+eledata) ;//æ£€ç´¢è¦ç´ ï¼šç«™å·ã€ç«™åã€å°æ—¶é™æ°´ã€æ°”å‹ã€ç›¸å¯¹æ¹¿åº¦ã€èƒ½è§åº¦ã€2åˆ†é’Ÿå¹³å‡é£é€Ÿã€2åˆ†é’Ÿé£å‘
+		params.put("minLat",  minLat); //ç»çº¬åº¦èŒƒå›´
+		params.put("maxLat",  maxLat); //ç»çº¬åº¦èŒƒå›´
+		params.put("minLon",  minLon); //ç»çº¬åº¦èŒƒå›´
+		params.put("maxLon",  maxLon); //ç»çº¬åº¦èŒƒå›´
 		params.put("eleValueRanges", eledata+String.format(":[%s,99999))",threshold));
 		String dataFormat = "json" ;
 	    StringBuffer retStr = new StringBuffer() ;
         double[][] S = null;
-		//¿ÉÑ¡²ÎÊı
-		/* 2.4 ·µ»Ø¶ÔÏó */
+		//å¯é€‰å‚æ•°
+		/* 2.4 è¿”å›å¯¹è±¡ */
 		try {
-		      //³õÊ¼»¯½Ó¿Ú·şÎñÁ¬½Ó×ÊÔ´
+		      //åˆå§‹åŒ–æ¥å£æœåŠ¡è¿æ¥èµ„æº
 		      client.initResources() ;
-		      //µ÷ÓÃ½Ó¿Ú
+		      //è°ƒç”¨æ¥å£
 		      int rst = client.callAPI_to_serializedStr(userId, pwd, interfaceId, params, dataFormat, retStr) ;	
 		      
-		      //Êä³ö½á¹û
-		      if(rst == 0) { //Õı³£·µ»Ø
+		      //è¾“å‡ºç»“æœ
+		      if(rst == 0) { //æ­£å¸¸è¿”å›
 		    	  if(element=="td")
             	  {
 		          final  JsonParsertd Result = new Gson().fromJson(retStr.toString(), JsonParsertd.class);
 		          if(Result.returnCode.equals("0"))
 		           {
-		        	 JOptionPane.showMessageDialog(null, "ÏÂÔØÊı¾İ³É¹¦£¡");
+		        	 JOptionPane.showMessageDialog(null, "ä¸‹è½½æ•°æ®æˆåŠŸï¼");
 		        	
 		        	 final List<Datatd> modelList = Result.DS;		        	 
 		              S = new double[3][modelList.size()];
@@ -316,7 +316,7 @@ public class RainOverlay {
 		          final  JsonParsertemper Result = new Gson().fromJson(retStr.toString(), JsonParsertemper.class);
 		          if(Result.returnCode.equals("0"))
 		           {
-		        	 JOptionPane.showMessageDialog(null, "ÏÂÔØÊı¾İ³É¹¦£¡");
+		        	 JOptionPane.showMessageDialog(null, "ä¸‹è½½æ•°æ®æˆåŠŸï¼");
 		        	
 		        	 final List<Datatemper> modelList = Result.DS;		        	 
 		              S = new double[3][modelList.size()];
@@ -338,7 +338,7 @@ public class RainOverlay {
 		          final  JsonParserwindmax Result = new Gson().fromJson(retStr.toString(), JsonParserwindmax.class);
 		          if(Result.returnCode.equals("0"))
 		           {
-		        	 JOptionPane.showMessageDialog(null, "ÏÂÔØÊı¾İ³É¹¦£¡");
+		        	 JOptionPane.showMessageDialog(null, "ä¸‹è½½æ•°æ®æˆåŠŸï¼");
 		        	
 		        	 final List<Datawindmax> modelList = Result.DS;		        	 
 		              S = new double[3][modelList.size()];
@@ -355,13 +355,13 @@ public class RainOverlay {
 			    	JOptionPane.showMessageDialog(null, retStr); 			    	
 		        }	
             	  }
-		      } else { //Òì³£·µ»Ø
-		    	  JOptionPane.showMessageDialog(null, "ÏÂÔØÊı¾İÊ§°Ü£¡"); 
+		      } else { //å¼‚å¸¸è¿”å›
+		    	  JOptionPane.showMessageDialog(null, "ä¸‹è½½æ•°æ®å¤±è´¥ï¼"); 
 		      }
 		    } catch (Exception e) {
 		      e.printStackTrace() ;
 		    } finally {
-		      //ÊÍ·Å½Ó¿Ú·şÎñÁ¬½Ó×ÊÔ´
+		      //é‡Šæ”¾æ¥å£æœåŠ¡è¿æ¥èµ„æº
 		      client.destroyResources() ;
 
 		    }     
@@ -374,7 +374,7 @@ public class RainOverlay {
     		mockDiscreteData();
     		return;
     	}
-    	/* 1. ¶¨Òåclient¶ÔÏó */
+    	/* 1. å®šä¹‰clientå¯¹è±¡ */
 		DataQueryClient client = new DataQueryClient() ;		
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm00");
     	String date1 = sdf.format(t1);
@@ -382,7 +382,7 @@ public class RainOverlay {
     	String userId =RadarParams.userId;// cn ;
 		String pwd = RadarParams.pw;//pw ;
 		String threshold=SurfaceDialog.textrain.getText().toString();
-		/* 2.2  ½Ó¿ÚID */
+		/* 2.2  æ¥å£ID */
 		String interfaceId = "statSurfEleInRect" ;
 //		String minLon="105.0";
 //		String maxLon="107.0";
@@ -392,15 +392,15 @@ public class RainOverlay {
 		String maxLon=(radarBase.getLongitude()+1)+"";
 		String minLat=(radarBase.getLatitude()-1)+"";
 		String maxLat=(radarBase.getLatitude()+1)+"";
-		/* 2.3  ½Ó¿Ú²ÎÊı£¬¶à¸ö²ÎÊı¼äÎŞË³Ğò */
+		/* 2.3  æ¥å£å‚æ•°ï¼Œå¤šä¸ªå‚æ•°é—´æ— é¡ºåº */
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("dataCode","SURF_CHN_PRE_MIN"); 
-	    params.put("timeRange", String.format("(%s,%s]" ,date1, date2)); //Ê±¼ä¶Î£¬Ç°±Õºó¿ª
-	    params.put("elements", "Station_Id_C,Lat,Lon") ;//¼ìË÷ÒªËØ£ºÕ¾ºÅ¡¢Õ¾Ãû¡¢Ğ¡Ê±½µË®¡¢ÆøÑ¹¡¢Ïà¶ÔÊª¶È¡¢ÄÜ¼û¶È¡¢2·ÖÖÓÆ½¾ù·çËÙ¡¢2·ÖÖÓ·çÏò
-		params.put("minLat",  minLat); //¾­Î³¶È·¶Î§
-		params.put("maxLat",  maxLat); //¾­Î³¶È·¶Î§
-		params.put("minLon",  minLon); //¾­Î³¶È·¶Î§
-		params.put("maxLon",  maxLon); //¾­Î³¶È·¶Î§
+	    params.put("timeRange", String.format("(%s,%s]" ,date1, date2)); //æ—¶é—´æ®µï¼Œå‰é—­åå¼€
+	    params.put("elements", "Station_Id_C,Lat,Lon") ;//æ£€ç´¢è¦ç´ ï¼šç«™å·ã€ç«™åã€å°æ—¶é™æ°´ã€æ°”å‹ã€ç›¸å¯¹æ¹¿åº¦ã€èƒ½è§åº¦ã€2åˆ†é’Ÿå¹³å‡é£é€Ÿã€2åˆ†é’Ÿé£å‘
+		params.put("minLat",  minLat); //ç»çº¬åº¦èŒƒå›´
+		params.put("maxLat",  maxLat); //ç»çº¬åº¦èŒƒå›´
+		params.put("minLon",  minLon); //ç»çº¬åº¦èŒƒå›´
+		params.put("maxLon",  maxLon); //ç»çº¬åº¦èŒƒå›´
 		params.put("statEles","SUM_PRE,COUNT_PRE"); 
 		params.put("statEleValueRanges", String.format("SUM_PRE:[%s,99999))",threshold));
 //		
@@ -409,32 +409,32 @@ public class RainOverlay {
 //		String maxLon="107.0";
 //		String minLat="30.0";
 //		String maxLat="32.0";
-//		/* 2.3  ½Ó¿Ú²ÎÊı£¬¶à¸ö²ÎÊı¼äÎŞË³Ğò */
+//		/* 2.3  æ¥å£å‚æ•°ï¼Œå¤šä¸ªå‚æ•°é—´æ— é¡ºåº */
 //		HashMap<String, String> params = new HashMap<String, String>();
-//	    params.put("timeRange", String.format("(%s,%s]" ,date1, date2)); //Ê±¼ä¶Î£¬Ç°±Õºó¿ª
-//	    params.put("elements", "Station_Id_C,Lat,Lon") ;//¼ìË÷ÒªËØ£ºÕ¾ºÅ¡¢Õ¾Ãû¡¢Ğ¡Ê±½µË®¡¢ÆøÑ¹¡¢Ïà¶ÔÊª¶È¡¢ÄÜ¼û¶È¡¢2·ÖÖÓÆ½¾ù·çËÙ¡¢2·ÖÖÓ·çÏò
-//		params.put("minLat",  minLat); //¾­Î³¶È·¶Î§
-//		params.put("maxLat",  maxLat); //¾­Î³¶È·¶Î§
-//		params.put("minLon",  minLon); //¾­Î³¶È·¶Î§
-//		params.put("maxLon",  maxLon); //¾­Î³¶È·¶Î§
+//	    params.put("timeRange", String.format("(%s,%s]" ,date1, date2)); //æ—¶é—´æ®µï¼Œå‰é—­åå¼€
+//	    params.put("elements", "Station_Id_C,Lat,Lon") ;//æ£€ç´¢è¦ç´ ï¼šç«™å·ã€ç«™åã€å°æ—¶é™æ°´ã€æ°”å‹ã€ç›¸å¯¹æ¹¿åº¦ã€èƒ½è§åº¦ã€2åˆ†é’Ÿå¹³å‡é£é€Ÿã€2åˆ†é’Ÿé£å‘
+//		params.put("minLat",  minLat); //ç»çº¬åº¦èŒƒå›´
+//		params.put("maxLat",  maxLat); //ç»çº¬åº¦èŒƒå›´
+//		params.put("minLon",  minLon); //ç»çº¬åº¦èŒƒå›´
+//		params.put("maxLon",  maxLon); //ç»çº¬åº¦èŒƒå›´
 //		params.put("statEleValueRanges", String.format("SUM_PRE_1h:[%s,99999))",threshold));
 		String dataFormat = "json" ;
 	    StringBuffer retStr = new StringBuffer() ;
         double[][] S = null;
-		//¿ÉÑ¡²ÎÊı
-		/* 2.4 ·µ»Ø¶ÔÏó */
+		//å¯é€‰å‚æ•°
+		/* 2.4 è¿”å›å¯¹è±¡ */
 		try {
-		      //³õÊ¼»¯½Ó¿Ú·şÎñÁ¬½Ó×ÊÔ´
+		      //åˆå§‹åŒ–æ¥å£æœåŠ¡è¿æ¥èµ„æº
 		      client.initResources() ;
-		      //µ÷ÓÃ½Ó¿Ú
+		      //è°ƒç”¨æ¥å£
 		      int rst = client.callAPI_to_serializedStr(userId, pwd, interfaceId, params, dataFormat, retStr) ;	
 		      
-		      //Êä³ö½á¹û
-		      if(rst == 0) { //Õı³£·µ»Ø
+		      //è¾“å‡ºç»“æœ
+		      if(rst == 0) { //æ­£å¸¸è¿”å›
 		      final  JsonParserrain Result = new Gson().fromJson(retStr.toString(), JsonParserrain.class);
 		        if(Result.returnCode.equals("0"))
 		        {
-		        	 JOptionPane.showMessageDialog(null, "ÏÂÔØÊı¾İ³É¹¦£¡"); 
+		        	 JOptionPane.showMessageDialog(null, "ä¸‹è½½æ•°æ®æˆåŠŸï¼"); 
 		        	 final List<Datammr> modelList = Result.DS;		        	 
 		              S = new double[3][modelList.size()];
 		              for (int ii = 0; ii < modelList.size(); ii++) {
@@ -451,16 +451,16 @@ public class RainOverlay {
 //			    	JOptionPane.showMessageDialog(null,oldCursor.getName()); 
 			    	
 		        }		        
-		      } else { //Òì³£·µ»Ø
-		    	  JOptionPane.showMessageDialog(null, "ÏÂÔØÊı¾İÊ§°Ü£¡"); 
+		      } else { //å¼‚å¸¸è¿”å›
+		    	  JOptionPane.showMessageDialog(null, "ä¸‹è½½æ•°æ®å¤±è´¥ï¼"); 
 		       // System.out.printf( "\treturn code: %d. \n", rst ) ;
 		      }
 		    } catch (Exception e) {
-		      //Òì³£Êä³ö
+		      //å¼‚å¸¸è¾“å‡º
 
 		      e.printStackTrace() ;
 		    } finally {
-		      //ÊÍ·Å½Ó¿Ú·şÎñÁ¬½Ó×ÊÔ´
+		      //é‡Šæ”¾æ¥å£æœåŠ¡è¿æ¥èµ„æº
 		      client.destroyResources() ;
 
 		    }     

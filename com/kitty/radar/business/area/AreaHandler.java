@@ -8,7 +8,7 @@ import org.netbeans.validation.api.ui.ValidationGroup;
 
 
 /**
- * ÇøÓòhandler»ùÀà¡£
+ * åŒºåŸŸhandleråŸºç±»ã€‚
  */
 public abstract class AreaHandler {
 
@@ -17,14 +17,14 @@ public abstract class AreaHandler {
     protected ValidationGroup group;
 
     /**
-     * µã»÷¡°È·¶¨¡±°´Å¥ºóÒªÖ´ĞĞµÄ´¦Àí
+     * ç‚¹å‡»â€œç¡®å®šâ€æŒ‰é’®åè¦æ‰§è¡Œçš„å¤„ç†
      * 
      * @param e
      */
     public abstract void process(ActionEvent e);
 
     /**
-     * È¡µÃ¶Ô»°¿ò´ò¿ªºóÈ±Ê¡»ñµÃ½¹µãµÄ×é¼ş
+     * å–å¾—å¯¹è¯æ¡†æ‰“å¼€åç¼ºçœè·å¾—ç„¦ç‚¹çš„ç»„ä»¶
      * 
      * @return
      */

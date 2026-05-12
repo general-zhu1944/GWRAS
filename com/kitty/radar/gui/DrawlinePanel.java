@@ -109,7 +109,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			XYCoord xyStart=PositionUtils.toXYCoord(arcStart.azimuth,arcStart.r, radarBase);
 			ARCoord arcEnd = PositionUtils.toARCoord(longitudeEnd,latitudeEnd, radarBase.getLongitude(), radarBase.getLatitude());
 			XYCoord xyEnd=PositionUtils.toXYCoord(arcEnd.azimuth,arcEnd.r, radarBase);
-			Graphics2D g2 = (Graphics2D)g; //gÊÇGraphics¶ÔÏó
+			Graphics2D g2 = (Graphics2D)g; //gæ˜¯Graphicså¯¹è±¡
 			g2.setStroke(new BasicStroke(3.0f));
 			g2.setColor(Color.red);
 			g2.drawLine(xyStart.x, xyStart.y, xyEnd.x, xyEnd.y);
@@ -162,7 +162,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 			for (MainPanel panel : GUIManager.getJpanels()) {
 				for (VCS vcs : VCS.vcss) {
 					if (vcs.getRadarBase().equals(panel.getRadarBase())) {
-						int pixel = radarBase.getCenter_X() - radarBase.getXoffset();//pixelÎªÀ×´ïËùÔÚx×ø±êµÄÎ»ÖÃ£¬radarBase.center_XÎªÍ¼ÖĞĞÄÎ»ÖÃ
+						int pixel = radarBase.getCenter_X() - radarBase.getXoffset();//pixelä¸ºé›·è¾¾æ‰€åœ¨xåæ ‡çš„ä½ç½®ï¼ŒradarBase.center_Xä¸ºå›¾ä¸­å¿ƒä½ç½®
 						int scanl = radarBase.getCenter_Y() - radarBase.getYoffset();
 						vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / vcs.getRadarBase().getScale_X()));
 						vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / vcs.getRadarBase().getScale_Y()));
@@ -177,7 +177,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 		} else {
 			for (VCS vcs : VCS.vcss) {
 				if (vcs.getRadarBase().equals(GUIManager.activeMainPanel.getRadarBase())) {
-					int pixel = radarBase.getCenter_X() - radarBase.getXoffset();//pixelÎªÀ×´ïËùÔÚx×ø±êµÄÎ»ÖÃ£¬radarBase.center_XÎªÍ¼ÖĞĞÄÎ»ÖÃ
+					int pixel = radarBase.getCenter_X() - radarBase.getXoffset();//pixelä¸ºé›·è¾¾æ‰€åœ¨xåæ ‡çš„ä½ç½®ï¼ŒradarBase.center_Xä¸ºå›¾ä¸­å¿ƒä½ç½®
 					int scanl = radarBase.getCenter_Y() - radarBase.getYoffset();
 					vcs.pointStart.x = (int) ((pointStart.x - pixel) * (1 / radarBase.getScale_X()));
 					vcs.pointStart.y = (int) ((pointStart.y - scanl) * (1 / radarBase.getScale_Y()));
@@ -201,7 +201,7 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 //
 //
 //
-//		int pixel = radarBase.center_X - radarBase.xoffset;//pixelÎªÀ×´ïËùÔÚx×ø±êµÄÎ»ÖÃ£¬radarBase.center_XÎªÍ¼ÖĞĞÄÎ»ÖÃ
+//		int pixel = radarBase.center_X - radarBase.xoffset;//pixelä¸ºé›·è¾¾æ‰€åœ¨xåæ ‡çš„ä½ç½®ï¼ŒradarBase.center_Xä¸ºå›¾ä¸­å¿ƒä½ç½®
 //		int scanl = radarBase.center_Y - radarBase.yoffset;
 //		List<Float> list=new ArrayList<Float>();
 //		list.add((float)((pointStart.x-pixel)*(1/radarBase.scale_X)));
@@ -268,21 +268,21 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 	{ StringBuilder sbError= new StringBuilder();
 		StringBuilder sb= new StringBuilder();
 		try {
-			//String condaPath1 = "D:\\anconda\\Scripts";//»ñÈ¡condaµÄÏµÍ³±äÁ¿
+			//String condaPath1 = "D:\\anconda\\Scripts";//è·å–condaçš„ç³»ç»Ÿå˜é‡
 			//System.out.println(condaPath1);
 
-			String path ="D:\\python´úÂë\\PythonProject\\pycwr\\ceshi8.py ";//»ñÈ¡µ½ÏîÄ¿Ä¿Â¼ºó£¬²¹³äÍêÕûpythonÎÄ¼şËùÔÚÄ¿Â¼
+			String path ="D:\\pythonä»£ç \\PythonProject\\pycwr\\ceshi8.py ";//è·å–åˆ°é¡¹ç›®ç›®å½•åï¼Œè¡¥å……å®Œæ•´pythonæ–‡ä»¶æ‰€åœ¨ç›®å½•
 			path =path.replace("\\","\\\\");
-			String condaPath = "D:\\anconda\\Scripts";//»ñÈ¡condaµÄÏµÍ³±äÁ¿
+			String condaPath = "D:\\anconda\\Scripts";//è·å–condaçš„ç³»ç»Ÿå˜é‡
 			//System.out.println(condaPath);
 			Process process = Runtime.getRuntime().exec(condaPath+"\\activate.bat &&  C: && conda activate pycwrnc && python "+path+list1);
 
 			//Process process = Runtime.getRuntime().exec(condaPath+"\\activate.bat &&  C: && conda activate pycwrnc && python "+path+" && "+list1);
 
-			int re=process.waitFor();//re=0³É¹¦£¬re=1Ê§°Ü
+			int re=process.waitFor();//re=0æˆåŠŸï¼Œre=1å¤±è´¥
 			BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			in = new BufferedReader(new InputStreamReader(process.getInputStream(),"gbk"));
-			//½ÓÊÕ´íÎóÁ÷
+			//æ¥æ”¶é”™è¯¯æµ
 			BufferedReader isError = new BufferedReader(new InputStreamReader(process.getErrorStream(),"gbk"));
 
 
@@ -364,12 +364,12 @@ public class DrawlinePanel implements MouseListener, MouseMotionListener, MouseW
 //	{ StringBuilder sbError= new StringBuilder();
 //	 StringBuilder sb= new StringBuilder();
 //    	 try {
-//    			//String condaPath1 = "D:\\anconda\\Scripts";//»ñÈ¡condaµÄÏµÍ³±äÁ¿
+//    			//String condaPath1 = "D:\\anconda\\Scripts";//è·å–condaçš„ç³»ç»Ÿå˜é‡
 //    			//System.out.println(condaPath1);
 //
-//    			String path ="D:\\python´úÂë\\PythonProject\\pycwr\\ceshi8.py ";//»ñÈ¡µ½ÏîÄ¿Ä¿Â¼ºó£¬²¹³äÍêÕûpythonÎÄ¼şËùÔÚÄ¿Â¼
+//    			String path ="D:\\pythonä»£ç \\PythonProject\\pycwr\\ceshi8.py ";//è·å–åˆ°é¡¹ç›®ç›®å½•åï¼Œè¡¥å……å®Œæ•´pythonæ–‡ä»¶æ‰€åœ¨ç›®å½•
 //    			path =path.replace("\\","\\\\");
-//    			String condaPath = "D:\\anconda\\Scripts";//»ñÈ¡condaµÄÏµÍ³±äÁ¿
+//    			String condaPath = "D:\\anconda\\Scripts";//è·å–condaçš„ç³»ç»Ÿå˜é‡
 //    			//System.out.println(condaPath);
 //    			Process process = Runtime.getRuntime().exec(condaPath+"\\activate.bat &&  C: && conda activate pycwrnc && python "+path+list);
 //    			//Radar.radar.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

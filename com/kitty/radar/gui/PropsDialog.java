@@ -43,13 +43,13 @@ public class PropsDialog extends JDialog {
     }
 
     protected JPanel createPropsButtons() {
-        confirm = new JButton(" 确定(O) ");
+        confirm = new JButton(" 纭畾(O) ");
         confirm.setMnemonic(KeyEvent.VK_O);
         confirm.addActionListener(listener);
-        cancel = new JButton(" 取消(C) ");
+        cancel = new JButton(" 鍙栨秷(C) ");
         cancel.setMnemonic(KeyEvent.VK_C);
         cancel.addActionListener(listener);
-        apply = new JButton(" 应用(A) ");
+        apply = new JButton(" 搴旂敤(A) ");
         apply.setMnemonic(KeyEvent.VK_A);
         apply.addActionListener(listener);
         apply.setEnabled(applyEnable);

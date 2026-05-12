@@ -16,9 +16,9 @@ public class RadarParams {
 
     public static boolean enableDelete = false;
 
-    public static String filePath = CommonUtils.appPath + "data" + File.separator; // 文件的目录路径
+    public static String filePath = CommonUtils.appPath + "data" + File.separator; // 锟侥硷拷锟斤拷目录路锟斤拷
 
-    public static String lastSavePath = CommonUtils.appPath; // 最后的保存目录路径
+    public static String lastSavePath = CommonUtils.appPath; // 锟斤拷锟侥憋拷锟斤拷目录路锟斤拷
 
     public static boolean auto_update = false;
 
@@ -35,7 +35,8 @@ public class RadarParams {
     
     public static String pw ="";
     
-    public static String radarSavePath = CommonUtils.appPath; // 最后的保存目录路径
+    public static String radarSavePath = CommonUtils.appPath;
+    public static String mapDataDir = CommonUtils.appPath + "map" + File.separator;
     
 
 }

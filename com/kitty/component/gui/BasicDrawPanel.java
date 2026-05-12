@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
- * Í¨ÓÃ»æÍ¼JPanel»ùÀà£¬Ìá¸ßÁËÖØ¸´µ÷ÓÃpaintComponent·½·¨µÄĞÔÄÜ£¨Èç£º½â¾ö³õ´ÎÏÔÊ¾Ê±Á½´Îµ÷ÓÃpaintComponentµÄÎÊÌâ£©¡£
+ * é€šç”¨ç»˜å›¾JPanelåŸºç±»ï¼Œæé«˜äº†é‡å¤è°ƒç”¨paintComponentæ–¹æ³•çš„æ€§èƒ½ï¼ˆå¦‚ï¼šè§£å†³åˆæ¬¡æ˜¾ç¤ºæ—¶ä¸¤æ¬¡è°ƒç”¨paintComponentçš„é—®é¢˜ï¼‰ã€‚
  */
 public abstract class BasicDrawPanel extends JPanel {
 

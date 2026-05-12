@@ -13,18 +13,18 @@ import com.kitty.radar.domain.XYCoord;
 import com.kitty.radar.domain.XYDCoord;
 
 /**
- * ×ø±ê¡¢¾àÀë¼ÆËãÏà¹Ø¹¤¾ßÀà¡£ ×¢Òâ£º¼«¾¶(r)ÓëĞ±¾à(range)µÄÇø±ğ
+ * åæ ‡ã€è·ç¦»è®¡ç®—ç›¸å…³å·¥å…·ç±»ã€‚ æ³¨æ„ï¼šæå¾„(r)ä¸æ–œè·(range)çš„åŒºåˆ«
  */
 public class PositionUtils {
 
 	/**
-	 * ¾àÀë×ª»»£¬km to ÏñËØ
+	 * è·ç¦»è½¬æ¢ï¼Œkm to åƒç´ 
 	 * 
 	 * @param distance
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * 
 	 * @param scaleX
-	 *            Ëõ·Å
+	 *            ç¼©æ”¾
 	 * @return
 	 */
 	public static int toLength(double distance, double scaleX) {
@@ -32,10 +32,10 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¾àÀë×ª»»£¬ÏñËØ to km
+	 * è·ç¦»è½¬æ¢ï¼Œåƒç´  to km
 	 * 
 	 * @param length
-	 *            µ¥Î»£ºÏñËØ
+	 *            å•ä½ï¼šåƒç´ 
 	 * @return
 	 */
 	public static double toDistance(int length, double scaleX) {
@@ -43,12 +43,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¼«¾¶×ª»»ÎªĞ±¾à
+	 * æå¾„è½¬æ¢ä¸ºæ–œè·
 	 * 
 	 * @param r
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param elevation
-	 *            Ñö½Ç£¬µ¥Î»£º¶È
+	 *            ä»°è§’ï¼Œå•ä½ï¼šåº¦
 	 * @return
 	 */
 	public static double toRange(double r, double elevation) {
@@ -56,12 +56,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¼«¾¶×ª»»ÎªĞ±¾à
+	 * æå¾„è½¬æ¢ä¸ºæ–œè·
 	 * 
 	 * @param r
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param cos
-	 *            Ñö½ÇcosÖµ
+	 *            ä»°è§’coså€¼
 	 * @return
 	 */
 	public static double toRange2(double r, double cos) {
@@ -69,10 +69,10 @@ public class PositionUtils {
 	}
 
 	/**
-	 * Ğ±¾à×ª»»Îª¼«¾¶
+	 * æ–œè·è½¬æ¢ä¸ºæå¾„
 	 * 
-	 * @param range µ¥Î»£ºkm
-	 * @param cos Ñö½ÇcosÖµ
+	 * @param range å•ä½ï¼škm
+	 * @param cos ä»°è§’coså€¼
 	 * @return
 	 */
 	public static double toR2(double range, double cos) {
@@ -80,10 +80,10 @@ public class PositionUtils {
 	}
 	
 	/**
-	 * Ğ±¾à×ª»»Îª¼«¾¶
+	 * æ–œè·è½¬æ¢ä¸ºæå¾„
 	 * 
-	 * @param range µ¥Î»£ºkm
-	 * @param elevation Ñö½Ç£¬µ¥Î»£º¶È
+	 * @param range å•ä½ï¼škm
+	 * @param elevation ä»°è§’ï¼Œå•ä½ï¼šåº¦
 	 * @return
 	 */
 	public static double toR(double range, double elevation) {
@@ -91,12 +91,12 @@ public class PositionUtils {
 	}
 	
 	/**
-	 * ¼«×ø±ê×ª»»Îª¾­Î³¶È×ø±ê
+	 * æåæ ‡è½¬æ¢ä¸ºç»çº¬åº¦åæ ‡
 	 * 
 	 * @param azimuth
-	 *            ·½Î»½Ç£¬µ¥Î»£º¶È
+	 *            æ–¹ä½è§’ï¼Œå•ä½ï¼šåº¦
 	 * @param r
-	 *            ¼«¾¶£¬µ¥Î»£ºkm
+	 *            æå¾„ï¼Œå•ä½ï¼škm
 	 * @return
 	 */
 	public static LLCoord toLLCoord(double azimuth, double r,double longitude, double latitude) {
@@ -113,16 +113,16 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¾­Î³¶È×ø±ê×ª»»Îª¼«×ø±ê
+	 * ç»çº¬åº¦åæ ‡è½¬æ¢ä¸ºæåæ ‡
 	 * 
 	 * @param longitude
-	 *            µ¥Î»£º¶È
+	 *            å•ä½ï¼šåº¦
 	 * @param latitude
-	 *            µ¥Î»£º¶È
+	 *            å•ä½ï¼šåº¦
 	 * @param longitudeStart
-	 *            Æğµã¾­¶È
+	 *            èµ·ç‚¹ç»åº¦
 	 * @param latitudeStart
-	 *            ÆğµãÎ¬¶È
+	 *            èµ·ç‚¹ç»´åº¦
 	 * @return
 	 */
 	public static ARCoord toARCoord(double longitude, double latitude, double longitudeStart, double latitudeStart) {
@@ -139,7 +139,7 @@ public class PositionUtils {
 		double out = Math.sqrt(dx * dx + dy * dy);
 		double azimuth = Math.atan(Math.abs(dx / dy)) * 180 / Math.PI;
 
-		// ÅĞ¶ÏÏóÏŞ
+		// åˆ¤æ–­è±¡é™
 		double dLo = longitude - longitudeStart;
 		double dLa = latitude - latitudeStart;
 
@@ -157,12 +157,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ÒÔ×óÉÏ½ÇÎªÔ­µãµÄX¡¢Y×ø±ê×ª»»Îª¼«×ø±ê
+	 * ä»¥å·¦ä¸Šè§’ä¸ºåŸç‚¹çš„Xã€Yåæ ‡è½¬æ¢ä¸ºæåæ ‡
 	 * 
 	 * @param x
-	 *            µ¥Î»£ºÏñËØ
+	 *            å•ä½ï¼šåƒç´ 
 	 * @param y
-	 *            µ¥Î»£ºÏñËØ
+	 *            å•ä½ï¼šåƒç´ 
 	 * @return
 	 */
 	public static ARCoord toARCoord(int x, int y, RadarBase RadarBase) {
@@ -174,12 +174,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ÒÔÀ×´ïÖĞĞÄÎªÔ­µãµÄX¡¢Y×ø±ê×ª»»Îª¼«×ø±ê
+	 * ä»¥é›·è¾¾ä¸­å¿ƒä¸ºåŸç‚¹çš„Xã€Yåæ ‡è½¬æ¢ä¸ºæåæ ‡
 	 * 
 	 * @param x
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param y
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @return
 	 */
 	public static ARCoord toARCoord2(double x, double y) {
@@ -211,12 +211,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¼«×ø±ê×ª»»ÎªÒÔ×óÉÏ½ÇÎªÔ­µãµÄX¡¢Y×ø±ê
+	 * æåæ ‡è½¬æ¢ä¸ºä»¥å·¦ä¸Šè§’ä¸ºåŸç‚¹çš„Xã€Yåæ ‡
 	 * 
 	 * @param azimuth
-	 *            µ¥Î»£º¶È
+	 *            å•ä½ï¼šåº¦
 	 * @param r
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @return
 	 */
 	public static XYCoord toXYCoord(double azimuth, double r, RadarBase RadarBase) {
@@ -230,12 +230,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¾­Î³¶È×ø±ê×ª»»ÎªÒÔ×óÉÏ½ÇÎªÔ­µãµÄX¡¢Y×ø±ê
+	 * ç»çº¬åº¦åæ ‡è½¬æ¢ä¸ºä»¥å·¦ä¸Šè§’ä¸ºåŸç‚¹çš„Xã€Yåæ ‡
 	 * 
 	 * @param longitude
-	 *            µ¥Î»£º¶È
+	 *            å•ä½ï¼šåº¦
 	 * @param latitude
-	 *            µ¥Î»£º¶È
+	 *            å•ä½ï¼šåº¦
 	 * @return
 	 */
 	public static XYCoord toXYCoord2(double longitude, double latitude, RadarBase RadarBase) {
@@ -248,12 +248,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ÒÔÀ×´ïÖĞĞÄÎªÔ­µãµÄX¡¢Y×ø±ê×ª»»ÎªÒÔ×óÉÏ½ÇÎªÔ­µãµÄX¡¢Y×ø±ê
+	 * ä»¥é›·è¾¾ä¸­å¿ƒä¸ºåŸç‚¹çš„Xã€Yåæ ‡è½¬æ¢ä¸ºä»¥å·¦ä¸Šè§’ä¸ºåŸç‚¹çš„Xã€Yåæ ‡
 	 * 
 	 * @param x
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param y
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @return
 	 */
 	public static XYCoord toXYCoord3(double x, double y, RadarBase RadarBase) {
@@ -265,12 +265,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ÒÔ×óÉÏ½ÇÎªÔ­µãµÄX¡¢Y×ø±ê×ª»»ÎªÒÔÀ×´ïÖĞĞÄÎªÔ­µãµÄX¡¢Y×ø±ê£¬µ¥Î»£ºkm
+	 * ä»¥å·¦ä¸Šè§’ä¸ºåŸç‚¹çš„Xã€Yåæ ‡è½¬æ¢ä¸ºä»¥é›·è¾¾ä¸­å¿ƒä¸ºåŸç‚¹çš„Xã€Yåæ ‡ï¼Œå•ä½ï¼škm
 	 * 
 	 * @param x
-	 *            µ¥Î»£ºÏñËØ
+	 *            å•ä½ï¼šåƒç´ 
 	 * @param y
-	 *            µ¥Î»£ºÏñËØ
+	 *            å•ä½ï¼šåƒç´ 
 	 * @return
 	 */
 	public static XYDCoord toXYDCoord(int x, int y, RadarBase RadarBase) {
@@ -282,14 +282,14 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¼ÆËã¸ß¶È£¨·½·¨1£¬Ä¿Ç°Ó¦ÓÃÓÚCAPPI¡¢RHI£©£¬µ¥Î»£ºkm
+	 * è®¡ç®—é«˜åº¦ï¼ˆæ–¹æ³•1ï¼Œç›®å‰åº”ç”¨äºCAPPIã€RHIï¼‰ï¼Œå•ä½ï¼škm
 	 * 
 	 * @param range
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param sin
-	 *            Ñö½ÇsinÖµ
+	 *            ä»°è§’sinå€¼
 	 * @param cos
-	 *            Ñö½ÇcosÖµ
+	 *            ä»°è§’coså€¼
 	 * @return
 	 */
 	public static double getHeight(double range, double sin, double cos, RadarBase radarBase) {
@@ -298,12 +298,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¼ÆËã¸ß¶È£¨·½·¨1£¬Ä¿Ç°Ó¦ÓÃÓÚCAPPI¡¢RHI£©£¬µ¥Î»£ºkm
+	 * è®¡ç®—é«˜åº¦ï¼ˆæ–¹æ³•1ï¼Œç›®å‰åº”ç”¨äºCAPPIã€RHIï¼‰ï¼Œå•ä½ï¼škm
 	 * 
 	 * @param range
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param elevation
-	 *            Ñö½Ç£¬µ¥Î»£º¶È
+	 *            ä»°è§’ï¼Œå•ä½ï¼šåº¦
 	 * @return
 	 */
 	public static double getHeight(double range, double elevation, RadarBase radarBase) {
@@ -312,12 +312,12 @@ public class PositionUtils {
 	}
 
 	/**
-	 * ¼ÆËã¸ß¶È£¨·½·¨2£¬Ä¿Ç°Ó¦ÓÃÓÚET¡¢HP£©£¬µ¥Î»£ºkm
+	 * è®¡ç®—é«˜åº¦ï¼ˆæ–¹æ³•2ï¼Œç›®å‰åº”ç”¨äºETã€HPï¼‰ï¼Œå•ä½ï¼škm
 	 * 
 	 * @param range
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param sin
-	 *            Ñö½ÇsinÖµ
+	 *            ä»°è§’sinå€¼
 	 * @return
 	 */
 	public static double getHeightNew2(double range, double sin) {
@@ -355,12 +355,12 @@ public class PositionUtils {
 		return aa;
 	}
 	/**
-	 * ¼ÆËã¸ß¶È£¨·½·¨2£¬Ä¿Ç°Ó¦ÓÃÓÚET¡¢HP£©£¬µ¥Î»£ºkm
+	 * è®¡ç®—é«˜åº¦ï¼ˆæ–¹æ³•2ï¼Œç›®å‰åº”ç”¨äºETã€HPï¼‰ï¼Œå•ä½ï¼škm
 	 * 
 	 * @param range
-	 *            µ¥Î»£ºkm
+	 *            å•ä½ï¼škm
 	 * @param elevation
-	 *            Ñö½Ç£¬µ¥Î»£º¶È
+	 *            ä»°è§’ï¼Œå•ä½ï¼šåº¦
 	 * @return
 	 */
 	public static double getHeightNew(double range, double elevation) {

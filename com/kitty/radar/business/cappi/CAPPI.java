@@ -30,7 +30,7 @@ public class CAPPI extends RadarBase {
     
     private static byte resolution = 1;
 
-    private static float gridWidth = 1f; // 单元格宽度，单位：km
+    private static float gridWidth = 1f; // 鍗曞厓鏍煎搴︼紝鍗曚綅锛歬m
     
     private static float range = 230;
     private static double R = 6371.0 * 1000.0 * 4.0 / 3.0;     // effective radius of earth in meters.
@@ -42,7 +42,7 @@ public class CAPPI extends RadarBase {
     public static void display(Graphics2D g,RadarBase radarBase) { 
     	float h= radarBase.getAntennaHeight()*1000;
     	radarBase.datas = null;
-        if (radarBase.l2 == null) { // ??óD???Dμ????t
+        if (radarBase.l2 == null) { // ??贸D???D渭????t
             return;
         }
         int w = PositionUtils.toLength(gridWidth,radarBase.getScale_X());
@@ -56,7 +56,7 @@ public class CAPPI extends RadarBase {
         NavigableMap map = rd.readFile(moment);      
         Iterator it =map.keySet().iterator();
         while(it.hasNext()) {
-        	 Object e =it.next(); //取出元素
+        	 Object e =it.next(); //鍙栧嚭鍏冪礌
             fixedElevation.add(Double.parseDouble(e.toString()));
         }
 
@@ -66,8 +66,8 @@ public class CAPPI extends RadarBase {
 
                     ARCoord c = PositionUtils.toARCoord(grids[i][j].x, grids[i][j].y,radarBase);
                    // double ranges = Math.sqrt(Math.pow(c.r*1000, 2) + Math.pow(h + z, 2) );
-                    double ranges = Math.sqrt(Math.pow(R + h, 2) + Math.pow(R + z, 2) - 2 * (R + h) * (R + z) *Math.cos((c.r)*1000  / R));//斜距
-                    double elevation = (Math.acos(((R + h) * (R + h) + ranges * ranges - (R + z) * (R + z)) /(2 * (R + h) * ranges)) - Math.PI / 2) * 180. / Math.PI;//仰角
+                    double ranges = Math.sqrt(Math.pow(R + h, 2) + Math.pow(R + z, 2) - 2 * (R + h) * (R + z) *Math.cos((c.r)*1000  / R));//鏂滆窛
+                    double elevation = (Math.acos(((R + h) * (R + h) + ranges * ranges - (R + z) * (R + z)) /(2 * (R + h) * ranges)) - Math.PI / 2) * 180. / Math.PI;//浠拌
                     short value=0;
                     int[] scanIdx = getScanIndices(elevation);
                     if (scanIdx[0] < 0) {
@@ -114,7 +114,7 @@ public class CAPPI extends RadarBase {
         }
         radarBase.datas = grids;
        
-        // 画出格点
+        // 鐢诲嚭鏍肩偣
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 if (grids[i][j] != null) {
@@ -190,7 +190,7 @@ public class CAPPI extends RadarBase {
     public static String evaLabelText(RadarBase radarBase) {
         if(radarBase.l2 == null)
             return "";
-        String labelText = "ê±?? " + RadarUtils.getFileTime(radarBase)
+        String labelText = "锚卤?? " + RadarUtils.getFileTime(radarBase)
 //                + " - ???t " + radarBase.l2.getSrcFileName()
                 + " - " + RadarUtils.getMomentLabel(radarBase);
         return labelText;

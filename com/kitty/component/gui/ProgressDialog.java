@@ -19,7 +19,7 @@ import javax.swing.WindowConstants;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * Í¨ÓÃ½ø¶ÈÌõ¶Ô»°¿ò¡£
+ * é€šç”¨è¿›åº¦æ¡å¯¹è¯æ¡†ã€‚
  */
 public class ProgressDialog extends JDialog {
 
@@ -47,7 +47,7 @@ public class ProgressDialog extends JDialog {
         this.add(bar);
         bar.setBounds(x, 45, w, 19);
         bar.setValue(5);
-        cancel = new JButton(" È¡Ïû(C) ");
+        cancel = new JButton(" å–æ¶ˆ(C) ");
         cancel.setMnemonic(KeyEvent.VK_C);
         Action listener = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {

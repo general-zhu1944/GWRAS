@@ -43,7 +43,7 @@ import com.kitty.radar.util.CommonProps;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * ÇøÓòÁĞ±í¶Ô»°¿ò¡£
+ * åŒºåŸŸåˆ—è¡¨å¯¹è¯æ¡†ã€‚
  */
 public class SurfaceDialog extends JDialog {
 	    public static com.eltima.components.ui.DatePicker datePicker1;
@@ -55,16 +55,16 @@ public class SurfaceDialog extends JDialog {
 	    public static JButton querywindmax;
 	    public static JTextField textrain;
 
-	    JLabel label1 = new JLabel("ÆğÊ¼£º");
-        JLabel label2 = new JLabel("½áÊø£º");
+	    JLabel label1 = new JLabel("èµ·å§‹ï¼š");
+        JLabel label2 = new JLabel("ç»“æŸï¼š");
         JLabel label3 = new JLabel("   ");
-        JLabel label4 = new JLabel("ãĞÖµ£º");
+        JLabel label4 = new JLabel("é˜ˆå€¼ï¼š");
 
 
 
 
     public SurfaceDialog(ActionListener processor) {      
-        super(Radar.radar, "µØÃæÊµ¿ö×ÊÁÏ²éÑ¯");
+        super(Radar.radar, "åœ°é¢å®å†µèµ„æ–™æŸ¥è¯¢");
         Dimension d = new Dimension(400, 150);
         this.setSize(d);
         this.setLocation(CommonUtils.getCenterLocation(this.getSize()));
@@ -82,19 +82,19 @@ public class SurfaceDialog extends JDialog {
         elePanel1.add(label4);
         textrain = new JTextField("", 4);
         elePanel1.add(textrain);
-        queryrain = new JButton("·ÖÖÓÀÛ¼ÆÓêÁ¿");
+        queryrain = new JButton("åˆ†é’Ÿç´¯è®¡é›¨é‡");
         queryrain.setActionCommand(CommonProps.AC_QUERY_RAIN);
         queryrain.addActionListener(processor);       
         elePanel1.add(queryrain);
-        querytemper = new JButton("ÎÂ¶È");
+        querytemper = new JButton("æ¸©åº¦");
         querytemper.setActionCommand(CommonProps.AC_QUERY_TEMPER);
         querytemper.addActionListener(processor);       
         elePanel1.add(querytemper);
-        querytd = new JButton("Â¶µã");
+        querytd = new JButton("éœ²ç‚¹");
         querytd.setActionCommand(CommonProps.AC_QUERY_TD);
         querytd.addActionListener(processor);       
         elePanel1.add(querytd);
-        querywindmax = new JButton("¼«´ó·çËÙ");
+        querywindmax = new JButton("æå¤§é£é€Ÿ");
         querywindmax.setActionCommand(CommonProps.AC_QUERY_WINDMAX);
         querywindmax.addActionListener(processor);       
         elePanel1.add(querywindmax);
@@ -104,7 +104,7 @@ public class SurfaceDialog extends JDialog {
         RainOverlay rain = mainPanel.getRain();
         JPanel selectrainPanel = new JPanel();
         selectrainPanel.setLayout(new FlowLayout(1,15,5));
-        JCheckBox cb1 = new JCheckBox("É¢µã");
+        JCheckBox cb1 = new JCheckBox("æ•£ç‚¹");
         cb1.setSelected(rain._drawDiscreteData);
         cb1.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -125,7 +125,7 @@ public class SurfaceDialog extends JDialog {
         });
 
         selectrainPanel.add(cb1,BorderLayout.WEST);
-        JCheckBox cb2 = new JCheckBox("µÈÖµÏß");
+        JCheckBox cb2 = new JCheckBox("ç­‰å€¼çº¿");
         cb2.setSelected(rain._drawContourLine);
         cb2.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -145,7 +145,7 @@ public class SurfaceDialog extends JDialog {
             }
         });
         selectrainPanel.add(cb2,BorderLayout.CENTER); 
-        JCheckBox cb3 = new JCheckBox("É«°ßÍ¼");
+        JCheckBox cb3 = new JCheckBox("è‰²æ–‘å›¾");
         cb3.setSelected(rain._drawContourPolygon);
         cb3.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -166,7 +166,7 @@ public class SurfaceDialog extends JDialog {
             }
         });
         selectrainPanel.add(cb3,BorderLayout.EAST);
-        jCheckBox_SurfaceData = new javax.swing.JCheckBox("µş¼ÓµØÃæÊµ¿ö");
+        jCheckBox_SurfaceData = new javax.swing.JCheckBox("å åŠ åœ°é¢å®å†µ");
         jCheckBox_SurfaceData.setActionCommand(CommonProps.AC_DiscreteData);
         jCheckBox_SurfaceData.addActionListener(processor);
         jCheckBox_SurfaceData.setSelected(RainOverlay.rain_on);
@@ -174,27 +174,27 @@ public class SurfaceDialog extends JDialog {
        // this.mainPanel.add(elePanel);
 //        buttonPanel.remove(this.confirmButton);
 //        this.setButtonHgap(5);
-//        JButton button = new JButton(" ĞÂ½¨(N) ");
+//        JButton button = new JButton(" æ–°å»º(N) ");
 //        button.setMnemonic(KeyEvent.VK_N);
 //        button.setActionCommand("new");
 //        button.addActionListener(this);
 //        buttonPanel.add(button, 0);
-//        button = new JButton(" ĞŞ¸Ä(M) ");
+//        button = new JButton(" ä¿®æ”¹(M) ");
 //        button.setMnemonic(KeyEvent.VK_M);
 //        button.setActionCommand("modify");
 //        button.addActionListener(this);
 //        buttonPanel.add(button, 1);
-//        button = new JButton(" É¾³ı(D) ");
+//        button = new JButton(" åˆ é™¤(D) ");
 //        button.setMnemonic(KeyEvent.VK_D);
 //        button.setActionCommand("delete");
 //        button.addActionListener(this);
 //        buttonPanel.add(button, 2);
-//        button = new JButton(" µ¼Èë(I) ");
+//        button = new JButton(" å¯¼å…¥(I) ");
 //        button.setMnemonic(KeyEvent.VK_I);
 //        button.setActionCommand("import");
 //        button.addActionListener(this);
 //        buttonPanel.add(button, 3);
- //       cancelButton.setText(" ¹Ø±Õ(C) ");
+ //       cancelButton.setText(" å…³é—­(C) ");
         
         this.add(elePanel, BorderLayout.NORTH);
         this.add(elePanel1, BorderLayout.CENTER);
@@ -216,35 +216,35 @@ public class SurfaceDialog extends JDialog {
     	}
     }
     public static DatePicker getDatePicker() {
-        // ÏÔÊ¾¸ñÊ½
+        // æ˜¾ç¤ºæ ¼å¼
         String DefaultFormat = "yyyy-MM-dd HH:mm";
-        // µ±Ç°Ê±¼ä
+        // å½“å‰æ—¶é—´
         Date date = new Date();
-        // ÉèÖÃ×ÖÌå
+        // è®¾ç½®å­—ä½“
         Font font = new Font("Times New Roman", Font.BOLD, 14);
         Dimension dimension = new Dimension(130, 24);
-        // ¸ßÁÁÏÔÊ¾µÄÈÕÆÚ
+        // é«˜äº®æ˜¾ç¤ºçš„æ—¥æœŸ
         int[] hilightDays = { 1, 3, 5, 7 };
-        // »ÒÉ«ÏÔÊ¾µÄÈÕÆÚ
+        // ç°è‰²æ˜¾ç¤ºçš„æ—¥æœŸ
         //int[] disabledDays = { 4, 6, 5, 9 };        
-        //¹¹Ôì·½·¨£¨³õÊ¼Ê±¼ä£¬Ê±¼äÏÔÊ¾¸ñÊ½£¬×ÖÌå£¬¿Ø¼ş´óĞ¡£©
+        //æ„é€ æ–¹æ³•ï¼ˆåˆå§‹æ—¶é—´ï¼Œæ—¶é—´æ˜¾ç¤ºæ ¼å¼ï¼Œå­—ä½“ï¼Œæ§ä»¶å¤§å°ï¼‰
         DatePicker datepick = new DatePicker(date, DefaultFormat, font, dimension);
-        //ÉèÖÃÆğÊ¼Î»ÖÃ
+        //è®¾ç½®èµ·å§‹ä½ç½®
         datepick.setLocation(137, 83);
-        // ÉèÖÃÒ»¸öÔÂ·İÖĞĞèÒª¸ßÁÁÏÔÊ¾µÄÈÕ×Ó
+        // è®¾ç½®ä¸€ä¸ªæœˆä»½ä¸­éœ€è¦é«˜äº®æ˜¾ç¤ºçš„æ—¥å­
         datepick.setHightlightdays(hilightDays, Color.red);
-        // ÉèÖÃÒ»¸öÔÂ·İÖĞ²»ĞèÒªµÄÈÕ×Ó£¬³Ê»ÒÉ«ÏÔÊ¾
+        // è®¾ç½®ä¸€ä¸ªæœˆä»½ä¸­ä¸éœ€è¦çš„æ—¥å­ï¼Œå‘ˆç°è‰²æ˜¾ç¤º
        // datepick.setDisableddays(disabledDays);
-        // ÉèÖÃ¹ú¼Ò
+        // è®¾ç½®å›½å®¶
         datepick.setLocale(Locale.CANADA);
-        // ÉèÖÃÊ±ÖÓÃæ°å¿É¼û
+        // è®¾ç½®æ—¶é’Ÿé¢æ¿å¯è§
         datepick.setTimePanleVisible(true);       
         return datepick;
     }
 
     public void actionPerformed(ActionEvent e) {
         
-                CommonUtils.alert("ÇëÑ¡ÔñÒªÉ¾³ıµÄÇøÓò", null);
+                CommonUtils.alert("è¯·é€‰æ‹©è¦åˆ é™¤çš„åŒºåŸŸ", null);
       
     }
 

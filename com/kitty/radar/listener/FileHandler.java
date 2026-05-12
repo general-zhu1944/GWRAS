@@ -45,7 +45,7 @@ public class FileHandler implements FilesystemAlterationListener {
             public void run() {
                 DefaultListModel model = (DefaultListModel) GUIManager.list.getModel();
 
-                // 删除文件
+                // 鍒犻櫎鏂囦欢
                 if (deleteds.size() > 0) {
                     for (int i = 0; i < model.getSize(); i++) {
                         if (deleteds.contains(((ListElement) model.get(i)).getLabel())) {
@@ -56,7 +56,7 @@ public class FileHandler implements FilesystemAlterationListener {
                     deleteds.clear();
                 }
 
-                // 添加文件
+                // 娣诲姞鏂囦欢
                 if (createds.size() > 0) {
                     if (model.getSize() == 0) {
                         Iterator keys = createds.keySet().iterator();

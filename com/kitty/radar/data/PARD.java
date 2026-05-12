@@ -10,50 +10,38 @@ import com.kitty.radar.RadarBase;
 
 import javax.swing.*;
 
-/**
- * ����������״�����ݱ�׼��ʽ�����ã������ࡣ
- * <p>
- * ���ݸ�ʽ���ա�����������״�����ݱ�׼��ʽ(����).doc��������ṹ���� FMT.java��
- * </p>
- */
 public class PARD extends RadarData {
 
-    /* ---------- ���ó��� ---------- */
-    /** ����֧�ֵ�9�ֻ��������������� */
     public static final byte DATA_TYPE_NUMBER = 9;
 
-    /** �� RadarData �ж���� type ����ӳ�䵽�ڲ��洢��λ (0~8) */
     public static final byte[] MOMENT_INDEX = new byte[128];
 
-    /** �¸�ʽ DataType ֵ -> ��λ */
     private static final Map<Integer, Integer> dataTypeToSlotIndex = new HashMap<>();
 
     static {
         Arrays.fill(MOMENT_INDEX, (byte) -1);
-        // ӳ�� RadarData ��������λ
-        MOMENT_INDEX[RadarData.DBT]  = 0;   // �˲�ǰ������
-        MOMENT_INDEX[RadarData.DBZ]  = 1;   // �˲�������
-        MOMENT_INDEX[RadarData.ZDR]  = 2;   // ��ַ�����
-        MOMENT_INDEX[RadarData.KDP]  = 3;   // ���������
-        MOMENT_INDEX[RadarData.CC]   = 4;   // Э���ϵ��
-        MOMENT_INDEX[RadarData.DP]   = 5;   // ������� (��DP)
-        MOMENT_INDEX[RadarData.SNRH] = 6;   // ˮƽ�����
-        MOMENT_INDEX[RadarData.V]    = 7;   // �ٶ�
-        MOMENT_INDEX[RadarData.W]    = 8;   // �׿�
-
-        // ���ݸ�ʽ�� DataType ����ֵ -> ��λ (��2-8)
-        dataTypeToSlotIndex.put(1,  0);   // dBT
-        dataTypeToSlotIndex.put(2,  1);   // dBZ
-        dataTypeToSlotIndex.put(7,  2);   // ZDR
-        dataTypeToSlotIndex.put(11, 3);   // KDP
-        dataTypeToSlotIndex.put(9,  4);   // CC
-        dataTypeToSlotIndex.put(10, 5);   // ��DP
-        dataTypeToSlotIndex.put(16, 6);   // SNRH
-        dataTypeToSlotIndex.put(3,  7);   // V
-        dataTypeToSlotIndex.put(4,  8);   // W
+        
+        MOMENT_INDEX[RadarData.DBT]  = 0;   
+        MOMENT_INDEX[RadarData.DBZ]  = 1;   
+        MOMENT_INDEX[RadarData.ZDR]  = 2;   
+        MOMENT_INDEX[RadarData.KDP]  = 3;   
+        MOMENT_INDEX[RadarData.CC]   = 4;   
+        MOMENT_INDEX[RadarData.DP]   = 5;   
+        MOMENT_INDEX[RadarData.SNRH] = 6;   
+        MOMENT_INDEX[RadarData.V]    = 7;   
+        MOMENT_INDEX[RadarData.W]    = 8;   
+        
+        dataTypeToSlotIndex.put(1,  0);   
+        dataTypeToSlotIndex.put(2,  1);   
+        dataTypeToSlotIndex.put(7,  2);   
+        dataTypeToSlotIndex.put(11, 3);   
+        dataTypeToSlotIndex.put(9,  4);   
+        dataTypeToSlotIndex.put(10, 5);   
+        dataTypeToSlotIndex.put(16, 6);   
+        dataTypeToSlotIndex.put(3,  7);   
+        dataTypeToSlotIndex.put(4,  8);   
     }
 
-    /* ---------- �ڲ������� ---------- */
     static class Moment {
         Map<String, Object> header = new LinkedHashMap<>();
         short binNumber;
@@ -62,35 +50,30 @@ public class PARD extends RadarData {
 
     static class Radial {
         Map<String, Object> header = new LinkedHashMap<>();
-        // ����λ�洢��δ���ֵ�����Ϊ null
+        
         Moment[] moments = new Moment[DATA_TYPE_NUMBER];
     }
 
-    /* ---------- ��Ա���� ---------- */
-    // ͨ��ͷ + վ�����ã���ϴ洢���� FMT��
+    
     private Map<String, Object> commonMap = new LinkedHashMap<>();
-    // ��������
+    
     private Map<String, Object> taskConfigMap = new LinkedHashMap<>();
-    // ���䲨�������б�
+    
     private List<Map<String, Object>> beamConfigs = new ArrayList<>();
-    // �������������б� (Cut Config)
+    
     private List<Map<String, Object>> cutConfigs = new ArrayList<>();
-
-    // ���о���ͷ��Ϣ
+    
     private Radial[] radials = new Radial[MAX_FILE_RECORDS];
     private int maxRadialNum = 0;
     private short maxBinNum = 0;
-    private int recordNum;                     // ��ǰ�����ľ�������
-
-    // ��������ά�������飺[�����ھ������][moment��λ][�����]
+    private int recordNum;                     
+    
     private float[][][] values;
 
-    /* ---------- ���캯�� ---------- */
     public PARD(RadarBase radarBase) {
-        super(radarBase);   // ������ʽ���ø����вι�����
+        super(radarBase);   
     }
 
-    /* ---------- ������󷽷�ʵ�� ---------- */
 
     @Override
     public Date getFileTime() {
@@ -145,7 +128,7 @@ public class PARD extends RadarData {
                         } else {
                             value = raf.readUnsignedByte();
                         }
-                        // С��5��ֵ��������루��3-3��
+                        
                         if (value < 5) {
                             values[0][i][j] = RadarData.NO_DATA;
                         } else {
@@ -237,35 +220,23 @@ public class PARD extends RadarData {
         try {
             raf = new RandomAccessFile(file.getPath(), "r");
             raf.order(RandomAccessFile.LITTLE_ENDIAN);
-
-            // 1. ͨ��ͷ��32�ֽڣ�
+            
             if (!readGenericHeader()) return false;
-
-
-            // 2. վ�����ã�128�ֽڣ�
+            
             if (!readSiteConfig()) return false;
-
-            // 3. �������ã�256�ֽڣ�
+            
             if (!readTaskConfig()) return false;
-
-            // 4. ���䲨������ (640 * M)
+            
             int beamNum = (int) taskConfigMap.get("ScanBeamNumber");
             readBeamConfigs(beamNum);
-
-            // 5. ������������ (256 * N)
+            
             int cutNum = (int) taskConfigMap.get("CutNumber");
             readCutConfigs(cutNum);
-
-            // 6. Ԥ��ȫ������ͷ����¼�ļ�ƫ��
+            
             readRadialHeaders();
-
-
-
-            // 7. �õ�һ�����ǳ�ʼ���������
+            
             readParams(0);
-
-
-            // 8. ���������������飨�����ھ����������� MAX_CUT_RECORDS��
+            
             values = new float[MAX_CUT_RECORDS][DATA_TYPE_NUMBER][maxBinNum];
             return true;
         } catch (IOException e) {
@@ -275,30 +246,27 @@ public class PARD extends RadarData {
         return false;
     }
 
-    /* ---------- ͨ��ͷ��ȡ ---------- */
     @SuppressWarnings("unchecked")
     private boolean readGenericHeader() throws IOException {
         int magic = raf.readInt();
         if (magic != 0x4D545352) {
-//            System.err.println("Invalid magic number: " + Integer.toHexString(magic));
+
             return false;
         }
         commonMap.put("MagicNumber", magic);
         commonMap.put("MajorVersion", raf.readUnsignedShort());
         commonMap.put("MinorVersion", raf.readUnsignedShort());
         int generic_type = raf.readInt();
-//      因为跟FMT一样的magic，为了区分开多个判断返回false
-//        JOptionPane.showMessageDialog(null,generic_type);
+
         if (generic_type != 1) {
             return false;
         }
-        commonMap.put("GenericType", generic_type);      // ӦΪ16
+        commonMap.put("GenericType", generic_type);      
         commonMap.put("ProductType", raf.readInt());
         raf.skipBytes(16);
         return true;
     }
 
-    /* ---------- վ�����ö�ȡ ---------- */
     @SuppressWarnings("unchecked")
     private boolean readSiteConfig() throws IOException {
         commonMap.put("SiteCode", raf.readString(8).trim());
@@ -315,8 +283,8 @@ public class PARD extends RadarData {
         commonMap.put("RadarType", radarType);
 
         if (radarType == 7 || radarType ==8||radarType == 44 || radarType ==43||radarType == 69 || radarType ==70 || radarType ==27) {
-            raf.skipBytes(54);  // Reserved
-            // д���״�������Ϣ
+            raf.skipBytes(54);  
+            
             radarBase.setAntennaHeight(((int) commonMap.get("AntennaHeight")) / 1000.0f);
             radarBase.setLatitude((float) commonMap.get("Latitude"));
             radarBase.setLongitude((float) commonMap.get("Longitude"));
@@ -328,10 +296,8 @@ public class PARD extends RadarData {
             return false;
         }
 
-
     }
 
-    /* ---------- �������ö�ȡ ---------- */
     @SuppressWarnings("unchecked")
     private boolean readTaskConfig() throws IOException {
         taskConfigMap.put("TaskName", raf.readString(32).trim());
@@ -341,16 +307,15 @@ public class PARD extends RadarData {
         taskConfigMap.put("ScanBeamNumber", raf.readInt());
         int cutNumber = raf.readInt();
         taskConfigMap.put("CutNumber", cutNumber);
-        this.cutNumber = (byte) cutNumber;               // �����������
+        this.cutNumber = (byte) cutNumber;               
         taskConfigMap.put("RayOrder", raf.readInt());
         taskConfigMap.put("ScanStartTime", raf.readLong());
-        raf.skipBytes(68);  // Reserved
-       // ���� VCP ����
+        raf.skipBytes(68);  
+       
         this.vcp = ((String) taskConfigMap.get("TaskName")).toUpperCase().replaceFirst("^VCP", "");
         return true;
     }
 
-    /* ---------- ���䲨������ (640 * M) ---------- */
     @SuppressWarnings("unchecked")
     private void readBeamConfigs(int beamNum) throws IOException {
         for (int b = 0; b < beamNum; b++) {
@@ -362,10 +327,8 @@ public class PARD extends RadarData {
             beam.put("TxBeamWidthH", raf.readFloat());
             beam.put("TxBeamWidthV", raf.readFloat());
             beam.put("TxBeamGain", raf.readFloat());
-            raf.skipBytes(100); // Beam config reserved
-
-
-            // 4 ������������飬ÿ��128�ֽ�
+            raf.skipBytes(100); 
+            
             for (int s = 0; s < 4; s++) {
                 Map<String, Object> subPulse = new LinkedHashMap<>();
                 subPulse.put("SubPulseStrategy", raf.readInt());
@@ -390,14 +353,13 @@ public class PARD extends RadarData {
         }
     }
 
-    /* ---------- ������������ (256 * N) ---------- */
     @SuppressWarnings("unchecked")
     private void readCutConfigs(int cutNum) throws IOException {
         for (int i = 0; i < cutNum; i++) {
             Map<String, Object> cut = new LinkedHashMap<>();
             cut.put("CutIndex", raf.readShort());
             cut.put("TxBeamIndex", raf.readShort());
-            cut.put("Elevation", raf.readFloat());       // ���ղ���ָ�� (����)
+            cut.put("Elevation", raf.readFloat());       
             cut.put("TxBeamGain", raf.readFloat());
             cut.put("RxBeamWidthH", raf.readFloat());
             cut.put("RxBeamWidthV", raf.readFloat());
@@ -434,25 +396,24 @@ public class PARD extends RadarData {
             cut.put("CPAThreshold", raf.readFloat());
             cut.put("PMIThreshold", raf.readFloat());
             cut.put("DPLOGThreshold", raf.readFloat());
-            raf.skipBytes(4);   // Thresholds reserved
+            raf.skipBytes(4);   
             cut.put("dBTMask", raf.readInt());
             cut.put("dBZMask", raf.readInt());
             cut.put("VelocityMask", raf.readInt());
             cut.put("SpectrumWidthMask", raf.readInt());
             cut.put("DPMask", raf.readInt());
-            raf.skipBytes(12);  // Mask Reserved
-            raf.skipBytes(4);   // Reserved
+            raf.skipBytes(12);  
+            raf.skipBytes(4);   
             cut.put("Direction", raf.readInt());
             cut.put("GroundClutterClassifierType", raf.readShort());
             cut.put("GroundClutterFilterType", raf.readShort());
             cut.put("GroundClutterFilterNotchWidth", raf.readShort());
             cut.put("GroundClutterFilterWindow", raf.readShort());
-            raf.skipBytes(44);  // Reserved
+            raf.skipBytes(44);  
             cutConfigs.add(cut);
         }
     }
 
-    /* ---------- Ԥ��ȫ������ͷ��128�ֽ�/���� ---------- */
     @SuppressWarnings("unchecked")
     private void readRadialHeaders() throws IOException {
         maxRadialNum = 0;
@@ -460,7 +421,7 @@ public class PARD extends RadarData {
         try {
             while (true) {
                 radials[maxRadialNum] = new Radial();
-                // ����ͷ (��3-1, 128�ֽ�)
+                
                 int radialState = raf.readInt();
                 radials[maxRadialNum].header.put("RadialState", radialState);
                 radials[maxRadialNum].header.put("SpotBlank", raf.readInt());
@@ -470,19 +431,18 @@ public class PARD extends RadarData {
                 radials[maxRadialNum].header.put("ElevationNumber", elevationNumber);
                 radials[maxRadialNum].header.put("Azimuth", raf.readFloat());
                 radials[maxRadialNum].header.put("Elevation", raf.readFloat());
-                radials[maxRadialNum].header.put("Seconds", raf.readLong());      // int 8�ֽ�
+                radials[maxRadialNum].header.put("Seconds", raf.readLong());      
                 radials[maxRadialNum].header.put("Microseconds", raf.readInt());
                 int lengthOfData = raf.readInt();
                 radials[maxRadialNum].header.put("Lengthofdata", lengthOfData);
                 int momentNumber = raf.readInt();
                 radials[maxRadialNum].header.put("MomentNumber", momentNumber);
-                raf.skipBytes(2);   // ���� ScanBeamIndex
+                raf.skipBytes(2);   
                 radials[maxRadialNum].header.put("HorizontalEstimatedNoise", raf.readShort());
                 radials[maxRadialNum].header.put("VerticalEstimatedNoise", raf.readShort());
                 radials[maxRadialNum].header.put("PRFFlag", raf.readInt());
-                raf.skipBytes(70);  // Reserved
-
-                // ��������ͷѭ��
+                raf.skipBytes(70);  
+                
                 int readLength = 0;
                 int readMoment = 0;
                 for (int i = 0; i < momentNumber; i++) {
@@ -492,9 +452,9 @@ public class PARD extends RadarData {
                     int binLength = raf.readShort();
                     short flags = raf.readShort();
                     int length = raf.readInt();
-                    raf.skipBytes(12);  // Reserved
+                    raf.skipBytes(12);  
 
-                    dataTypeSet.add(dataType);   // ��������ͼ���
+                    dataTypeSet.add(dataType);   
                     int index = MOMENT_INDEX[dataType];
                     if (index != -1) {
                         radials[maxRadialNum].moments[index] = new Moment();
@@ -513,15 +473,14 @@ public class PARD extends RadarData {
                         readMoment++;
                     }
                     raf.skipBytes(length);
-                    readLength += (32 + length);  // ��������ͷ32�ֽ� + ������
-                    // ������ĵ�����������ȫ����ȡ�������þ���ʣ������
+                    readLength += (32 + length);  
+                    
                     if (readMoment == radials[maxRadialNum].moments.length) {
                         raf.skipBytes(lengthOfData - readLength);
                         break;
                     }
                 }
-
-                // ��¼������ʼ���� (״̬Ϊ���ǿ�ʼ����ɨ��ʼ)
+                
                 if (radialState == 0 || radialState == 3) {
                     cutStarts[elevationNumber - 1] = (short) maxRadialNum;
                 }
@@ -530,7 +489,7 @@ public class PARD extends RadarData {
 
             }
         } catch (Exception e) {
-            // �ļ��������������
+            
 
         }
         if(maxRadialNum>415*11) {
@@ -538,16 +497,15 @@ public class PARD extends RadarData {
         }
     }
 
-    /* ---------- ���� cutNum ˢ�·ֱ��ʼ������Ȳ��� ---------- */
     private void readParams(int cutNum) {
         if (cutNum < 0 || cutNum >= cutConfigs.size()) {
             return;
         }
         Map<String, Object> cutMap = cutConfigs.get(cutNum);
-        // ��ʼ���루�ף�
+        
         this.surveillanceRange = (short) (int) cutMap.get("StartRange");
         this.dopplerRange = this.surveillanceRange;
-        // ����ֱ��ʣ��ף����¸�ʽ֧�ָ�������ת��Ϊ short���� FMT ����һ�£�
+        
         this.surveillanceInterval = (short) (float) cutMap.get("LogResolution");
         this.dopplerInterval = (short) (float) cutMap.get("DopplerResolution");
 

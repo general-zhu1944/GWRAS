@@ -17,15 +17,15 @@ import com.kitty.component.gui.BasicDialog;
 import com.kitty.radar.util.CommonUtils;
 
 /**
- * ĞÂ½¨/ĞŞ¸ÄÇøÓò¶Ô»°¿ò¡£
+ * æ–°å»º/ä¿®æ”¹åŒºåŸŸå¯¹è¯æ¡†ã€‚
  */
 public class AreaInputDialog extends BasicDialog {
 
-    public static final String AREA_CIRCLE = "Ô²ĞÎ";
+    public static final String AREA_CIRCLE = "åœ†å½¢";
 
-    public static final String AREA_RECTANGLE = "¾ØĞÎ";
+    public static final String AREA_RECTANGLE = "çŸ©å½¢";
 
-    public static final String AREA_ELLIPSE = "ÍÖÔ²ĞÎ";
+    public static final String AREA_ELLIPSE = "æ¤­åœ†å½¢";
 
     private JComboBox type;
 
@@ -41,7 +41,7 @@ public class AreaInputDialog extends BasicDialog {
         super(owner, title, true);
         this.index = index;
         final Area area = AreaDialog.tableModel.get(index);
-        typeLabel = this.mainPanel.addLabel("Àà±ğ", 40, 30);
+        typeLabel = this.mainPanel.addLabel("ç±»åˆ«", 40, 30);
         type = this.mainPanel.addComboBox(
                 new String[] { AREA_CIRCLE, AREA_RECTANGLE }, typeLabel);
         Rectangle rect = type.getBounds();

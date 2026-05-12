@@ -18,21 +18,21 @@ import javax.swing.SwingUtilities;
 import com.kitty.component.gui.domain.LabelOption;
 
 /**
- * Ö§³Ö¹ö¶¯ÏÔÊ¾µÄLabel¡£
+ * æ”¯æŒæ»šåŠ¨æ˜¾ç¤ºçš„Labelã€‚
  */
 public class ScrollLabel extends BasicPanel {
 
     private LabelOption[] options;
 
-    private int interval = 3600000; // ÎÄ±¾ÏÔÊ¾Ê±¼ä¼ä¸ô£¬µ¥Î»£ºms
+    private int interval = 3600000; // æ–‡æœ¬æ˜¾ç¤ºæ—¶é—´é—´éš”ï¼Œå•ä½ï¼šms
 
     private Timer timer;
 
     private JLabel label;
 
-    private int length = -1; // ÒÆ¶¯µÄ¾àÀë
+    private int length = -1; // ç§»åŠ¨çš„è·ç¦»
 
-    private boolean over = false; // Êó±êÊÇ·ñÍ£ÁôÔÚScrollLabelÉÏ
+    private boolean over = false; // é¼ æ ‡æ˜¯å¦åœç•™åœ¨ScrollLabelä¸Š
 
     public ScrollLabel(LabelOption[] options, int horizontalAlignment) {
         this.options = options;

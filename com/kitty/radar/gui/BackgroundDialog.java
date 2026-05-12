@@ -19,34 +19,27 @@ import org.netbeans.validation.api.ui.ValidationGroup;
 import org.netbeans.validation.api.ui.ValidationPanel;
 
 import com.kitty.radar.MapOverlay;
+import com.kitty.radar.RadarParams;
 import com.kitty.radar.listener.ItemHandler;
 import com.kitty.radar.listener.TextFieldHandler;
 import com.kitty.radar.util.CommonUtils;
 
-/**
- * µÿ¿Ì±≥æ∞∂‘ª∞øÚ°£
- */
 public class BackgroundDialog extends PropsDialog {
 
     private JTextField textSpoke;
-
     private JTextField textRing;
-
     private JCheckBox checkProvince;
-
     private JCheckBox checkCity;
-
     private JCheckBox checkTown;
-
     private JCheckBox checkRiver;
-
     private JCheckBox checkTownName;
-
     private JCheckBox checkDetailName;
+    private JTextField textMapDir;
+    private JTextField textTerrainFile;
 
     public BackgroundDialog(Frame owner) {
-        super(owner, "µÿ¿Ì±≥æ∞", true);
-        Dimension d = new Dimension(300, 243);
+        super(owner, "Âú∞ÁêÜËÉåÊôØ", true);
+        Dimension d = new Dimension(380, 300);
         this.setSize(d);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setLocation(CommonUtils.getCenterLocation(d));
@@ -56,14 +49,15 @@ public class BackgroundDialog extends PropsDialog {
         this.add(tabbedPane, BorderLayout.CENTER);
         TextFieldHandler listener = new TextFieldHandler(this);
 
+        // --- Grid tab ---
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        JLabel label1 = new JLabel("‘≤ª°Ω«∂»");
-        JLabel label2 = new JLabel("∂»");
-        JLabel label3 = new JLabel("Õ¨–ƒ‘≤º‰∏Ù");
+        JLabel label1 = new JLabel("ËæêÊù°ËßíÂ∫¶");
+        JLabel label2 = new JLabel("Â∫¶");
+        JLabel label3 = new JLabel("ÂêåÂøÉÂúÜË∑ù");
         JLabel label4 = new JLabel("km");
         textSpoke = new JTextField(CommonUtils.defaultFormat(MapOverlay.polar_grid_spoke), 18);
         textRing = new JTextField(CommonUtils.defaultFormat(MapOverlay.polar_grid_ring), 18);
@@ -99,16 +93,17 @@ public class BackgroundDialog extends PropsDialog {
                 Validators.REQUIRE_VALID_NUMBER, Validators.REQUIRE_NON_EMPTY_STRING);
         vpanel.setInnerComponent(panel);
         this.addValidationListener(vpanel, "1");
-        tabbedPane.addTab(" Õ¯∏Ò ", vpanel);
+        tabbedPane.addTab(" ÁΩëÊ†º ", vpanel);
 
+        // --- Map tab ---
         panel = new JPanel(new GridBagLayout());
         ItemHandler clistener = new ItemHandler(this);
-        checkProvince = new JCheckBox("  °ΩÁ", (MapOverlay.mapMode & MapOverlay.MAP_PROVINCE) != 0);
-        checkCity = new JCheckBox(" µÿ«¯±ﬂΩÁ", (MapOverlay.mapMode & MapOverlay.MAP_CITY) != 0);
-        checkTown = new JCheckBox(" œÿΩÁ", (MapOverlay.mapMode & MapOverlay.MAP_TOWN) != 0);
-        checkRiver = new JCheckBox(" ∫”¡˜", (MapOverlay.mapMode & MapOverlay.MAP_RIVER) != 0);
-        checkTownName = new JCheckBox("  °°¢µÿ«¯√˚", (MapOverlay.mapMode & MapOverlay.MAP_TOWNNAME) != 0);
-        checkDetailName = new JCheckBox(" œÿ√˚",
+        checkProvince = new JCheckBox(" ÁúÅÁïå", (MapOverlay.mapMode & MapOverlay.MAP_PROVINCE) != 0);
+        checkCity = new JCheckBox(" Âú∞Âå∫ËæπÁïå", (MapOverlay.mapMode & MapOverlay.MAP_CITY) != 0);
+        checkTown = new JCheckBox(" ÂéøÁïå", (MapOverlay.mapMode & MapOverlay.MAP_TOWN) != 0);
+        checkRiver = new JCheckBox(" Ê≤≥ÊµÅ", (MapOverlay.mapMode & MapOverlay.MAP_RIVER) != 0);
+        checkTownName = new JCheckBox(" ÁúÅ/Â∏ÇÂêç", (MapOverlay.mapMode & MapOverlay.MAP_TOWNNAME) != 0);
+        checkDetailName = new JCheckBox(" ÂéøÂêç",
                 (MapOverlay.mapMode & MapOverlay.MAP_DETAILNAME) != 0);
         checkProvince.addItemListener(clistener);
         checkCity.addItemListener(clistener);
@@ -116,7 +111,7 @@ public class BackgroundDialog extends PropsDialog {
         checkRiver.addItemListener(clistener);
         checkTownName.addItemListener(clistener);
         checkDetailName.addItemListener(clistener);
-        gbc.insets.set(7, 20, 7, 20);
+        gbc.insets.set(5, 15, 5, 15);
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(checkProvince, gbc);
@@ -131,7 +126,41 @@ public class BackgroundDialog extends PropsDialog {
         panel.add(checkTownName, gbc);
         gbc.gridy = 2;
         panel.add(checkDetailName, gbc);
-        tabbedPane.addTab(" µÿÕº ", panel);
+
+        // Map directory field
+        JLabel mapDirLabel = new JLabel("Âú∞ÂõæÁõÆÂΩï:");
+        textMapDir = new JTextField(RadarParams.mapDataDir, 32);
+        textMapDir.getDocument().addDocumentListener(listener);
+        gbc.insets.set(10, 10, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        panel.add(mapDirLabel, gbc);
+        gbc.insets.set(2, 10, 10, 5);
+        gbc.gridy = 4;
+        panel.add(textMapDir, gbc);
+        gbc.gridwidth = 1;
+        tabbedPane.addTab(" Âú∞Âõæ ", panel);
+
+        // --- Terrain tab ---
+        JPanel terrainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints tgbc = new GridBagConstraints();
+        tgbc.weightx = 0;
+        tgbc.weighty = 0;
+        tgbc.anchor = GridBagConstraints.WEST;
+        JLabel terrainLabel = new JLabel("Âú∞ÂΩ¢È´òÁ®ãÊñá‰ª∂ (.nc):");
+        textTerrainFile = new JTextField(MapOverlay.elevationFile, 40);
+        textTerrainFile.getDocument().addDocumentListener(listener);
+        tgbc.fill = GridBagConstraints.HORIZONTAL;
+        tgbc.weightx = 1.0;
+        tgbc.insets.set(15, 15, 5, 15);
+        tgbc.gridx = 0;
+        tgbc.gridy = 0;
+        terrainPanel.add(terrainLabel, tgbc);
+        tgbc.insets.set(5, 15, 15, 15);
+        tgbc.gridy = 1;
+        terrainPanel.add(textTerrainFile, tgbc);
+        tabbedPane.addTab(" Âú∞ÂΩ¢ ", terrainPanel);
 
         this.add(createPropsButtons(), BorderLayout.SOUTH);
     }
@@ -141,36 +170,14 @@ public class BackgroundDialog extends PropsDialog {
         dialog.setVisible(true);
     }
 
-    public JTextField getTextRing() {
-        return textRing;
-    }
-
-    public JTextField getTextSpoke() {
-        return textSpoke;
-    }
-
-    public JCheckBox getCheckCity() {
-        return checkCity;
-    }
-
-    public JCheckBox getCheckProvince() {
-        return checkProvince;
-    }
-
-    public JCheckBox getCheckRiver() {
-        return checkRiver;
-    }
-
-    public JCheckBox getCheckTown() {
-        return checkTown;
-    }
-
-    public JCheckBox getCheckTownName() {
-        return checkTownName;
-    }
-
-    public JCheckBox getCheckDetailName() {
-        return checkDetailName;
-    }
-
+    public JTextField getTextRing() { return textRing; }
+    public JTextField getTextSpoke() { return textSpoke; }
+    public JCheckBox getCheckCity() { return checkCity; }
+    public JCheckBox getCheckProvince() { return checkProvince; }
+    public JCheckBox getCheckRiver() { return checkRiver; }
+    public JCheckBox getCheckTown() { return checkTown; }
+    public JCheckBox getCheckTownName() { return checkTownName; }
+    public JCheckBox getCheckDetailName() { return checkDetailName; }
+    public JTextField getTextMapDir() { return textMapDir; }
+    public JTextField getTextTerrainFile() { return textTerrainFile; }
 }

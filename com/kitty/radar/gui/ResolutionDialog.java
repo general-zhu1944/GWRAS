@@ -25,7 +25,7 @@ public class ResolutionDialog extends PropsDialog {
     private JComboBox comboVIL;
 
     public ResolutionDialog(Frame owner) {
-        super(owner, "·Ö±æÂÊ", true);
+        super(owner, "åˆ†è¾¨ç‡", true);
         Dimension d = new Dimension(275, 210);
         this.setSize(d);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -35,10 +35,10 @@ public class ResolutionDialog extends PropsDialog {
 
         BasicPanel panel = new BasicPanel();
         ItemHandler clistener = new ItemHandler(this);
-        JLabel label = panel.addLabel("×éºÏ·´ÉäÂÊ", 35, 85);
+        JLabel label = panel.addLabel("ç»„åˆåå°„ç‡", 35, 85);
         Option[] options = RadarUtils.getResolution(CommonProps.MOMENT_CR);
         this.comboCR = panel.addComboBox(options, label);
-        label = panel.addLabel("Ä¬ÈÏ·Ö±æÂÊ", 35, 41);
+        label = panel.addLabel("é»˜è®¤åˆ†è¾¨ç‡", 35, 41);
         for (int i = 0; i < options.length; i++) {
 //            if (options[i].getValue() == CR.getResolution()) {
 //                comboCR.setSelectedIndex(i);
