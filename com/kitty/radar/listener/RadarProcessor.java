@@ -608,10 +608,10 @@ public class RadarProcessor extends RadarParams implements ActionListener {
 				index = 0;
 			}
 			list.setSelectedIndex(index);
-			//long aTime=System.currentTimeMillis();
+			long aTime=System.currentTimeMillis();
 			displayFile(null);			
-			//long bTime=System.currentTimeMillis();
-			//JOptionPane.showMessageDialog(null, "体扫切换所需时间"+(bTime-aTime)+"毫秒","测试时差",JOptionPane.INFORMATION_MESSAGE);
+			long bTime=System.currentTimeMillis();
+			JOptionPane.showMessageDialog(null, "体扫切换所需时间"+(bTime-aTime)+"毫秒","测试时差",JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 

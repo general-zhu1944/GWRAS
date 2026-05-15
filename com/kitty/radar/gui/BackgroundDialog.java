@@ -128,8 +128,10 @@ public class BackgroundDialog extends PropsDialog {
         panel.add(checkDetailName, gbc);
 
         // Map directory field
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         JLabel mapDirLabel = new JLabel("地图目录:");
-        textMapDir = new JTextField(RadarParams.mapDataDir, 32);
+        textMapDir = new JTextField(RadarParams.mapDataDir, 36);
         textMapDir.getDocument().addDocumentListener(listener);
         gbc.insets.set(10, 10, 5, 5);
         gbc.gridx = 0;
@@ -139,6 +141,8 @@ public class BackgroundDialog extends PropsDialog {
         gbc.insets.set(2, 10, 10, 5);
         gbc.gridy = 4;
         panel.add(textMapDir, gbc);
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
         gbc.gridwidth = 1;
         tabbedPane.addTab(" 地图 ", panel);
 

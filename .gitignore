@@ -3,4 +3,9 @@
 .metadata
 .settings
 *.iml
-out
+outbuild/
+/build/
+build/
+out/
+hs_err_*
+replay_*

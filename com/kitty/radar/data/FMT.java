@@ -90,19 +90,23 @@ public class FMT extends RadarData {
 				if (moment != null) {
 					int scale = (int) moment.header.get("Scale");
 					int offset = (int) moment.header.get("Offset");
-					int binLength = (int) moment.header.get("BinLength");
+					int binLen = (int) moment.header.get("BinLength");
+					int binNum  = moment.binNumber;
+					float[] row = values[0][i];
 					raf.seek(moment.filePointer);
-					for (int j = 0; j < radials[recordNum].moments[i].binNumber; j++) {
-						int value;
-						if (binLength == 2) {
-							value = raf.readUnsignedShort();
-						} else {
-							value = raf.readUnsignedByte();
+					if (binLen == 2) {
+						short[] raw = new short[binNum];
+						raf.readShorts(raw, 0, binNum);
+						for (int j = 0; j < binNum; j++) {
+							int v = raw[j] & 0xFFFF;
+							row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
 						}
-						if (value < 5 && value != 1) {
-							values[0][i][j] = RadarData.NO_DATA;
-						} else {
-							values[0][i][j] = (value - offset) / (float) scale;
+					} else {
+						byte[] raw = new byte[binNum];
+						raf.readFully(raw);
+						for (int j = 0; j < binNum; j++) {
+							int v = raw[j] & 0xFF;
+							row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
 						}
 					}
 				}
@@ -131,19 +135,23 @@ public class FMT extends RadarData {
 					if (moment != null) {
 						int scale = (int) moment.header.get("Scale");
 						int offset = (int) moment.header.get("Offset");
-						int binLength = (int) moment.header.get("BinLength");
+						int binLen = (int) moment.header.get("BinLength");
+						int binNum  = moment.binNumber;
+						float[] row = values[k - recordNum][i];
 						raf.seek(moment.filePointer);
-						for (int j = 0; j < radials[k].moments[i].binNumber; j++) {
-							int value;
-							if (binLength == 2) {
-								value = raf.readUnsignedShort();
-							} else {
-								value = raf.readUnsignedByte();
+						if (binLen == 2) {
+							short[] raw = new short[binNum];
+							raf.readShorts(raw, 0, binNum);
+							for (int j = 0; j < binNum; j++) {
+								int v = raw[j] & 0xFFFF;
+								row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
 							}
-							if (value < 5 && value != 1) {
-								values[k - recordNum][i][j] = RadarData.NO_DATA;
-							} else {
-								values[k - recordNum][i][j] = (value - offset) / (float) scale;
+						} else {
+							byte[] raw = new byte[binNum];
+							raf.readFully(raw);
+							for (int j = 0; j < binNum; j++) {
+								int v = raw[j] & 0xFF;
+								row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
 							}
 						}
 					}
@@ -166,7 +174,24 @@ public class FMT extends RadarData {
 		return this.getElevation(this.getCutNum(recordNum));
 	}
 
+
 	@Override
+	public void getBinaryValues(int moment, int radial, short[] dest, int bins) {
+		int slot = FMT.MOMENT_INDEX[moment];
+		if (slot < 0) {
+			for (int i = 0; i < bins; i++) dest[i] = 0;
+			return;
+		}
+		float[] row = values[radial][slot];
+		int len = Math.min(bins, row.length);
+		for (int i = 0; i < len; i++) {
+			float fv = row[i];
+			if (fv == RadarData.NO_DATA) dest[i] = 0;
+			else dest[i] = (short) SA_SB.momentToBinary(fv, moment, this.resolution);
+		}
+//		for (int i = len; i < bins; i++) dest[i] = 0;
+	}
+
 	public int getBinaryValue(int moment, int radial, int bin) {
 		float fv = this.getMomentValue(moment, radial, bin);
 		if (fv == RadarData.NO_DATA) {
@@ -311,16 +336,16 @@ public class FMT extends RadarData {
 		commonMap.put("ScanStartTime", raf.readInt());
 		this.cutNumber = (byte) raf.readInt();
 		commonMap.put("CutNumber", cutNumber);
-		commonMap.put("HorizontalNoise", raf.readFloat());
-		commonMap.put("VerticalNoise", raf.readFloat());
-		commonMap.put("HorizontalCalibration", raf.readFloat());
-		commonMap.put("VerticalCalibration", raf.readFloat());
-		commonMap.put("HorizontalNoiseTemperature", raf.readFloat());
-		commonMap.put("VerticalNoiseTemperature", raf.readFloat());
-		commonMap.put("ZDRCalibration", raf.readFloat());
-		commonMap.put("PHIDPCalibration", raf.readFloat());
-		commonMap.put("LDRCalibration", raf.readFloat());
-		raf.skipBytes(40);
+//		commonMap.put("HorizontalNoise", raf.readFloat());
+//		commonMap.put("VerticalNoise", raf.readFloat());
+//		commonMap.put("HorizontalCalibration", raf.readFloat());
+//		commonMap.put("VerticalCalibration", raf.readFloat());
+//		commonMap.put("HorizontalNoiseTemperature", raf.readFloat());
+//		commonMap.put("VerticalNoiseTemperature", raf.readFloat());
+//		commonMap.put("ZDRCalibration", raf.readFloat());
+//		commonMap.put("PHIDPCalibration", raf.readFloat());
+//		commonMap.put("LDRCalibration", raf.readFloat());
+		raf.skipBytes(40+36);
 		this.cutMaps = new Map[this.cutNumber];
 		for (int i = 0; i < cutMaps.length; i++) {
 			cutMaps[i] = new LinkedHashMap();
@@ -345,29 +370,29 @@ public class FMT extends RadarData {
 			cutMaps[i].put("PhaseMode", raf.readInt());
 			cutMaps[i].put("AtmosphericLoss", raf.readFloat());
 			cutMaps[i].put("NyquistSpeed", raf.readFloat());
-			cutMaps[i].put("MomentsMask", raf.readLong());
-			cutMaps[i].put("MomentsSizeMask", raf.readLong());
-			cutMaps[i].put("MiscFilterMask", raf.readInt());
-			cutMaps[i].put("SQIThreshold", raf.readFloat());
-			cutMaps[i].put("SIGThreshold", raf.readFloat());
-			cutMaps[i].put("CSRThreshold", raf.readFloat());
-			cutMaps[i].put("LOGThreshold", raf.readFloat());
-			cutMaps[i].put("CPAThreshold", raf.readFloat());
-			cutMaps[i].put("PMIThreshold", raf.readFloat());
-			cutMaps[i].put("DPLOGThreshold", raf.readFloat());
-			raf.skipBytes(4);
-			cutMaps[i].put("dBTMask", raf.readInt());
-			cutMaps[i].put("dBZMask", raf.readInt());
-			cutMaps[i].put("VelocityMask", raf.readInt());
-			cutMaps[i].put("Spectrum WidthMask", raf.readInt());
-			cutMaps[i].put("DPMask", raf.readInt());
-			raf.skipBytes(16);
-			cutMaps[i].put("Direction", raf.readInt());
-			cutMaps[i].put("GroundClutterClassifierType", raf.readShort());
-			cutMaps[i].put("GroundClutterFilterType", raf.readShort());
-			cutMaps[i].put("GroundClutterFilterNotchWidth", raf.readShort());
-			cutMaps[i].put("GroundClutterFilterWindow", raf.readShort());
-			raf.skipBytes(72);
+//			cutMaps[i].put("MomentsMask", raf.readLong());
+//			cutMaps[i].put("MomentsSizeMask", raf.readLong());
+//			cutMaps[i].put("MiscFilterMask", raf.readInt());
+//			cutMaps[i].put("SQIThreshold", raf.readFloat());
+//			cutMaps[i].put("SIGThreshold", raf.readFloat());
+//			cutMaps[i].put("CSRThreshold", raf.readFloat());
+//			cutMaps[i].put("LOGThreshold", raf.readFloat());
+//			cutMaps[i].put("CPAThreshold", raf.readFloat());
+//			cutMaps[i].put("PMIThreshold", raf.readFloat());
+//			cutMaps[i].put("DPLOGThreshold", raf.readFloat());
+			raf.skipBytes(52);
+//			cutMaps[i].put("dBTMask", raf.readInt());
+//			cutMaps[i].put("dBZMask", raf.readInt());
+//			cutMaps[i].put("VelocityMask", raf.readInt());
+//			cutMaps[i].put("Spectrum WidthMask", raf.readInt());
+//			cutMaps[i].put("DPMask", raf.readInt());
+			raf.skipBytes(36);
+//			cutMaps[i].put("Direction", raf.readInt());
+//			cutMaps[i].put("GroundClutterClassifierType", raf.readShort());
+//			cutMaps[i].put("GroundClutterFilterType", raf.readShort());
+//			cutMaps[i].put("GroundClutterFilterNotchWidth", raf.readShort());
+//			cutMaps[i].put("GroundClutterFilterWindow", raf.readShort());
+			raf.skipBytes(84);
 		}
 		int antennaHeight = (int) commonMap.get("AntennaHeight");
 		radarBase.setAntennaHeight(antennaHeight / 1000.0f);

@@ -120,19 +120,22 @@ public class PARD extends RadarData {
                     int scale   = (int) moment.header.get("Scale");
                     int offset  = (int) moment.header.get("Offset");
                     int binLen  = (int) moment.header.get("BinLength");
+                    int binNum  = moment.binNumber;
+                    float[] row = values[0][i];
                     raf.seek(moment.filePointer);
-                    for (int j = 0; j < moment.binNumber; j++) {
-                        int value;
-                        if (binLen == 2) {
-                            value = raf.readUnsignedShort();
-                        } else {
-                            value = raf.readUnsignedByte();
+                    if (binLen == 2) {
+                        short[] raw = new short[binNum];
+                        raf.readShorts(raw, 0, binNum);
+                        for (int j = 0; j < binNum; j++) {
+                            int v = raw[j] & 0xFFFF;
+                            row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
                         }
-                        
-                        if (value < 5) {
-                            values[0][i][j] = RadarData.NO_DATA;
-                        } else {
-                            values[0][i][j] = (value - offset) / (float) scale;
+                    } else {
+                        byte[] raw = new byte[binNum];
+                        raf.readFully(raw);
+                        for (int j = 0; j < binNum; j++) {
+                            int v = raw[j] & 0xFF;
+                            row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
                         }
                     }
                 }
@@ -163,18 +166,22 @@ public class PARD extends RadarData {
                         int scale   = (int) moment.header.get("Scale");
                         int offset  = (int) moment.header.get("Offset");
                         int binLen  = (int) moment.header.get("BinLength");
+                        int binNum  = moment.binNumber;
+                        float[] row = values[k - recordNum][i];
                         raf.seek(moment.filePointer);
-                        for (int j = 0; j < moment.binNumber; j++) {
-                            int value;
-                            if (binLen == 2) {
-                                value = raf.readUnsignedShort();
-                            } else {
-                                value = raf.readUnsignedByte();
+                        if (binLen == 2) {
+                            short[] raw = new short[binNum];
+                            raf.readShorts(raw, 0, binNum);
+                            for (int j = 0; j < binNum; j++) {
+                                int v = raw[j] & 0xFFFF;
+                                row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
                             }
-                            if (value < 5) {
-                                values[k - recordNum][i][j] = RadarData.NO_DATA;
-                            } else {
-                                values[k - recordNum][i][j] = (value - offset) / (float) scale;
+                        } else {
+                            byte[] raw = new byte[binNum];
+                            raf.readFully(raw);
+                            for (int j = 0; j < binNum; j++) {
+                                int v = raw[j] & 0xFF;
+                                row[j] = (v < 5) ? RadarData.NO_DATA : (v - offset) / (float) scale;
                             }
                         }
                     }
@@ -197,7 +204,24 @@ public class PARD extends RadarData {
         return this.getElevation(this.getCutNum(recordNum));
     }
 
-    @Override
+
+	@Override
+	public void getBinaryValues(int moment, int radial, short[] dest, int bins) {
+		int slot = MOMENT_INDEX[moment];
+		if (slot < 0) {
+			for (int i = 0; i < bins; i++) dest[i] = 0;
+			return;
+		}
+		float[] row = values[radial][slot];
+		int len = Math.min(bins, row.length);
+		for (int i = 0; i < len; i++) {
+			float fv = row[i];
+			if (fv == RadarData.NO_DATA) dest[i] = 0;
+			else dest[i] = (short) SA_SB.momentToBinary(fv, moment, this.resolution);
+		}
+		for (int i = len; i < bins; i++) dest[i] = 0;
+	}
+
     public int getBinaryValue(int moment, int radial, int bin) {
         float fv = this.getMomentValue(moment, radial, bin);
         if (fv == RadarData.NO_DATA) {
@@ -320,33 +344,33 @@ public class PARD extends RadarData {
     private void readBeamConfigs(int beamNum) throws IOException {
         for (int b = 0; b < beamNum; b++) {
             Map<String, Object> beam = new LinkedHashMap<>();
-            beam.put("BeamIndex", raf.readInt());
-            beam.put("BeamType", raf.readInt());
-            beam.put("SubPulseNumber", raf.readInt());
-            beam.put("TxBeamDirection", raf.readFloat());
-            beam.put("TxBeamWidthH", raf.readFloat());
-            beam.put("TxBeamWidthV", raf.readFloat());
-            beam.put("TxBeamGain", raf.readFloat());
-            raf.skipBytes(100); 
+//            beam.put("BeamIndex", raf.readInt());
+//            beam.put("BeamType", raf.readInt());
+//            beam.put("SubPulseNumber", raf.readInt());
+//            beam.put("TxBeamDirection", raf.readFloat());
+//            beam.put("TxBeamWidthH", raf.readFloat());
+//            beam.put("TxBeamWidthV", raf.readFloat());
+//            beam.put("TxBeamGain", raf.readFloat());
+            raf.skipBytes(128);
             
             for (int s = 0; s < 4; s++) {
                 Map<String, Object> subPulse = new LinkedHashMap<>();
-                subPulse.put("SubPulseStrategy", raf.readInt());
-                subPulse.put("SubPulseModulation", raf.readInt());
-                subPulse.put("SubPulseFrequency", raf.readFloat());
-                subPulse.put("SubPulseBandWidth", raf.readFloat());
-                subPulse.put("SubPulseWidth", raf.readInt());
-                subPulse.put("HorizontalNoise", raf.readFloat());
-                subPulse.put("VerticalNoise", raf.readFloat());
-                subPulse.put("HorizontalCalibration", raf.readFloat());
-                subPulse.put("VerticalCalibration", raf.readFloat());
-                subPulse.put("HorizontalNoiseTemperature", raf.readFloat());
-                subPulse.put("VerticalNoiseTemperature", raf.readFloat());
-                subPulse.put("ZDRCalibration", raf.readFloat());
-                subPulse.put("PHIDPCalibration", raf.readFloat());
-                subPulse.put("LDRCalibration", raf.readFloat());
-                subPulse.put("PulsePoints", raf.readShort());
-                raf.skipBytes(70);
+//                subPulse.put("SubPulseStrategy", raf.readInt());
+//                subPulse.put("SubPulseModulation", raf.readInt());
+//                subPulse.put("SubPulseFrequency", raf.readFloat());
+//                subPulse.put("SubPulseBandWidth", raf.readFloat());
+//                subPulse.put("SubPulseWidth", raf.readInt());
+//                subPulse.put("HorizontalNoise", raf.readFloat());
+//                subPulse.put("VerticalNoise", raf.readFloat());
+//                subPulse.put("HorizontalCalibration", raf.readFloat());
+//                subPulse.put("VerticalCalibration", raf.readFloat());
+//                subPulse.put("HorizontalNoiseTemperature", raf.readFloat());
+//                subPulse.put("VerticalNoiseTemperature", raf.readFloat());
+//                subPulse.put("ZDRCalibration", raf.readFloat());
+//                subPulse.put("PHIDPCalibration", raf.readFloat());
+//                subPulse.put("LDRCalibration", raf.readFloat());
+//                subPulse.put("PulsePoints", raf.readShort());
+                raf.skipBytes(128);
                 beam.put("SubPulse" + (s + 1), subPulse);
             }
             beamConfigs.add(beam);
@@ -389,27 +413,27 @@ public class PARD extends RadarData {
             cut.put("MomentsMask", raf.readLong());
             cut.put("MomentsSizeMask", raf.readLong());
             cut.put("MiscFilterMask", raf.readInt());
-            cut.put("SQIThreshold", raf.readFloat());
-            cut.put("SIGThreshold", raf.readFloat());
-            cut.put("CSRThreshold", raf.readFloat());
-            cut.put("LOGThreshold", raf.readFloat());
-            cut.put("CPAThreshold", raf.readFloat());
-            cut.put("PMIThreshold", raf.readFloat());
-            cut.put("DPLOGThreshold", raf.readFloat());
+//            cut.put("SQIThreshold", raf.readFloat());
+//            cut.put("SIGThreshold", raf.readFloat());
+//            cut.put("CSRThreshold", raf.readFloat());
+//            cut.put("LOGThreshold", raf.readFloat());
+//            cut.put("CPAThreshold", raf.readFloat());
+//            cut.put("PMIThreshold", raf.readFloat());
+//            cut.put("DPLOGThreshold", raf.readFloat());
+            raf.skipBytes(32);
+//            cut.put("dBTMask", raf.readInt());
+//            cut.put("dBZMask", raf.readInt());
+//            cut.put("VelocityMask", raf.readInt());
+//            cut.put("SpectrumWidthMask", raf.readInt());
+//            cut.put("DPMask", raf.readInt());
+            raf.skipBytes(32);
             raf.skipBytes(4);   
-            cut.put("dBTMask", raf.readInt());
-            cut.put("dBZMask", raf.readInt());
-            cut.put("VelocityMask", raf.readInt());
-            cut.put("SpectrumWidthMask", raf.readInt());
-            cut.put("DPMask", raf.readInt());
-            raf.skipBytes(12);  
-            raf.skipBytes(4);   
-            cut.put("Direction", raf.readInt());
-            cut.put("GroundClutterClassifierType", raf.readShort());
-            cut.put("GroundClutterFilterType", raf.readShort());
-            cut.put("GroundClutterFilterNotchWidth", raf.readShort());
-            cut.put("GroundClutterFilterWindow", raf.readShort());
-            raf.skipBytes(44);  
+//            cut.put("Direction", raf.readInt());
+//            cut.put("GroundClutterClassifierType", raf.readShort());
+//            cut.put("GroundClutterFilterType", raf.readShort());
+//            cut.put("GroundClutterFilterNotchWidth", raf.readShort());
+//            cut.put("GroundClutterFilterWindow", raf.readShort());
+            raf.skipBytes(56);
             cutConfigs.add(cut);
         }
     }

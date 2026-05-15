@@ -189,6 +189,12 @@ public abstract class RadarData {
 	 */
 	public abstract int getBinaryValue(int moment, int radial, int bin);
 
+	public void getBinaryValues(int moment, int radial, short[] dest, int bins) {
+		for (int i = 0; i < bins; i++) {
+			dest[i] = (short) getBinaryValue(moment, radial, i);
+		}
+	}
+
 	/**
 	 * 取得基数据变量值
 	 * 
@@ -393,9 +399,7 @@ public abstract class RadarData {
 				}
 				short[] values = new short[bins];
 				map1.put(azimuth, values);
-				for (int bin = 0; bin < bins; bin++) {
-					values[bin] = (short) this.getBinaryValue(moment, j, bin);
-				}
+				getBinaryValues(moment, j, values, bins);
 			}
 		}
 		return map;
